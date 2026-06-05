@@ -548,11 +548,15 @@ canvas.src='../assets/frames/f-001.jpg';
 
 /* légendes synchronisées (3 langues) */
 var CAPS=[
-  {at:.12, t:{en:"Living room & terrace",de:"Wohnzimmer & Terrasse",fr:"Salon & terrasse"},
-           p:{en:"A warm, zen atmosphere overlooking the park",de:"Eine warme Atmosphäre mit Blick auf den Park",fr:"Une ambiance chaleureuse donnant sur le parc"}},
-  {at:.45, t:{en:"Bedroom & bathroom",de:"Schlafzimmer & Badezimmer",fr:"Chambre & salle de bain"},
-           p:{en:"Soft, restful, with a modern shower",de:"Sanft, erholsam, mit moderner Dusche",fr:"Douce et reposante, douche à l'italienne"}},
-  {at:.80, t:{en:"Every comfort",de:"Aller Komfort",fr:"Tout le confort"},
+  {at:.08, t:{en:"Living room & kitchen",de:"Wohnzimmer & Küche",fr:"Salon & cuisine"},
+           p:{en:"A warm, zen living space",de:"Ein warmer, zen Wohnbereich",fr:"Un espace de vie chaleureux et zen"}},
+  {at:.37, t:{en:"Terrace & park view",de:"Terrasse & Parkblick",fr:"Terrasse & vue sur le parc"},
+           p:{en:"Your private terrace onto the greenery",de:"Ihre private Terrasse ins Grüne",fr:"Votre terrasse privée donnant sur la verdure"}},
+  {at:.60, t:{en:"The bedroom",de:"Das Schlafzimmer",fr:"La chambre"},
+           p:{en:"Soft and restful",de:"Sanft und erholsam",fr:"Douce et reposante"}},
+  {at:.78, t:{en:"The bathroom",de:"Das Badezimmer",fr:"La salle de bain"},
+           p:{en:"Modern walk-in shower",de:"Moderne ebenerdige Dusche",fr:"Douche à l'italienne moderne"}},
+  {at:.94, t:{en:"Every comfort",de:"Aller Komfort",fr:"Tout le confort"},
            p:{en:"Everything is ready for you",de:"Alles ist für Sie bereit",fr:"Tout est prêt pour vous"}}
 ];
 var vcap=document.getElementById('vcap'),vt=document.getElementById('vcap-t'),vp=document.getElementById('vcap-p');
@@ -576,7 +580,7 @@ function render(){
   // légende
   var lang=document.documentElement.lang;
   var active=null;
-  for(var c of CAPS){ if(Math.abs(prog-c.at)<.18) active=c; }
+  for(var c of CAPS){ if(Math.abs(prog-c.at)<.11) active=c; }
   if(active){vt.textContent=active.t[lang];vp.textContent=active.p[lang];vcap.classList.add('show');}
   else vcap.classList.remove('show');
 }
