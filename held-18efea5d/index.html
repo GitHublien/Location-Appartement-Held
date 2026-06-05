@@ -4,186 +4,258 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Résidence du Golfe — Willkommen / Bienvenue</title>
+<title>Résidence du Golfe — Privé</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
-  :root{
-    --or:#c9a227; --or-clair:#e6cf7a; --bleu:#0d2b3e; --bleu-clair:#16475f;
-    --sable:#f7f3ec; --texte:#1f2b33; --gris:#6a7882; --blanc:#ffffff;
-    --ombre:0 10px 40px rgba(13,43,62,.12);
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{
-    font-family:'Manrope',sans-serif;color:var(--texte);
-    background:var(--sable);line-height:1.65;-webkit-font-smoothing:antialiased;
-  }
-  /* ===== Sélecteur de langue ===== */
-  .langbar{
-    position:sticky;top:0;z-index:50;display:flex;justify-content:center;gap:8px;
-    background:rgba(13,43,62,.96);padding:10px;backdrop-filter:blur(8px);
-  }
-  .langbar button{
-    font-family:'Manrope';font-size:.8rem;font-weight:600;letter-spacing:.06em;
-    color:#cdd9e0;background:transparent;border:1px solid rgba(255,255,255,.25);
-    padding:7px 18px;border-radius:30px;cursor:pointer;transition:.25s;text-transform:uppercase;
-  }
-  .langbar button.actif{background:var(--or);color:var(--bleu);border-color:var(--or)}
-  .langbar button:hover{border-color:var(--or-clair);color:#fff}
-  /* ===== En-tête ===== */
-  header{
-    position:relative;text-align:center;color:#fff;padding:70px 24px 80px;
-    background:linear-gradient(150deg,#0d2b3e 0%,#16475f 55%,#1d6b7f 100%);
-    overflow:hidden;
-  }
-  header::after{
-    content:"";position:absolute;left:0;right:0;bottom:-1px;height:60px;
-    background:var(--sable);clip-path:ellipse(75% 100% at 50% 100%);
-  }
-  .palmier{font-size:2.4rem;opacity:.85;margin-bottom:10px}
-  header .sur{font-family:'Manrope';letter-spacing:.32em;text-transform:uppercase;
-    font-size:.78rem;color:var(--or-clair);font-weight:600}
-  header h1{font-family:'Cormorant Garamond';font-size:3.2rem;font-weight:700;
-    line-height:1.05;margin:6px 0 4px}
-  header .sous{font-size:1.05rem;color:#d6e2e8;font-weight:300}
-  header .badge{
-    display:inline-block;margin-top:22px;background:rgba(201,162,39,.18);
-    border:1px solid var(--or);color:var(--or-clair);font-weight:600;
-    padding:8px 22px;border-radius:30px;font-size:.92rem;
-  }
-  /* ===== Contenu ===== */
-  main{max-width:760px;margin:0 auto;padding:10px 20px 60px}
-  .carte{
-    background:#fff;border-radius:20px;box-shadow:var(--ombre);
-    padding:30px 30px 26px;margin:22px 0;border:1px solid rgba(13,43,62,.05);
-  }
-  .carte h2{
-    font-family:'Cormorant Garamond';font-size:1.85rem;font-weight:700;color:var(--bleu);
-    display:flex;align-items:center;gap:12px;margin-bottom:18px;
-    border-bottom:2px solid var(--sable);padding-bottom:12px;
-  }
-  .carte h2 .ic{font-size:1.5rem}
-  .ligne{display:flex;justify-content:space-between;gap:16px;padding:9px 0;
-    border-bottom:1px dashed #e8e2d6;flex-wrap:wrap}
-  .ligne:last-child{border-bottom:none}
-  .ligne .lab{color:var(--gris);font-weight:500;font-size:.95rem}
-  .ligne .val{font-weight:700;color:var(--bleu);text-align:right}
-  .puce{display:inline-block;background:var(--sable);border-radius:8px;
-    padding:2px 9px;font-weight:700;letter-spacing:.04em}
-  .puce.noir{background:#1f2b33;color:#fff}
-  .puce.vert{background:#2e7d4f;color:#fff}
-  /* Wi-Fi */
-  .wifi-box{display:flex;gap:24px;align-items:center;flex-wrap:wrap;justify-content:space-between}
-  .wifi-infos{flex:1;min-width:230px}
-  .wifi-code{font-family:'Manrope';font-weight:700;font-size:1.15rem;color:var(--bleu);
-    background:var(--sable);padding:10px 14px;border-radius:10px;letter-spacing:.05em;
-    display:inline-block;margin-top:4px;user-select:all}
-  #qrcode{background:#fff;padding:12px;border-radius:14px;border:2px solid var(--sable);
-    box-shadow:0 4px 14px rgba(0,0,0,.06)}
-  .qr-leg{text-align:center;font-size:.8rem;color:var(--gris);margin-top:8px}
-  /* boutons contact */
-  .btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
-  .btns a{flex:1;min-width:150px;text-decoration:none;text-align:center;
-    background:linear-gradient(135deg,var(--bleu),var(--bleu-clair));color:#fff;
-    padding:13px;border-radius:12px;font-weight:600;transition:.25s;font-size:.95rem}
-  .btns a:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(13,43,62,.25)}
-  .btns a.or{background:linear-gradient(135deg,#c9a227,#e6cf7a);color:var(--bleu)}
-  /* rappel plantes */
-  .rappel{background:linear-gradient(135deg,#eaf6ee,#dff0e6);border-left:5px solid #2e7d4f;
-    border-radius:14px;padding:18px 22px;margin:22px 0;color:#1f4d33;font-weight:500}
-  .rappel strong{color:#1d5e3c}
-  /* note piscine */
-  .info-piscine{background:#e7f3f8;border-left:5px solid #1d6b7f;border-radius:14px;
-    padding:18px 22px;margin-top:14px;color:#0d3a4a;font-weight:500}
-  /* footer */
-  footer{text-align:center;padding:36px 20px 50px;color:var(--gris);font-size:.9rem}
-  footer .signe{font-family:'Cormorant Garamond';font-size:1.4rem;color:var(--bleu);font-weight:600}
-  .vague{font-size:1.4rem;margin-top:6px}
-  /* gestion langue */
-  [data-fr]{display:none}
-  body.fr [data-de]{display:none}
-  body.fr [data-fr]{display:revert}
-  body.fr .ligne [data-de],body.fr .ligne [data-fr]{display:revert}
-  @media(max-width:520px){
-    header h1{font-size:2.4rem}
-    .carte{padding:24px 20px}
-    .ligne{flex-direction:column;gap:2px}
-    .ligne .val{text-align:left}
-  }
+:root{
+  --noir:#0a0a0a; --noir-leger:#121110; --carte:#16140f;
+  --or:#c9a84c; --or-clair:#e8d48b; --or-fonce:#8b7332;
+  --creme:#f3ecdd; --creme-doux:#cbc3b2; --gris:#9b9486;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --titre:'Playfair Display',Georgia,serif;
+  --manus:'Great Vibes',cursive;
+  --bord-or:1px solid rgba(201,168,76,.28);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--serif);background:var(--noir);color:var(--creme);
+  line-height:1.7;overflow-x:hidden;font-size:18px;
+}
+::selection{background:var(--or);color:var(--noir)}
+
+/* ===== Texture or subtile sur le fond ===== */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%,rgba(201,168,76,.10),transparent 60%),
+    radial-gradient(ellipse 60% 50% at 100% 100%,rgba(114,47,55,.10),transparent 60%);
+}
+
+/* ============ ÉCRAN D'INTRO ============ */
+#intro{
+  position:fixed;inset:0;z-index:9999;background:#080706;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;transition:opacity 1.2s ease;padding:24px;
+}
+#intro.partir{opacity:0;pointer-events:none}
+#intro.cache{display:none}
+.intro-bg{position:absolute;inset:0;z-index:0;opacity:.32;
+  background-size:cover;background-position:center;
+  background-image:linear-gradient(#0a0a0a55,#0a0a0aee),url('../assets/cover.jpg');
+  filter:saturate(.9)}
+.intro-cadre{position:absolute;inset:18px;border:var(--bord-or);z-index:1;pointer-events:none;
+  box-shadow:inset 0 0 80px rgba(0,0,0,.7)}
+.intro-inner{position:relative;z-index:2}
+.intro-sur{font-family:var(--serif);letter-spacing:.45em;text-transform:uppercase;
+  font-size:.8rem;color:var(--or);font-weight:600;margin-bottom:6px}
+.intro-titre{font-family:var(--manus);font-size:clamp(54px,12vw,120px);color:var(--creme);
+  line-height:1;text-shadow:0 4px 50px rgba(0,0,0,.9)}
+.intro-or{color:var(--or-clair)}
+.intro-ligne{width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--or),transparent);
+  margin:22px auto}
+.intro-nom{font-family:var(--serif);font-size:1.35rem;color:var(--creme-doux);letter-spacing:.08em}
+#enter{
+  margin-top:38px;padding:15px 60px;font-family:var(--serif);font-size:1.05rem;font-weight:700;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--noir);cursor:pointer;border:none;border-radius:3px;
+  background:linear-gradient(135deg,var(--or-clair),var(--or),var(--or-fonce));
+  box-shadow:0 0 40px rgba(201,168,76,.45);transition:.4s;animation:puls 3s ease infinite}
+#enter:hover{transform:scale(1.05);box-shadow:0 0 70px rgba(201,168,76,.7)}
+@keyframes puls{0%,100%{box-shadow:0 0 30px rgba(201,168,76,.4)}50%{box-shadow:0 0 55px rgba(201,168,76,.65)}}
+
+/* ============ BARRE LANGUE + MUSIQUE ============ */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;
+  align-items:center;padding:14px 22px;background:linear-gradient(#0a0a0aee,#0a0a0a00);
+  backdrop-filter:blur(4px)}
+.langs{display:flex;gap:8px}
+.langs button{font-family:var(--serif);font-size:.95rem;font-weight:600;letter-spacing:.05em;
+  color:var(--creme-doux);background:transparent;border:var(--bord-or);padding:6px 16px;border-radius:30px;
+  cursor:pointer;transition:.25s}
+.langs button.on{background:linear-gradient(135deg,var(--or-clair),var(--or));color:var(--noir);
+  border-color:var(--or)}
+.langs button:hover{color:var(--creme);border-color:var(--or)}
+#mus{width:44px;height:44px;border-radius:50%;border:var(--bord-or);background:#16140fcc;color:var(--or);
+  font-size:1.1rem;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center}
+#mus:hover{background:var(--or);color:var(--noir)}
+#mus.play{animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============ CONTENU ============ */
+main{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:90px 22px 70px}
+
+.hero{text-align:center;padding:30px 0 10px}
+.hero .sur{font-family:var(--serif);letter-spacing:.4em;text-transform:uppercase;font-size:.78rem;
+  color:var(--or);font-weight:600}
+.hero h1{font-family:var(--manus);font-size:clamp(46px,9vw,84px);color:var(--creme);line-height:1.05;margin:4px 0}
+.hero .sous{font-family:var(--serif);font-size:1.3rem;color:var(--creme-doux);font-weight:500}
+.hero .sejour{display:inline-block;margin-top:20px;border:var(--bord-or);border-radius:30px;
+  padding:8px 26px;color:var(--or-clair);letter-spacing:.05em;font-weight:600}
+.sep{display:flex;align-items:center;justify-content:center;gap:14px;margin:34px 0 10px;color:var(--or)}
+.sep::before,.sep::after{content:"";height:1px;width:70px;
+  background:linear-gradient(90deg,transparent,var(--or-fonce))}
+.sep::after{background:linear-gradient(90deg,var(--or-fonce),transparent)}
+.sep span{font-size:1.1rem}
+
+.carte{background:linear-gradient(160deg,#16140f,#100e0a);border:var(--bord-or);border-radius:14px;
+  padding:30px 32px;margin:20px 0;box-shadow:0 16px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(201,168,76,.08)}
+.carte h2{font-family:var(--titre);font-size:1.5rem;font-weight:600;color:var(--or-clair);
+  display:flex;align-items:center;gap:12px;margin-bottom:18px;letter-spacing:.01em}
+.carte h2 .ic{font-size:1.25rem;filter:grayscale(.2)}
+.ligne{display:flex;justify-content:space-between;gap:18px;padding:11px 0;
+  border-bottom:1px solid rgba(201,168,76,.12);flex-wrap:wrap}
+.ligne:last-child{border-bottom:none}
+.lab{color:var(--gris);font-weight:500;font-size:1.02rem}
+.val{color:var(--creme);font-weight:600;text-align:right}
+.puce{display:inline-block;border:var(--bord-or);border-radius:7px;padding:2px 11px;font-weight:700;
+  color:var(--or-clair);letter-spacing:.06em}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:middle;margin-right:6px;
+  box-shadow:0 0 8px rgba(0,0,0,.6)}
+.dot.noir{background:#000;border:1px solid #555}
+.dot.vert{background:#2e7d4f}
+
+/* Wi-Fi */
+.wifi{display:flex;gap:28px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.wifi-l{flex:1;min-width:240px}
+.wifi-pass{display:inline-block;margin-top:4px;font-family:var(--serif);font-weight:700;font-size:1.25rem;
+  letter-spacing:.06em;color:var(--or-clair);border:var(--bord-or);border-radius:9px;padding:8px 14px;user-select:all}
+#qrcode{background:#fff;padding:11px;border-radius:12px;line-height:0}
+.qrleg{text-align:center;font-size:.85rem;color:var(--gris);margin-top:9px}
+
+/* encadrés */
+.note{border-radius:12px;padding:16px 20px;margin-top:14px;font-weight:500}
+.note.bleu{background:rgba(45,110,130,.12);border-left:3px solid #2e7d8f;color:#bfe0e8}
+.note.vert{background:rgba(46,125,79,.12);border-left:3px solid #2e7d4f;color:#bfe6cf}
+
+/* boutons contact */
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px}
+.btns a{flex:1;min-width:140px;text-align:center;text-decoration:none;padding:13px;border-radius:10px;
+  font-weight:700;letter-spacing:.04em;transition:.3s;border:var(--bord-or);color:var(--creme);
+  background:#100e0a}
+.btns a:hover{transform:translateY(-2px);border-color:var(--or);color:var(--or-clair)}
+.btns a.or{background:linear-gradient(135deg,var(--or-clair),var(--or),var(--or-fonce));color:var(--noir);
+  border:none}
+
+/* galerie photos (placeholder) */
+.galerie{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.ph{aspect-ratio:4/3;border:1px dashed rgba(201,168,76,.3);border-radius:10px;display:flex;
+  align-items:center;justify-content:center;color:var(--gris);font-size:.85rem;text-align:center;padding:10px;
+  background:#100e0a}
+
+footer{position:relative;z-index:1;text-align:center;padding:46px 22px 60px;color:var(--gris)}
+footer .sig{font-family:var(--manus);font-size:2rem;color:var(--or-clair);margin-bottom:6px}
+
+/* ===== gestion langue (robuste) ===== */
+[lang-de],[lang-fr]{display:none}
+body.de [lang-de]{display:revert}
+body.fr [lang-fr]{display:revert}
+/* inline (dans une même ligne) */
+span[lang-de],span[lang-fr]{display:none}
+body.de span[lang-de]{display:inline}
+body.fr span[lang-fr]{display:inline}
+
+@media(max-width:520px){
+  body{font-size:17px}
+  .carte{padding:24px 20px}
+  .ligne{flex-direction:column;gap:2px}
+  .val{text-align:left}
+}
 </style>
 </head>
 <body class="de">
 
-<nav class="langbar">
-  <button id="b-de" class="actif" onclick="setLang('de')">🇩🇪 Deutsch</button>
-  <button id="b-fr" onclick="setLang('fr')">🇫🇷 Français</button>
-</nav>
-
-<header>
-  <div class="palmier">🌴</div>
-  <div class="sur">Résidence du Golfe</div>
-  <h1><span data-de>Herzlich Willkommen</span><span data-fr>Bienvenue</span></h1>
-  <p class="sous">
-    <span data-de>Schön, dass Sie da sind, Herr Held</span>
-    <span data-fr>Heureux de vous accueillir, M. Held</span>
-  </p>
-  <div class="badge">
-    <span data-de>Aufenthalt: 7. – 14. Juni 2026</span>
-    <span data-fr>Séjour : du 7 au 14 juin 2026</span>
+<!-- ===== INTRO ===== -->
+<div id="intro">
+  <div class="intro-bg"></div>
+  <div class="intro-cadre"></div>
+  <div class="intro-inner">
+    <div class="intro-sur">Résidence du Golfe</div>
+    <div class="intro-titre">Golfe-<span class="intro-or">Juan</span></div>
+    <div class="intro-ligne"></div>
+    <div class="intro-nom">
+      <span lang-de>Willkommen, Herr Held</span>
+      <span lang-fr>Bienvenue, M. Held</span>
+    </div>
+    <button id="enter">
+      <span lang-de>Eintreten</span><span lang-fr>Entrer</span>
+    </button>
   </div>
-</header>
+</div>
+
+<!-- ===== BARRE ===== -->
+<div class="topbar">
+  <div class="langs">
+    <button id="bde" class="on" onclick="lang('de')">Deutsch</button>
+    <button id="bfr" onclick="lang('fr')">Français</button>
+  </div>
+  <button id="mus" title="Musique" onclick="toggleMus()">♪</button>
+</div>
 
 <main>
+  <div class="hero">
+    <div class="sur">Privé · Privat</div>
+    <h1><span lang-de>Willkommen</span><span lang-fr>Bienvenue</span></h1>
+    <p class="sous">
+      <span lang-de>Schön, dass Sie da sind</span>
+      <span lang-fr>Heureux de vous accueillir</span>
+    </p>
+    <div class="sejour">
+      <span lang-de>Aufenthalt · 7. – 14. Juni 2026</span>
+      <span lang-fr>Séjour · du 7 au 14 juin 2026</span>
+    </div>
+  </div>
+
+  <div class="sep"><span>✦</span></div>
 
   <!-- ADRESSE -->
   <section class="carte">
-    <h2><span class="ic">📍</span><span data-de>Ihre Adresse</span><span data-fr>Votre adresse</span></h2>
-    <div class="ligne"><span class="lab" data-de>Straße</span><span class="lab" data-fr>Rue</span><span class="val">35 avenue Georges Pompidou</span></div>
-    <div class="ligne"><span class="lab" data-de>Residenz</span><span class="lab" data-fr>Résidence</span><span class="val">Résidence du Golfe</span></div>
-    <div class="ligne"><span class="lab" data-de>Gebäude</span><span class="lab" data-fr>Bâtiment</span><span class="val">6</span></div>
-    <div class="ligne"><span class="lab" data-de>Wohnung / Tür</span><span class="lab" data-fr>Porte</span><span class="val">6004</span></div>
+    <h2><span class="ic">📍</span><span lang-de>Ihre Adresse</span><span lang-fr>Votre adresse</span></h2>
+    <div class="ligne"><span class="lab"><span lang-de>Straße</span><span lang-fr>Rue</span></span><span class="val">35 avenue Georges Pompidou</span></div>
+    <div class="ligne"><span class="lab"><span lang-de>Residenz</span><span lang-fr>Résidence</span></span><span class="val">Résidence du Golfe</span></div>
+    <div class="ligne"><span class="lab"><span lang-de>Gebäude</span><span lang-fr>Bâtiment</span></span><span class="val">6</span></div>
+    <div class="ligne"><span class="lab"><span lang-de>Wohnung · Tür</span><span lang-fr>Porte</span></span><span class="val">6004</span></div>
   </section>
 
   <!-- ACCÈS -->
   <section class="carte">
-    <h2><span class="ic">🔑</span><span data-de>Zugang zur Residenz</span><span data-fr>Accès résidence</span></h2>
+    <h2><span class="ic">🔑</span><span lang-de>Zugang</span><span lang-fr>Accès résidence</span></h2>
     <div class="ligne">
-      <span class="lab"><span class="puce noir">●</span> <span data-de>Schwarzer Badge</span><span data-fr>Badge NOIR</span></span>
-      <span class="val"><span data-de>Haupteingang + Pool</span><span data-fr>Entrée principale + piscine</span></span>
+      <span class="lab"><span class="dot noir"></span><span lang-de>Schwarzer Badge</span><span lang-fr>Badge noir</span></span>
+      <span class="val"><span lang-de>Eingang + Pool</span><span lang-fr>Entrée principale + piscine</span></span>
     </div>
     <div class="ligne">
-      <span class="lab"><span class="puce vert">●</span> <span data-de>Grüner Badge</span><span data-fr>Badge VERT</span></span>
-      <span class="val"><span data-de>Außenparkplatz</span><span data-fr>Parking extérieur</span></span>
+      <span class="lab"><span class="dot vert"></span><span lang-de>Grüner Badge</span><span lang-fr>Badge vert</span></span>
+      <span class="val"><span lang-de>Außenparkplatz</span><span lang-fr>Parking extérieur</span></span>
     </div>
     <div class="ligne">
-      <span class="lab" data-de>Code Fußgängertür Parkplatz</span><span class="lab" data-fr>Code porte piétonne parking</span>
+      <span class="lab"><span lang-de>Code Fußgängertür</span><span lang-fr>Code porte piétonne parking</span></span>
       <span class="val"><span class="puce">0702A</span></span>
     </div>
     <div class="ligne">
-      <span class="lab" data-de>Ihr Parkplatz</span><span class="lab" data-fr>Votre place de parking</span>
-      <span class="val"><span class="puce">N° 86</span> ✅</span>
+      <span class="lab"><span lang-de>Ihr Parkplatz</span><span lang-fr>Votre place de parking</span></span>
+      <span class="val"><span class="puce">N° 86</span></span>
     </div>
   </section>
 
   <!-- WIFI -->
   <section class="carte">
-    <h2><span class="ic">📶</span><span data-de>WLAN / Internet</span><span data-fr>Wi-Fi / Internet</span></h2>
-    <div class="wifi-box">
-      <div class="wifi-infos">
-        <div class="ligne"><span class="lab" data-de>Netzwerk (2,4 GHz)</span><span class="lab" data-fr>Réseau (2,4 GHz)</span><span class="val">SFR_8D00</span></div>
-        <div class="ligne"><span class="lab" data-de>Netzwerk (5 GHz)</span><span class="lab" data-fr>Réseau (5 GHz)</span><span class="val">SFR_8D00_5GHZ</span></div>
-        <div style="padding-top:10px">
-          <span class="lab" data-de>Passwort</span><span class="lab" data-fr>Mot de passe</span><br>
-          <span class="wifi-code">utqr6apq96dxhj6fqq92</span>
+    <h2><span class="ic">📶</span><span lang-de>WLAN</span><span lang-fr>Wi-Fi</span></h2>
+    <div class="wifi">
+      <div class="wifi-l">
+        <div class="ligne"><span class="lab">Réseau 2,4 GHz</span><span class="val">SFR_8D00</span></div>
+        <div class="ligne"><span class="lab">Réseau 5 GHz</span><span class="val">SFR_8D00_5GHZ</span></div>
+        <div style="padding-top:12px">
+          <span class="lab"><span lang-de>Passwort</span><span lang-fr>Mot de passe</span></span><br>
+          <span class="wifi-pass">utqr6apq96dxhj6fqq92</span>
         </div>
       </div>
       <div style="text-align:center">
         <div id="qrcode"></div>
-        <div class="qr-leg">
-          <span data-de>📱 QR-Code scannen = automatisch verbinden</span>
-          <span data-fr>📱 Scannez = connexion automatique</span>
+        <div class="qrleg">
+          <span lang-de>📱 Scannen = automatisch verbinden</span>
+          <span lang-fr>📱 Scannez = connexion automatique</span>
         </div>
       </div>
     </div>
@@ -191,62 +263,88 @@
 
   <!-- PISCINE -->
   <section class="carte">
-    <h2><span class="ic">🏊</span><span data-de>Schwimmbad</span><span data-fr>Piscine</span></h2>
+    <h2><span class="ic">🏊</span><span lang-de>Schwimmbad</span><span lang-fr>Piscine</span></h2>
     <p>
-      <span data-de>Das Schwimmbad ist <strong>geöffnet</strong> und steht Ihnen zur Verfügung. 🌞</span>
-      <span data-fr>La piscine est <strong>ouverte</strong> et à votre disposition. 🌞</span>
+      <span lang-de>Das Schwimmbad ist <b>geöffnet</b> und steht Ihnen zur Verfügung.</span>
+      <span lang-fr>La piscine est <b>ouverte</b> et à votre disposition.</span>
     </p>
-    <div class="info-piscine">
-      <span data-de><strong>Wichtig:</strong> Zum Betreten des Pools müssen die <strong>grünen Armbänder</strong> getragen werden. Ich stelle sie Ihnen bereit.</span>
-      <span data-fr><strong>Important :</strong> pour accéder à la piscine, il faut porter les <strong>bracelets verts</strong>. Je vous les fournis.</span>
+    <div class="note vert">
+      <span lang-de><b>Wichtig:</b> Für den Zugang sind die <b>grünen Armbänder</b> erforderlich. Ich stelle sie Ihnen bereit.</span>
+      <span lang-fr><b>Important :</b> l'accès nécessite les <b>bracelets verts</b>. Je vous les fournis.</span>
+    </div>
+  </section>
+
+  <!-- PHOTOS (placeholder) -->
+  <section class="carte">
+    <h2><span class="ic">🖼️</span><span lang-de>Die Wohnung</span><span lang-fr>L'appartement</span></h2>
+    <div class="galerie">
+      <div class="ph"><span lang-de>Foto folgt</span><span lang-fr>Photo à venir</span></div>
+      <div class="ph"><span lang-de>Foto folgt</span><span lang-fr>Photo à venir</span></div>
+      <div class="ph"><span lang-de>Foto folgt</span><span lang-fr>Photo à venir</span></div>
     </div>
   </section>
 
   <!-- CONTACTS -->
   <section class="carte">
-    <h2><span class="ic">📞</span><span data-de>Kontakt</span><span data-fr>Contacts</span></h2>
-    <div class="ligne"><span class="lab" data-de>Ihr Gastgeber</span><span class="lab" data-fr>Votre hôte</span><span class="val">M. Guedj — 06 63 42 13 26</span></div>
+    <h2><span class="ic">📞</span><span lang-de>Kontakt</span><span lang-fr>Contacts</span></h2>
+    <div class="ligne"><span class="lab"><span lang-de>Ihr Gastgeber</span><span lang-fr>Votre hôte</span></span><span class="val">M. Guedj — 06 63 42 13 26</span></div>
     <div class="ligne"><span class="lab">M. Guedj Alain</span><span class="val">06 61 72 13 55</span></div>
     <div class="ligne"><span class="lab">Email</span><span class="val">caidj90@hotmail.com</span></div>
     <div class="btns">
-      <a href="tel:+33663421326">📞 <span data-de>Anrufen</span><span data-fr>Appeler</span></a>
+      <a href="tel:+33663421326">📞 <span lang-de>Anrufen</span><span lang-fr>Appeler</span></a>
       <a class="or" href="https://wa.me/33663421326">💬 WhatsApp</a>
       <a href="mailto:caidj90@hotmail.com">✉️ Email</a>
     </div>
   </section>
 
   <!-- RAPPEL PLANTES -->
-  <div class="rappel">
-    🌱 <strong><span data-de>Kleine Bitte:</span><span data-fr>Petit rappel :</span></strong>
-    <span data-de> Bitte denken Sie daran, die Pflanzen auf der Terrasse regelmäßig zu gießen. Vielen Dank! 💧</span>
-    <span data-fr> n'oubliez pas d'arroser régulièrement les plantes extérieures. Merci ! 💧</span>
+  <div class="note vert">
+    🌿 <span lang-de><b>Kleine Bitte:</b> Bitte denken Sie daran, die Pflanzen auf der Terrasse regelmäßig zu gießen. Vielen Dank!</span>
+    <span lang-fr><b>Petit rappel :</b> n'oubliez pas d'arroser régulièrement les plantes extérieures. Merci !</span>
   </div>
-
 </main>
 
 <footer>
-  <div class="signe">
-    <span data-de>Wir wünschen Ihnen einen wunderbaren Aufenthalt</span>
-    <span data-fr>Nous vous souhaitons un merveilleux séjour</span>
-  </div>
-  <div class="vague">🌊 ☀️ 🌴</div>
-  <p style="margin-top:10px">Résidence du Golfe — Golfe-Juan</p>
+  <div class="sig">Mickaël Guedj</div>
+  <span lang-de>Ich wünsche Ihnen einen wunderschönen Aufenthalt</span>
+  <span lang-fr>Je vous souhaite un merveilleux séjour</span>
+  <div style="margin-top:8px;color:var(--or)">🌊 ☀️</div>
 </footer>
 
+<!-- musique : place un fichier dans ../assets/ambiance.mp3 -->
+<audio id="audio" loop preload="none">
+  <source src="../assets/ambiance.mp3" type="audio/mpeg">
+</audio>
+
 <script>
-  function setLang(l){
-    document.body.classList.toggle('fr', l==='fr');
-    document.documentElement.lang = l;
-    document.getElementById('b-de').classList.toggle('actif', l==='de');
-    document.getElementById('b-fr').classList.toggle('actif', l==='fr');
-  }
-  // QR Wi-Fi : format standard WIFI:T:WPA;S:nom;P:motdepasse;;
-  new QRCode(document.getElementById("qrcode"), {
-    text: "WIFI:T:WPA;S:SFR_8D00;P:utqr6apq96dxhj6fqq92;;",
-    width: 150, height: 150,
-    colorDark: "#0d2b3e", colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.M
-  });
+function lang(l){
+  document.body.classList.remove('de','fr');
+  document.body.classList.add(l);
+  document.documentElement.lang=l;
+  document.getElementById('bde').classList.toggle('on',l==='de');
+  document.getElementById('bfr').classList.toggle('on',l==='fr');
+}
+// Intro
+document.getElementById('enter').addEventListener('click',function(){
+  var i=document.getElementById('intro');
+  i.classList.add('partir');
+  setTimeout(function(){i.classList.add('cache')},1200);
+  // tente de lancer la musique (geste utilisateur requis par les navigateurs)
+  var a=document.getElementById('audio');
+  if(a){a.volume=0.35; a.play().then(()=>{document.getElementById('mus').classList.add('play')}).catch(()=>{});}
+});
+// Musique on/off
+function toggleMus(){
+  var a=document.getElementById('audio'),b=document.getElementById('mus');
+  if(a.paused){a.volume=0.35;a.play().then(()=>b.classList.add('play')).catch(()=>{});}
+  else{a.pause();b.classList.remove('play');}
+}
+// QR Wi-Fi
+new QRCode(document.getElementById("qrcode"),{
+  text:"WIFI:T:WPA;S:SFR_8D00;P:utqr6apq96dxhj6fqq92;;",
+  width:148,height:148,colorDark:"#0a0a0a",colorLight:"#ffffff",
+  correctLevel:QRCode.CorrectLevel.M
+});
 </script>
 </body>
 </html>

@@ -1,0 +1,5 @@
+Mets ici :
+- cover.jpg      = une belle photo de ton appartement (fond de l'écran d'intro)
+- ambiance.mp3   = une musique douce d'ambiance (optionnel)
+
+Tant qu'ils ne sont pas là, l'intro reste noire/or (ça marche quand même).
