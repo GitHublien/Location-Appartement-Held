@@ -90,13 +90,15 @@ img{display:block;max-width:100%}
 #visite-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
 #visite-sticky::after{content:"";position:absolute;inset:0;z-index:1;
   background:linear-gradient(90deg,rgba(8,7,6,.7),transparent 45%,transparent 60%,rgba(8,7,6,.7))}
-.visite-cap{position:relative;z-index:2;text-align:center;padding:24px;max-width:760px;
-  opacity:0;transition:opacity .6s ease}
+.visite-cap{position:relative;z-index:2;text-align:center;padding:26px 38px;max-width:680px;
+  opacity:0;transition:opacity .6s ease;border-radius:20px;
+  background:rgba(8,7,6,.55);backdrop-filter:blur(10px);
+  border:1px solid rgba(201,168,76,.35);box-shadow:0 20px 60px rgba(0,0,0,.55)}
 .visite-cap.show{opacity:1}
-.visite-cap h3{font-family:var(--titre);font-size:clamp(2rem,6vw,3.6rem);font-weight:600;
-  color:var(--or-clair);text-shadow:0 4px 30px rgba(0,0,0,.9);margin-bottom:8px}
-.visite-cap p{font-family:var(--serif);font-size:clamp(1.1rem,2.5vw,1.4rem);color:var(--creme);
-  text-shadow:0 2px 20px rgba(0,0,0,.9)}
+.visite-cap h3{font-family:var(--titre);font-size:clamp(2rem,6vw,3.6rem);font-weight:700;
+  color:var(--or-clair);text-shadow:0 2px 18px rgba(0,0,0,1),0 0 40px rgba(0,0,0,.8);margin-bottom:8px}
+.visite-cap p{font-family:var(--serif);font-size:clamp(1.15rem,2.5vw,1.45rem);color:#fff;font-weight:600;
+  text-shadow:0 2px 14px rgba(0,0,0,1),0 0 30px rgba(0,0,0,.9)}
 
 /* ============ CONTENU ============ */
 .wrap{max-width:840px;margin:0 auto;padding:0 clamp(16px,4vw,24px)}
@@ -502,16 +504,42 @@ function loadTrack(i,autoplay){
   if(autoplay){ audio.play().then(setPlayIcon).catch(()=>{}); }
 }
 function setPlayIcon(){document.getElementById('pl-play').textContent=audio.paused?'▶':'❚❚';}
+/* fondu : monte ou descend le volume en douceur */
+var fadeTimer=null;
+function fadeTo(target,onDone){
+  clearInterval(fadeTimer);
+  fadeTimer=setInterval(function(){
+    var v=audio.volume, step=0.04;
+    if(Math.abs(v-target)<=step){audio.volume=target;clearInterval(fadeTimer);if(onDone)onDone();}
+    else audio.volume=v<target?v+step:v-step;
+  },40);
+}
 function togglePlay(){
   if(!started){started=true;loadTrack(0,true);return;}
-  if(audio.paused)audio.play().then(setPlayIcon).catch(()=>{});
-  else{audio.pause();setPlayIcon();}
+  if(audio.paused){
+    audio.volume=0;
+    audio.play().then(function(){setPlayIcon();fadeTo(DEFAULT_VOL);}).catch(()=>{});
+  }else{
+    fadeTo(0,function(){audio.pause();setPlayIcon();}); // pause en fondu
+    setPlayIcon();
+  }
 }
 function nextTrack(){started=true;loadTrack(track+1,true);}
 function prevTrack(){started=true;loadTrack(track-1,true);}
 audio.addEventListener('ended',function(){loadTrack(track+1,true);}); // enchaîne net
 audio.addEventListener('play',setPlayIcon);
 audio.addEventListener('pause',setPlayIcon);
+/* quitter l'onglet/verrouiller le tél = pause douce ; revenir = reprise douce */
+var wasPlaying=false;
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden){
+    wasPlaying=started && !audio.paused;
+    if(wasPlaying){audio.pause();setPlayIcon();}
+  }else if(wasPlaying){
+    audio.volume=0;
+    audio.play().then(function(){setPlayIcon();fadeTo(DEFAULT_VOL);}).catch(()=>{});
+  }
+});
 
 /* ---------- VIDÉO ralentie (atmosphère onirique) ---------- */
 var hv=document.getElementById('herovid');
