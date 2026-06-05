@@ -1,349 +1,427 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow">
-<title>Résidence du Golfe — Privé</title>
+<title>Résidence du Golfe — Private Guest Guide</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700;800&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 <style>
 :root{
-  --noir:#0a0a0a; --noir-leger:#121110; --carte:#16140f;
-  --or:#c9a84c; --or-clair:#e8d48b; --or-fonce:#8b7332;
-  --creme:#f3ecdd; --creme-doux:#cbc3b2; --gris:#9b9486;
+  --noir:#080706; --noir2:#0f0d0a; --carte:#15120c;
+  --or:#c9a84c; --or-clair:#ecd58c; --or-fonce:#8b7332;
+  --creme:#f4eee0; --creme2:#cdc4b0; --gris:#9a927f;
   --serif:'Cormorant Garamond',Georgia,serif;
   --titre:'Playfair Display',Georgia,serif;
   --manus:'Great Vibes',cursive;
-  --bord-or:1px solid rgba(201,168,76,.28);
+  --sans:'Jost',sans-serif;
+  --bord:1px solid rgba(201,168,76,.30);
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{
-  font-family:var(--serif);background:var(--noir);color:var(--creme);
-  line-height:1.7;overflow-x:hidden;font-size:18px;
-}
+body{font-family:var(--serif);background:var(--noir);color:var(--creme);line-height:1.7;
+  overflow-x:hidden;font-size:20px;-webkit-font-smoothing:antialiased}
 ::selection{background:var(--or);color:var(--noir)}
+img{display:block;max-width:100%}
 
-/* ===== Texture or subtile sur le fond ===== */
-body::before{
-  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
-  background:
-    radial-gradient(ellipse 80% 50% at 50% -10%,rgba(201,168,76,.10),transparent 60%),
-    radial-gradient(ellipse 60% 50% at 100% 100%,rgba(114,47,55,.10),transparent 60%);
-}
+/* ============ INTRO VIDÉO ============ */
+#hero{position:relative;height:100vh;min-height:600px;overflow:hidden;display:flex;
+  align-items:center;justify-content:center;text-align:center}
+#hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  z-index:0;animation:zoomslow 28s ease-in-out infinite alternate}
+@keyframes zoomslow{from{transform:scale(1.02)}to{transform:scale(1.16)}}
+#hero::after{content:"";position:absolute;inset:0;z-index:1;
+  background:radial-gradient(ellipse at center,rgba(8,7,6,.35),rgba(8,7,6,.82) 85%),
+             linear-gradient(180deg,rgba(8,7,6,.6),transparent 30%,transparent 65%,rgba(8,7,6,.95))}
+.hero-cadre{position:absolute;inset:22px;border:var(--bord);z-index:2;pointer-events:none}
+.hero-in{position:relative;z-index:3;padding:24px;max-width:900px}
+.hero-sur{font-family:var(--sans);letter-spacing:.5em;text-transform:uppercase;
+  font-size:clamp(.7rem,1.6vw,.95rem);color:var(--or);font-weight:400;margin-bottom:14px}
+.hero-titre{font-family:var(--manus);font-size:clamp(64px,13vw,170px);line-height:.95;
+  color:var(--creme);text-shadow:0 6px 60px rgba(0,0,0,.9)}
+.hero-or{color:var(--or-clair)}
+.hero-line{width:min(160px,40vw);height:1px;margin:26px auto;
+  background:linear-gradient(90deg,transparent,var(--or),transparent)}
+.hero-name{font-family:var(--titre);font-size:clamp(1.3rem,3.5vw,2.1rem);font-weight:500;
+  color:var(--creme);letter-spacing:.02em}
+.hero-stay{font-family:var(--sans);font-weight:300;letter-spacing:.16em;text-transform:uppercase;
+  font-size:clamp(.75rem,1.8vw,1rem);color:var(--creme2);margin-top:10px}
+.scrolldown{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;
+  color:var(--or);font-family:var(--sans);font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;
+  animation:bob 2.2s ease infinite;text-align:center}
+.scrolldown span{display:block;font-size:1.5rem;margin-top:4px}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
 
-/* ============ ÉCRAN D'INTRO ============ */
-#intro{
-  position:fixed;inset:0;z-index:9999;background:#080706;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;transition:opacity 1.2s ease;padding:24px;
-}
-#intro.partir{opacity:0;pointer-events:none}
-#intro.cache{display:none}
-.intro-bg{position:absolute;inset:0;z-index:0;opacity:.32;
-  background-size:cover;background-position:center;
-  background-image:linear-gradient(#0a0a0a55,#0a0a0aee),url('../assets/cover.jpg');
-  filter:saturate(.9)}
-.intro-cadre{position:absolute;inset:18px;border:var(--bord-or);z-index:1;pointer-events:none;
-  box-shadow:inset 0 0 80px rgba(0,0,0,.7)}
-.intro-inner{position:relative;z-index:2}
-.intro-sur{font-family:var(--serif);letter-spacing:.45em;text-transform:uppercase;
-  font-size:.8rem;color:var(--or);font-weight:600;margin-bottom:6px}
-.intro-titre{font-family:var(--manus);font-size:clamp(54px,12vw,120px);color:var(--creme);
-  line-height:1;text-shadow:0 4px 50px rgba(0,0,0,.9)}
-.intro-or{color:var(--or-clair)}
-.intro-ligne{width:120px;height:1px;background:linear-gradient(90deg,transparent,var(--or),transparent);
-  margin:22px auto}
-.intro-nom{font-family:var(--serif);font-size:1.35rem;color:var(--creme-doux);letter-spacing:.08em}
-#enter{
-  margin-top:38px;padding:15px 60px;font-family:var(--serif);font-size:1.05rem;font-weight:700;
-  letter-spacing:.22em;text-transform:uppercase;color:var(--noir);cursor:pointer;border:none;border-radius:3px;
-  background:linear-gradient(135deg,var(--or-clair),var(--or),var(--or-fonce));
-  box-shadow:0 0 40px rgba(201,168,76,.45);transition:.4s;animation:puls 3s ease infinite}
-#enter:hover{transform:scale(1.05);box-shadow:0 0 70px rgba(201,168,76,.7)}
-@keyframes puls{0%,100%{box-shadow:0 0 30px rgba(201,168,76,.4)}50%{box-shadow:0 0 55px rgba(201,168,76,.65)}}
-
-/* ============ BARRE LANGUE + MUSIQUE ============ */
-.topbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;
-  align-items:center;padding:14px 22px;background:linear-gradient(#0a0a0aee,#0a0a0a00);
-  backdrop-filter:blur(4px)}
-.langs{display:flex;gap:8px}
-.langs button{font-family:var(--serif);font-size:.95rem;font-weight:600;letter-spacing:.05em;
-  color:var(--creme-doux);background:transparent;border:var(--bord-or);padding:6px 16px;border-radius:30px;
+/* ============ BARRE LANGUE/MUSIQUE ============ */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;
+  align-items:center;padding:16px clamp(16px,4vw,40px);transition:.4s;
+  background:linear-gradient(180deg,rgba(8,7,6,.55),transparent)}
+.topbar.solid{background:rgba(8,7,6,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(201,168,76,.18);padding-top:12px;padding-bottom:12px}
+.langs{display:flex;gap:7px}
+.langs button{font-family:var(--sans);font-size:.82rem;font-weight:400;letter-spacing:.08em;
+  color:var(--creme2);background:transparent;border:var(--bord);padding:7px 15px;border-radius:30px;
   cursor:pointer;transition:.25s}
 .langs button.on{background:linear-gradient(135deg,var(--or-clair),var(--or));color:var(--noir);
-  border-color:var(--or)}
+  border-color:var(--or);font-weight:500}
 .langs button:hover{color:var(--creme);border-color:var(--or)}
-#mus{width:44px;height:44px;border-radius:50%;border:var(--bord-or);background:#16140fcc;color:var(--or);
-  font-size:1.1rem;cursor:pointer;transition:.3s;display:flex;align-items:center;justify-content:center}
+#mus{width:46px;height:46px;border-radius:50%;border:var(--bord);background:rgba(21,18,12,.8);
+  color:var(--or);font-size:1.1rem;cursor:pointer;transition:.3s;flex-shrink:0}
 #mus:hover{background:var(--or);color:var(--noir)}
 #mus.play{animation:spin 6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* ============ SECTION VISITE (scroll vidéo) ============ */
+#visite{position:relative;height:400vh;background:var(--noir)}
+#visite-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;
+  align-items:center;justify-content:center}
+#visite-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+#visite-sticky::after{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(90deg,rgba(8,7,6,.7),transparent 45%,transparent 60%,rgba(8,7,6,.7))}
+.visite-cap{position:relative;z-index:2;text-align:center;padding:24px;max-width:760px;
+  opacity:0;transition:opacity .6s ease}
+.visite-cap.show{opacity:1}
+.visite-cap h3{font-family:var(--titre);font-size:clamp(2rem,6vw,3.6rem);font-weight:600;
+  color:var(--or-clair);text-shadow:0 4px 30px rgba(0,0,0,.9);margin-bottom:8px}
+.visite-cap p{font-family:var(--serif);font-size:clamp(1.1rem,2.5vw,1.4rem);color:var(--creme);
+  text-shadow:0 2px 20px rgba(0,0,0,.9)}
+
 /* ============ CONTENU ============ */
-main{position:relative;z-index:1;max-width:780px;margin:0 auto;padding:90px 22px 70px}
+.wrap{max-width:840px;margin:0 auto;padding:0 clamp(16px,4vw,24px)}
+section.bloc{padding:70px 0 10px}
+.titre-sec{text-align:center;margin-bottom:36px}
+.titre-sec .k{font-family:var(--sans);letter-spacing:.4em;text-transform:uppercase;
+  font-size:.8rem;color:var(--or);display:block;margin-bottom:8px}
+.titre-sec h2{font-family:var(--titre);font-size:clamp(2rem,5vw,3rem);font-weight:600;color:var(--creme)}
+.deco{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--or);margin:8px 0 0}
+.deco::before,.deco::after{content:"";height:1px;width:60px;background:linear-gradient(90deg,transparent,var(--or-fonce))}
+.deco::after{background:linear-gradient(90deg,var(--or-fonce),transparent)}
 
-.hero{text-align:center;padding:30px 0 10px}
-.hero .sur{font-family:var(--serif);letter-spacing:.4em;text-transform:uppercase;font-size:.78rem;
-  color:var(--or);font-weight:600}
-.hero h1{font-family:var(--manus);font-size:clamp(46px,9vw,84px);color:var(--creme);line-height:1.05;margin:4px 0}
-.hero .sous{font-family:var(--serif);font-size:1.3rem;color:var(--creme-doux);font-weight:500}
-.hero .sejour{display:inline-block;margin-top:20px;border:var(--bord-or);border-radius:30px;
-  padding:8px 26px;color:var(--or-clair);letter-spacing:.05em;font-weight:600}
-.sep{display:flex;align-items:center;justify-content:center;gap:14px;margin:34px 0 10px;color:var(--or)}
-.sep::before,.sep::after{content:"";height:1px;width:70px;
-  background:linear-gradient(90deg,transparent,var(--or-fonce))}
-.sep::after{background:linear-gradient(90deg,var(--or-fonce),transparent)}
-.sep span{font-size:1.1rem}
+.carte{background:linear-gradient(160deg,#15120c,#0d0b08);border:var(--bord);border-radius:16px;
+  padding:34px clamp(22px,4vw,38px);margin:22px 0;
+  box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(201,168,76,.10)}
+.carte h3{font-family:var(--titre);font-size:clamp(1.4rem,3.5vw,1.8rem);font-weight:600;
+  color:var(--or-clair);display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.carte h3 .ic{font-size:1.4rem}
+.row{display:flex;justify-content:space-between;gap:20px;padding:13px 0;
+  border-bottom:1px solid rgba(201,168,76,.13);flex-wrap:wrap;align-items:baseline}
+.row:last-child{border-bottom:none}
+.lab{color:var(--gris);font-size:1.05rem}
+.val{color:var(--creme);font-weight:600;text-align:right;font-size:1.1rem}
+.tag{display:inline-block;border:var(--bord);border-radius:8px;padding:3px 13px;font-weight:700;
+  color:var(--or-clair);letter-spacing:.08em}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:middle}
+.dot.noir{background:#0a0a0a;border:1px solid #666}
+.dot.vert{background:#2e9d5f}
 
-.carte{background:linear-gradient(160deg,#16140f,#100e0a);border:var(--bord-or);border-radius:14px;
-  padding:30px 32px;margin:20px 0;box-shadow:0 16px 50px rgba(0,0,0,.45),inset 0 1px 0 rgba(201,168,76,.08)}
-.carte h2{font-family:var(--titre);font-size:1.5rem;font-weight:600;color:var(--or-clair);
-  display:flex;align-items:center;gap:12px;margin-bottom:18px;letter-spacing:.01em}
-.carte h2 .ic{font-size:1.25rem;filter:grayscale(.2)}
-.ligne{display:flex;justify-content:space-between;gap:18px;padding:11px 0;
-  border-bottom:1px solid rgba(201,168,76,.12);flex-wrap:wrap}
-.ligne:last-child{border-bottom:none}
-.lab{color:var(--gris);font-weight:500;font-size:1.02rem}
-.val{color:var(--creme);font-weight:600;text-align:right}
-.puce{display:inline-block;border:var(--bord-or);border-radius:7px;padding:2px 11px;font-weight:700;
-  color:var(--or-clair);letter-spacing:.06em}
-.dot{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:middle;margin-right:6px;
-  box-shadow:0 0 8px rgba(0,0,0,.6)}
-.dot.noir{background:#000;border:1px solid #555}
-.dot.vert{background:#2e7d4f}
-
-/* Wi-Fi */
-.wifi{display:flex;gap:28px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+/* wifi */
+.wifi{display:flex;gap:30px;align-items:center;flex-wrap:wrap;justify-content:space-between}
 .wifi-l{flex:1;min-width:240px}
-.wifi-pass{display:inline-block;margin-top:4px;font-family:var(--serif);font-weight:700;font-size:1.25rem;
-  letter-spacing:.06em;color:var(--or-clair);border:var(--bord-or);border-radius:9px;padding:8px 14px;user-select:all}
-#qrcode{background:#fff;padding:11px;border-radius:12px;line-height:0}
-.qrleg{text-align:center;font-size:.85rem;color:var(--gris);margin-top:9px}
+.wifi-pass{display:inline-block;margin-top:6px;font-family:var(--sans);font-weight:500;
+  font-size:1.2rem;letter-spacing:.05em;color:var(--or-clair);border:var(--bord);border-radius:10px;
+  padding:9px 15px;user-select:all;word-break:break-all}
+#qrcode{background:#fff;padding:12px;border-radius:14px;line-height:0}
+.qrleg{text-align:center;font-size:.9rem;color:var(--gris);margin-top:10px}
 
-/* encadrés */
-.note{border-radius:12px;padding:16px 20px;margin-top:14px;font-weight:500}
-.note.bleu{background:rgba(45,110,130,.12);border-left:3px solid #2e7d8f;color:#bfe0e8}
-.note.vert{background:rgba(46,125,79,.12);border-left:3px solid #2e7d4f;color:#bfe6cf}
+.note{border-radius:13px;padding:18px 22px;margin-top:16px;font-size:1.05rem}
+.note.vert{background:rgba(46,125,79,.12);border-left:3px solid #2e9d5f;color:#cdebd6}
+.note.bleu{background:rgba(45,120,140,.12);border-left:3px solid #3aa0b8;color:#cdeaf2}
 
-/* boutons contact */
-.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px}
-.btns a{flex:1;min-width:140px;text-align:center;text-decoration:none;padding:13px;border-radius:10px;
-  font-weight:700;letter-spacing:.04em;transition:.3s;border:var(--bord-or);color:var(--creme);
-  background:#100e0a}
-.btns a:hover{transform:translateY(-2px);border-color:var(--or);color:var(--or-clair)}
-.btns a.or{background:linear-gradient(135deg,var(--or-clair),var(--or),var(--or-fonce));color:var(--noir);
-  border:none}
+.btns{display:flex;flex-wrap:wrap;gap:13px;margin-top:14px}
+.btns a{flex:1;min-width:150px;text-align:center;text-decoration:none;padding:15px;border-radius:11px;
+  font-weight:600;letter-spacing:.04em;transition:.3s;border:var(--bord);color:var(--creme);
+  background:#0d0b08;font-size:1.05rem}
+.btns a:hover{transform:translateY(-3px);border-color:var(--or);color:var(--or-clair)}
+.btns a.or{background:linear-gradient(135deg,var(--or-clair),var(--or),var(--or-fonce));color:var(--noir);border:none}
 
-/* galerie photos (placeholder) */
-.galerie{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-.ph{aspect-ratio:4/3;border:1px dashed rgba(201,168,76,.3);border-radius:10px;display:flex;
-  align-items:center;justify-content:center;color:var(--gris);font-size:.85rem;text-align:center;padding:10px;
-  background:#100e0a}
+/* galerie */
+.galerie{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.galerie a{overflow:hidden;border-radius:12px;border:var(--bord);aspect-ratio:4/3;cursor:pointer}
+.galerie img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.galerie a:hover img{transform:scale(1.08)}
 
-footer{position:relative;z-index:1;text-align:center;padding:46px 22px 60px;color:var(--gris)}
-footer .sig{font-family:var(--manus);font-size:2rem;color:var(--or-clair);margin-bottom:6px}
+/* lightbox */
+#lb{position:fixed;inset:0;z-index:500;background:rgba(8,7,6,.96);display:none;
+  align-items:center;justify-content:center;padding:30px;cursor:zoom-out}
+#lb.open{display:flex}
+#lb img{max-width:92%;max-height:88vh;border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.7);
+  border:1px solid rgba(201,168,76,.3)}
 
-/* ===== gestion langue (robuste) ===== */
-[lang-de],[lang-fr]{display:none}
-body.de [lang-de]{display:revert}
-body.fr [lang-fr]{display:revert}
-/* inline (dans une même ligne) */
-span[lang-de],span[lang-fr]{display:none}
-body.de span[lang-de]{display:inline}
-body.fr span[lang-fr]{display:inline}
+footer{text-align:center;padding:60px 24px 70px;color:var(--gris)}
+footer .sig{font-family:var(--manus);font-size:2.4rem;color:var(--or-clair);margin-bottom:8px}
+footer .wish{font-size:1.15rem;color:var(--creme2)}
 
-@media(max-width:520px){
-  body{font-size:17px}
-  .carte{padding:24px 20px}
-  .ligne{flex-direction:column;gap:2px}
+/* ===== LANGUES (robuste) ===== */
+[l]{display:none}
+html[lang="en"] [l~="en"],
+html[lang="de"] [l~="de"],
+html[lang="fr"] [l~="fr"]{display:revert}
+
+@media(max-width:560px){
+  body{font-size:18px}
+  .row{flex-direction:column;gap:3px}
   .val{text-align:left}
+  #visite{height:340vh}
 }
 </style>
 </head>
-<body class="de">
-
-<!-- ===== INTRO ===== -->
-<div id="intro">
-  <div class="intro-bg"></div>
-  <div class="intro-cadre"></div>
-  <div class="intro-inner">
-    <div class="intro-sur">Résidence du Golfe</div>
-    <div class="intro-titre">Golfe-<span class="intro-or">Juan</span></div>
-    <div class="intro-ligne"></div>
-    <div class="intro-nom">
-      <span lang-de>Willkommen, Herr Held</span>
-      <span lang-fr>Bienvenue, M. Held</span>
-    </div>
-    <button id="enter">
-      <span lang-de>Eintreten</span><span lang-fr>Entrer</span>
-    </button>
-  </div>
-</div>
+<body>
 
 <!-- ===== BARRE ===== -->
-<div class="topbar">
+<div class="topbar" id="topbar">
   <div class="langs">
-    <button id="bde" class="on" onclick="lang('de')">Deutsch</button>
-    <button id="bfr" onclick="lang('fr')">Français</button>
+    <button id="b-en" class="on" onclick="setLang('en')">EN</button>
+    <button id="b-de" onclick="setLang('de')">DE</button>
+    <button id="b-fr" onclick="setLang('fr')">FR</button>
   </div>
-  <button id="mus" title="Musique" onclick="toggleMus()">♪</button>
+  <button id="mus" title="Music" onclick="toggleMus()">♪</button>
 </div>
 
-<main>
-  <div class="hero">
-    <div class="sur">Privé · Privat</div>
-    <h1><span lang-de>Willkommen</span><span lang-fr>Bienvenue</span></h1>
-    <p class="sous">
-      <span lang-de>Schön, dass Sie da sind</span>
-      <span lang-fr>Heureux de vous accueillir</span>
-    </p>
-    <div class="sejour">
-      <span lang-de>Aufenthalt · 7. – 14. Juni 2026</span>
-      <span lang-fr>Séjour · du 7 au 14 juin 2026</span>
+<!-- ===== HERO VIDÉO ===== -->
+<section id="hero">
+  <video autoplay muted loop playsinline preload="auto">
+    <source src="../assets/appartement.mp4" type="video/mp4">
+  </video>
+  <div class="hero-cadre"></div>
+  <div class="hero-in">
+    <div class="hero-sur">Résidence du Golfe · Golfe-Juan</div>
+    <div class="hero-titre"><span l="en">Welcome</span><span l="de">Willkommen</span><span l="fr">Bienvenue</span></div>
+    <div class="hero-line"></div>
+    <div class="hero-name">
+      <span l="en">Dear Mr Held, we are delighted to host you</span>
+      <span l="de">Sehr geehrter Herr Held, wir freuen uns sehr, Sie zu empfangen</span>
+      <span l="fr">Cher M. Held, nous sommes ravis de vous accueillir</span>
+    </div>
+    <div class="hero-stay">
+      <span l="en">Stay · June 7 – 14, 2026</span>
+      <span l="de">Aufenthalt · 7. – 14. Juni 2026</span>
+      <span l="fr">Séjour · du 7 au 14 juin 2026</span>
     </div>
   </div>
-
-  <div class="sep"><span>✦</span></div>
-
-  <!-- ADRESSE -->
-  <section class="carte">
-    <h2><span class="ic">📍</span><span lang-de>Ihre Adresse</span><span lang-fr>Votre adresse</span></h2>
-    <div class="ligne"><span class="lab"><span lang-de>Straße</span><span lang-fr>Rue</span></span><span class="val">35 avenue Georges Pompidou</span></div>
-    <div class="ligne"><span class="lab"><span lang-de>Residenz</span><span lang-fr>Résidence</span></span><span class="val">Résidence du Golfe</span></div>
-    <div class="ligne"><span class="lab"><span lang-de>Gebäude</span><span lang-fr>Bâtiment</span></span><span class="val">6</span></div>
-    <div class="ligne"><span class="lab"><span lang-de>Wohnung · Tür</span><span lang-fr>Porte</span></span><span class="val">6004</span></div>
-  </section>
-
-  <!-- ACCÈS -->
-  <section class="carte">
-    <h2><span class="ic">🔑</span><span lang-de>Zugang</span><span lang-fr>Accès résidence</span></h2>
-    <div class="ligne">
-      <span class="lab"><span class="dot noir"></span><span lang-de>Schwarzer Badge</span><span lang-fr>Badge noir</span></span>
-      <span class="val"><span lang-de>Eingang + Pool</span><span lang-fr>Entrée principale + piscine</span></span>
-    </div>
-    <div class="ligne">
-      <span class="lab"><span class="dot vert"></span><span lang-de>Grüner Badge</span><span lang-fr>Badge vert</span></span>
-      <span class="val"><span lang-de>Außenparkplatz</span><span lang-fr>Parking extérieur</span></span>
-    </div>
-    <div class="ligne">
-      <span class="lab"><span lang-de>Code Fußgängertür</span><span lang-fr>Code porte piétonne parking</span></span>
-      <span class="val"><span class="puce">0702A</span></span>
-    </div>
-    <div class="ligne">
-      <span class="lab"><span lang-de>Ihr Parkplatz</span><span lang-fr>Votre place de parking</span></span>
-      <span class="val"><span class="puce">N° 86</span></span>
-    </div>
-  </section>
-
-  <!-- WIFI -->
-  <section class="carte">
-    <h2><span class="ic">📶</span><span lang-de>WLAN</span><span lang-fr>Wi-Fi</span></h2>
-    <div class="wifi">
-      <div class="wifi-l">
-        <div class="ligne"><span class="lab">Réseau 2,4 GHz</span><span class="val">SFR_8D00</span></div>
-        <div class="ligne"><span class="lab">Réseau 5 GHz</span><span class="val">SFR_8D00_5GHZ</span></div>
-        <div style="padding-top:12px">
-          <span class="lab"><span lang-de>Passwort</span><span lang-fr>Mot de passe</span></span><br>
-          <span class="wifi-pass">utqr6apq96dxhj6fqq92</span>
-        </div>
-      </div>
-      <div style="text-align:center">
-        <div id="qrcode"></div>
-        <div class="qrleg">
-          <span lang-de>📱 Scannen = automatisch verbinden</span>
-          <span lang-fr>📱 Scannez = connexion automatique</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- PISCINE -->
-  <section class="carte">
-    <h2><span class="ic">🏊</span><span lang-de>Schwimmbad</span><span lang-fr>Piscine</span></h2>
-    <p>
-      <span lang-de>Das Schwimmbad ist <b>geöffnet</b> und steht Ihnen zur Verfügung.</span>
-      <span lang-fr>La piscine est <b>ouverte</b> et à votre disposition.</span>
-    </p>
-    <div class="note vert">
-      <span lang-de><b>Wichtig:</b> Für den Zugang sind die <b>grünen Armbänder</b> erforderlich. Ich stelle sie Ihnen bereit.</span>
-      <span lang-fr><b>Important :</b> l'accès nécessite les <b>bracelets verts</b>. Je vous les fournis.</span>
-    </div>
-  </section>
-
-  <!-- PHOTOS (placeholder) -->
-  <section class="carte">
-    <h2><span class="ic">🖼️</span><span lang-de>Die Wohnung</span><span lang-fr>L'appartement</span></h2>
-    <div class="galerie">
-      <div class="ph"><span lang-de>Foto folgt</span><span lang-fr>Photo à venir</span></div>
-      <div class="ph"><span lang-de>Foto folgt</span><span lang-fr>Photo à venir</span></div>
-      <div class="ph"><span lang-de>Foto folgt</span><span lang-fr>Photo à venir</span></div>
-    </div>
-  </section>
-
-  <!-- CONTACTS -->
-  <section class="carte">
-    <h2><span class="ic">📞</span><span lang-de>Kontakt</span><span lang-fr>Contacts</span></h2>
-    <div class="ligne"><span class="lab"><span lang-de>Ihr Gastgeber</span><span lang-fr>Votre hôte</span></span><span class="val">M. Guedj — 06 63 42 13 26</span></div>
-    <div class="ligne"><span class="lab">M. Guedj Alain</span><span class="val">06 61 72 13 55</span></div>
-    <div class="ligne"><span class="lab">Email</span><span class="val">caidj90@hotmail.com</span></div>
-    <div class="btns">
-      <a href="tel:+33663421326">📞 <span lang-de>Anrufen</span><span lang-fr>Appeler</span></a>
-      <a class="or" href="https://wa.me/33663421326">💬 WhatsApp</a>
-      <a href="mailto:caidj90@hotmail.com">✉️ Email</a>
-    </div>
-  </section>
-
-  <!-- RAPPEL PLANTES -->
-  <div class="note vert">
-    🌿 <span lang-de><b>Kleine Bitte:</b> Bitte denken Sie daran, die Pflanzen auf der Terrasse regelmäßig zu gießen. Vielen Dank!</span>
-    <span lang-fr><b>Petit rappel :</b> n'oubliez pas d'arroser régulièrement les plantes extérieures. Merci !</span>
+  <div class="scrolldown">
+    <span l="en" style="display:none">Scroll</span><span l="de" style="display:none">Scrollen</span><span l="fr" style="display:none">Défiler</span>
+    <span>⌄</span>
   </div>
-</main>
+</section>
+
+<!-- ===== VISITE (scroll vidéo) ===== -->
+<section id="visite">
+  <div id="visite-sticky">
+    <img id="visite-canvas" alt="">
+    <div class="visite-cap" id="vcap">
+      <h3 id="vcap-t"></h3>
+      <p id="vcap-p"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INFOS ===== -->
+<div class="wrap">
+
+  <section class="bloc">
+    <div class="titre-sec">
+      <span class="k"><span l="en">Practical guide</span><span l="de">Praktischer Leitfaden</span><span l="fr">Guide pratique</span></span>
+      <h2><span l="en">Everything you need</span><span l="de">Alles, was Sie brauchen</span><span l="fr">Tout ce qu'il vous faut</span></h2>
+      <div class="deco"><span>✦</span></div>
+    </div>
+
+    <!-- ADRESSE -->
+    <div class="carte">
+      <h3><span class="ic">📍</span><span l="en">Your address</span><span l="de">Ihre Adresse</span><span l="fr">Votre adresse</span></h3>
+      <div class="row"><span class="lab"><span l="en">Street</span><span l="de">Straße</span><span l="fr">Rue</span></span><span class="val">35 avenue Georges Pompidou</span></div>
+      <div class="row"><span class="lab"><span l="en">Residence</span><span l="de">Residenz</span><span l="fr">Résidence</span></span><span class="val">Résidence du Golfe</span></div>
+      <div class="row"><span class="lab"><span l="en">Building</span><span l="de">Gebäude</span><span l="fr">Bâtiment</span></span><span class="val">6</span></div>
+      <div class="row"><span class="lab"><span l="en">Apartment · Door</span><span l="de">Wohnung · Tür</span><span l="fr">Porte</span></span><span class="val">6004</span></div>
+    </div>
+
+    <!-- ACCÈS -->
+    <div class="carte">
+      <h3><span class="ic">🔑</span><span l="en">Access</span><span l="de">Zugang</span><span l="fr">Accès résidence</span></h3>
+      <div class="row">
+        <span class="lab"><span class="dot noir"></span><span l="en">Black badge</span><span l="de">Schwarzer Badge</span><span l="fr">Badge noir</span></span>
+        <span class="val"><span l="en">Main entrance + pool</span><span l="de">Eingang + Pool</span><span l="fr">Entrée principale + piscine</span></span>
+      </div>
+      <div class="row">
+        <span class="lab"><span class="dot vert"></span><span l="en">Green badge</span><span l="de">Grüner Badge</span><span l="fr">Badge vert</span></span>
+        <span class="val"><span l="en">Outdoor parking</span><span l="de">Außenparkplatz</span><span l="fr">Parking extérieur</span></span>
+      </div>
+      <div class="row">
+        <span class="lab"><span l="en">Pedestrian gate code</span><span l="de">Code Fußgängertür</span><span l="fr">Code porte piétonne parking</span></span>
+        <span class="val"><span class="tag">0702A</span></span>
+      </div>
+      <div class="row">
+        <span class="lab"><span l="en">Your parking space</span><span l="de">Ihr Parkplatz</span><span l="fr">Votre place de parking</span></span>
+        <span class="val"><span class="tag">N° 86</span></span>
+      </div>
+    </div>
+
+    <!-- WIFI -->
+    <div class="carte">
+      <h3><span class="ic">📶</span><span l="en">Wi-Fi</span><span l="de">WLAN</span><span l="fr">Wi-Fi</span></h3>
+      <div class="wifi">
+        <div class="wifi-l">
+          <div class="row"><span class="lab">Réseau 2,4 GHz</span><span class="val">SFR_8D00</span></div>
+          <div class="row"><span class="lab">Réseau 5 GHz</span><span class="val">SFR_8D00_5GHZ</span></div>
+          <div style="padding-top:14px">
+            <span class="lab"><span l="en">Password</span><span l="de">Passwort</span><span l="fr">Mot de passe</span></span><br>
+            <span class="wifi-pass">utqr6apq96dxhj6fqq92</span>
+          </div>
+        </div>
+        <div style="text-align:center">
+          <div id="qrcode"></div>
+          <div class="qrleg">
+            <span l="en">📱 Scan = auto connect</span><span l="de">📱 Scannen = automatisch verbinden</span><span l="fr">📱 Scannez = connexion automatique</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PISCINE -->
+    <div class="carte">
+      <h3><span class="ic">🏊</span><span l="en">Swimming pool</span><span l="de">Schwimmbad</span><span l="fr">Piscine</span></h3>
+      <p>
+        <span l="en">The pool is <b>open</b> and at your disposal.</span>
+        <span l="de">Das Schwimmbad ist <b>geöffnet</b> und steht Ihnen zur Verfügung.</span>
+        <span l="fr">La piscine est <b>ouverte</b> et à votre disposition.</span>
+      </p>
+      <div class="note vert">
+        <span l="en"><b>Important:</b> access requires the <b>green wristbands</b>. I will provide them to you.</span>
+        <span l="de"><b>Wichtig:</b> Für den Zugang sind die <b>grünen Armbänder</b> erforderlich. Ich stelle sie Ihnen bereit.</span>
+        <span l="fr"><b>Important :</b> l'accès nécessite les <b>bracelets verts</b>. Je vous les fournis.</span>
+      </div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="carte">
+      <h3><span class="ic">📞</span><span l="en">Contacts</span><span l="de">Kontakt</span><span l="fr">Contacts</span></h3>
+      <div class="row"><span class="lab"><span l="en">Your host</span><span l="de">Ihr Gastgeber</span><span l="fr">Votre hôte</span></span><span class="val">M. Guedj — 06 63 42 13 26</span></div>
+      <div class="row"><span class="lab">M. Guedj Alain</span><span class="val">06 61 72 13 55</span></div>
+      <div class="row"><span class="lab">Email</span><span class="val">caidj90@hotmail.com</span></div>
+      <div class="btns">
+        <a href="tel:+33663421326">📞 <span l="en">Call</span><span l="de">Anrufen</span><span l="fr">Appeler</span></a>
+        <a class="or" href="https://wa.me/33663421326">💬 WhatsApp</a>
+        <a href="mailto:caidj90@hotmail.com">✉️ Email</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIE -->
+  <section class="bloc">
+    <div class="titre-sec">
+      <span class="k"><span l="en">Gallery</span><span l="de">Galerie</span><span l="fr">Galerie</span></span>
+      <h2><span l="en">The apartment</span><span l="de">Die Wohnung</span><span l="fr">L'appartement</span></h2>
+      <div class="deco"><span>✦</span></div>
+    </div>
+    <div class="galerie" id="galerie"></div>
+  </section>
+
+  <!-- RAPPEL -->
+  <div class="note vert" style="margin:30px 0">
+    🌿 <span l="en"><b>A small favour:</b> please remember to water the outdoor plants regularly. Thank you!</span>
+    <span l="de"><b>Kleine Bitte:</b> Bitte denken Sie daran, die Pflanzen auf der Terrasse regelmäßig zu gießen. Vielen Dank!</span>
+    <span l="fr"><b>Petit rappel :</b> n'oubliez pas d'arroser régulièrement les plantes extérieures. Merci !</span>
+  </div>
+</div>
 
 <footer>
   <div class="sig">Mickaël Guedj</div>
-  <span lang-de>Ich wünsche Ihnen einen wunderschönen Aufenthalt</span>
-  <span lang-fr>Je vous souhaite un merveilleux séjour</span>
-  <div style="margin-top:8px;color:var(--or)">🌊 ☀️</div>
+  <div class="wish">
+    <span l="en">Wishing you a wonderful stay</span>
+    <span l="de">Ich wünsche Ihnen einen wunderschönen Aufenthalt</span>
+    <span l="fr">Je vous souhaite un merveilleux séjour</span>
+  </div>
+  <div style="margin-top:10px;color:var(--or)">🌊 ☀️</div>
 </footer>
 
-<!-- musique : place un fichier dans ../assets/ambiance.mp3 -->
-<audio id="audio" loop preload="none">
-  <source src="../assets/ambiance.mp3" type="audio/mpeg">
-</audio>
+<div id="lb" onclick="this.classList.remove('open')"><img id="lb-img" src="" alt=""></div>
+
+<audio id="audio" loop preload="none"><source src="../assets/ambiance.mp3" type="audio/mpeg"></audio>
 
 <script>
-function lang(l){
-  document.body.classList.remove('de','fr');
-  document.body.classList.add(l);
+/* ---------- LANGUES ---------- */
+function setLang(l){
   document.documentElement.lang=l;
-  document.getElementById('bde').classList.toggle('on',l==='de');
-  document.getElementById('bfr').classList.toggle('on',l==='fr');
+  ['en','de','fr'].forEach(x=>document.getElementById('b-'+x).classList.toggle('on',x===l));
 }
-// Intro
-document.getElementById('enter').addEventListener('click',function(){
-  var i=document.getElementById('intro');
-  i.classList.add('partir');
-  setTimeout(function(){i.classList.add('cache')},1200);
-  // tente de lancer la musique (geste utilisateur requis par les navigateurs)
-  var a=document.getElementById('audio');
-  if(a){a.volume=0.35; a.play().then(()=>{document.getElementById('mus').classList.add('play')}).catch(()=>{});}
+
+/* ---------- BARRE solide au scroll ---------- */
+addEventListener('scroll',()=>{
+  document.getElementById('topbar').classList.toggle('solid',scrollY>60);
 });
-// Musique on/off
+
+/* ---------- MUSIQUE ---------- */
 function toggleMus(){
   var a=document.getElementById('audio'),b=document.getElementById('mus');
-  if(a.paused){a.volume=0.35;a.play().then(()=>b.classList.add('play')).catch(()=>{});}
+  if(a.paused){a.volume=.35;a.play().then(()=>b.classList.add('play')).catch(()=>{});}
   else{a.pause();b.classList.remove('play');}
 }
-// QR Wi-Fi
+
+/* ---------- QR WIFI ---------- */
 new QRCode(document.getElementById("qrcode"),{
   text:"WIFI:T:WPA;S:SFR_8D00;P:utqr6apq96dxhj6fqq92;;",
-  width:148,height:148,colorDark:"#0a0a0a",colorLight:"#ffffff",
-  correctLevel:QRCode.CorrectLevel.M
+  width:150,height:150,colorDark:"#080706",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M
+});
+
+/* ---------- VISITE pilotée par le scroll ---------- */
+var TOTAL=148;
+var canvas=document.getElementById('visite-canvas');
+var imgs=[], loaded=0;
+function pad(n){return String(n).padStart(3,'0');}
+for(var i=1;i<=TOTAL;i++){
+  var im=new Image();
+  im.src='../assets/frames/f-'+pad(i)+'.jpg';
+  im.onload=function(){loaded++;};
+  imgs.push(im);
+}
+canvas.src='../assets/frames/f-001.jpg';
+
+/* légendes synchronisées (3 langues) */
+var CAPS=[
+  {at:.08, t:{en:"The living room",de:"Das Wohnzimmer",fr:"Le salon"},     p:{en:"A warm, zen atmosphere",de:"Eine warme, zen Atmosphäre",fr:"Une ambiance chaleureuse et zen"}},
+  {at:.40, t:{en:"The bedroom",   de:"Das Schlafzimmer",fr:"La chambre"},  p:{en:"Soft and restful",de:"Sanft und erholsam",fr:"Douce et reposante"}},
+  {at:.72, t:{en:"Cosy details",  de:"Gemütliche Details",fr:"Détails cosy"},p:{en:"Everything ready for you",de:"Alles für Sie bereit",fr:"Tout est prêt pour vous"}}
+];
+var vcap=document.getElementById('vcap'),vt=document.getElementById('vcap-t'),vp=document.getElementById('vcap-p');
+
+var visite=document.getElementById('visite');
+var ticking=false, lastIdx=-1;
+function render(){
+  ticking=false;
+  var r=visite.getBoundingClientRect();
+  var h=visite.offsetHeight-innerHeight;
+  if(h<=0) return;
+  var prog=Math.min(1,Math.max(0,(-r.top)/h));
+  var idx=Math.min(TOTAL-1,Math.floor(prog*(TOTAL-1)));
+  // ne change l'image que si elle est différente ET déjà chargée (anti-saccade)
+  if(idx!==lastIdx && imgs[idx] && imgs[idx].complete){
+    canvas.src=imgs[idx].src; lastIdx=idx;
+  }
+  // légende
+  var lang=document.documentElement.lang;
+  var active=null;
+  for(var c of CAPS){ if(Math.abs(prog-c.at)<.13) active=c; }
+  if(active){vt.textContent=active.t[lang];vp.textContent=active.p[lang];vcap.classList.add('show');}
+  else vcap.classList.remove('show');
+}
+function onScroll(){
+  if(!ticking){ ticking=true; requestAnimationFrame(render); }
+}
+addEventListener('scroll',onScroll,{passive:true});
+addEventListener('resize',onScroll);
+onScroll();
+
+/* ---------- GALERIE ---------- */
+var g=document.getElementById('galerie');
+var PHOTOS=[4,5,6,1,15,16,17,18,19,8,9,2]; // sélection des plus belles
+PHOTOS.forEach(function(n){
+  var a=document.createElement('a');
+  var src='../assets/photos/photo-'+String(n).padStart(2,'0')+'.jpg';
+  a.innerHTML='<img loading="lazy" src="'+src+'" alt="">';
+  a.onclick=function(){document.getElementById('lb-img').src=src;document.getElementById('lb').classList.add('open');};
+  g.appendChild(a);
 });
 </script>
 </body>
