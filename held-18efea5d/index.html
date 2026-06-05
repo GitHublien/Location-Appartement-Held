@@ -413,12 +413,15 @@ html[lang="fr"] [l~="fr"]{display:revert}
     <!-- CONTACTS -->
     <div class="carte">
       <h3><span class="ic">📞</span><span l="en">Contacts</span><span l="de">Kontakt</span><span l="fr">Contacts</span></h3>
-      <div class="row"><span class="lab"><span l="en">Your host</span><span l="de">Ihr Gastgeber</span><span l="fr">Votre hôte</span></span><span class="val">M. Guedj — 06 63 42 13 26</span></div>
-      <div class="row"><span class="lab">M. Guedj Alain</span><span class="val">06 61 72 13 55</span></div>
+      <div class="row"><span class="lab"><span l="en">Your host · Mickaël</span><span l="de">Ihr Gastgeber · Mickaël</span><span l="fr">Votre hôte · Mickaël</span></span><span class="val">+33 (0)6 63 42 13 26</span></div>
+      <div class="row"><span class="lab"><span l="en">Mr Guedj Alain (his father)</span><span l="de">Herr Guedj Alain (Vater)</span><span l="fr">M. Guedj Alain (son père)</span></span><span class="val">+33 (0)6 61 72 13 55</span></div>
       <div class="row"><span class="lab">Email</span><span class="val">caidj90@hotmail.com</span></div>
       <div class="btns">
-        <a href="tel:+33663421326">📞 <span l="en">Call</span><span l="de">Anrufen</span><span l="fr">Appeler</span></a>
-        <a class="or" href="https://wa.me/33663421326">💬 WhatsApp</a>
+        <a class="or" href="tel:+33663421326">📞 <span l="en">Call Mickaël</span><span l="de">Mickaël anrufen</span><span l="fr">Appeler Mickaël</span></a>
+        <a href="tel:+33661721355">📞 <span l="en">Call Alain</span><span l="de">Alain anrufen</span><span l="fr">Appeler Alain</span></a>
+      </div>
+      <div class="btns">
+        <a href="https://wa.me/33663421326">💬 WhatsApp</a>
         <a href="mailto:caidj90@hotmail.com">✉️ Email</a>
       </div>
     </div>
@@ -545,9 +548,12 @@ canvas.src='../assets/frames/f-001.jpg';
 
 /* légendes synchronisées (3 langues) */
 var CAPS=[
-  {at:.08, t:{en:"The living room",de:"Das Wohnzimmer",fr:"Le salon"},     p:{en:"A warm, zen atmosphere",de:"Eine warme, zen Atmosphäre",fr:"Une ambiance chaleureuse et zen"}},
-  {at:.40, t:{en:"The bedroom",   de:"Das Schlafzimmer",fr:"La chambre"},  p:{en:"Soft and restful",de:"Sanft und erholsam",fr:"Douce et reposante"}},
-  {at:.72, t:{en:"Cosy details",  de:"Gemütliche Details",fr:"Détails cosy"},p:{en:"Everything ready for you",de:"Alles für Sie bereit",fr:"Tout est prêt pour vous"}}
+  {at:.12, t:{en:"The living room",de:"Das Wohnzimmer",fr:"Le salon"},
+           p:{en:"A warm, zen atmosphere",de:"Eine warme, zen Atmosphäre",fr:"Une ambiance chaleureuse et zen"}},
+  {at:.45, t:{en:"The bedroom",de:"Das Schlafzimmer",fr:"La chambre"},
+           p:{en:"Soft and restful",de:"Sanft und erholsam",fr:"Douce et reposante"}},
+  {at:.80, t:{en:"The bathroom",de:"Das Badezimmer",fr:"La salle de bain"},
+           p:{en:"Modern walk-in shower",de:"Moderne Dusche",fr:"Douche à l'italienne moderne"}}
 ];
 var vcap=document.getElementById('vcap'),vt=document.getElementById('vcap-t'),vp=document.getElementById('vcap-p');
 
