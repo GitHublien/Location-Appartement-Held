@@ -27,14 +27,56 @@ body{font-family:var(--serif);background:var(--noir);color:var(--creme);line-hei
 ::selection{background:var(--or);color:var(--noir)}
 img{display:block;max-width:100%}
 
-/* ============ ÉCRAN EXPIRÉ ============ */
-#expired{position:fixed;inset:0;z-index:2000;background:#060504;
-  display:none;align-items:center;justify-content:center;text-align:center;padding:40px}
-.exp-in{max-width:600px}
-.exp-emoji{font-size:3.5rem;margin-bottom:24px}
-.exp-titre{font-family:var(--titre);font-size:clamp(2rem,5vw,3rem);color:var(--or-clair);margin-bottom:16px}
-.exp-texte{font-family:var(--sans);font-size:1.1rem;color:var(--gris);line-height:1.8}
-.exp-sig{font-family:var(--manus);font-size:2rem;color:var(--or);margin-top:30px}
+/* ============ CARTE D'ADIEU (lien expiré) ============ */
+#expired{position:fixed;inset:0;z-index:2000;display:none;overflow:hidden;
+  background:radial-gradient(ellipse at 40% 65%,#0f2010 0%,#050a05 60%,#020502 100%)}
+#expired::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 40% at 50% 85%,rgba(201,168,76,.07),transparent 70%),
+             radial-gradient(ellipse 45% 55% at 15% 20%,rgba(46,125,79,.10),transparent 60%),
+             radial-gradient(ellipse 40% 45% at 85% 25%,rgba(46,125,79,.08),transparent 60%)}
+.exp-plant{position:absolute;font-size:clamp(5rem,15vw,13rem);opacity:.15;pointer-events:none;filter:blur(1.5px)}
+.exp-plant-tl{top:-3%;left:-3%;transform:rotate(-12deg)}
+.exp-plant-tr{top:-1%;right:-3%;transform:rotate(14deg) scaleX(-1)}
+.exp-plant-bl{bottom:-3%;left:-2%;transform:rotate(8deg)}
+.exp-plant-br{bottom:-3%;right:-2%;transform:rotate(-10deg) scaleX(-1)}
+.exp-cadre{position:absolute;inset:20px;border:1px solid rgba(201,168,76,.18);pointer-events:none;z-index:1}
+
+/* Écran d'entrée expiré */
+#exp-enter{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px}
+.exp-ent-in{position:relative;z-index:2;max-width:700px}
+.exp-ent-sur{font-family:var(--sans);letter-spacing:.45em;text-transform:uppercase;font-size:.78rem;color:var(--or);margin-bottom:28px}
+.exp-ent-titre{font-family:var(--manus);font-size:clamp(60px,13vw,140px);line-height:1.15;padding-top:.1em;color:var(--or-clair);text-shadow:0 4px 40px rgba(201,168,76,.30)}
+.exp-ent-line{width:min(160px,40vw);height:1px;margin:22px auto;background:linear-gradient(90deg,transparent,var(--or),transparent)}
+.exp-ent-name{font-family:var(--titre);font-size:clamp(1.1rem,3vw,1.7rem);color:var(--creme2);margin-bottom:6px;font-weight:400}
+#exp-btn{margin-top:30px;padding:15px 48px;font-family:var(--sans);font-size:clamp(.95rem,2.2vw,1.1rem);
+  font-weight:500;letter-spacing:.12em;color:#080706;cursor:pointer;border:none;border-radius:40px;
+  background:linear-gradient(135deg,var(--or-clair),var(--or),var(--or-fonce));
+  box-shadow:0 0 40px rgba(201,168,76,.40);transition:.4s;animation:puls 3s ease infinite}
+#exp-btn:hover{transform:scale(1.05);box-shadow:0 0 65px rgba(201,168,76,.65)}
+.exp-ent-mini{margin-top:12px;font-family:var(--sans);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gris)}
+
+/* Message d'adieu */
+#exp-farewell{position:absolute;inset:0;z-index:3;display:none;
+  align-items:center;justify-content:center;padding:clamp(16px,4vw,40px);overflow-y:auto}
+.exp-card{position:relative;z-index:2;
+  background:linear-gradient(145deg,#fdf9f0,#f5edda,#fdf9f0);
+  border:1px solid rgba(201,168,76,.55);border-radius:18px;
+  padding:clamp(30px,5vw,60px) clamp(24px,5vw,70px);max-width:620px;width:100%;
+  box-shadow:0 0 80px rgba(201,168,76,.16),0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.6);
+  text-align:center}
+.exp-card-orn{font-family:var(--sans);letter-spacing:.45em;color:#b8933a;font-size:.78rem;margin-bottom:18px}
+.exp-card-maison{font-family:var(--manus);font-size:clamp(2rem,6vw,3.5rem);color:#8b6820;margin-bottom:4px}
+.exp-card-line{width:80px;height:1px;margin:14px auto 20px;background:linear-gradient(90deg,transparent,#c9a84c,transparent)}
+.exp-card-nom{font-family:var(--titre);font-size:clamp(1.05rem,2.5vw,1.4rem);font-weight:600;color:#3d2c0a;margin-bottom:22px}
+.exp-card-texte{font-family:var(--serif);font-size:clamp(1rem,2vw,1.2rem);color:#3d2c0a;line-height:1.9;text-align:left}
+.exp-card-texte p+p{margin-top:14px}
+.exp-card-review{display:block;margin:28px auto 0;max-width:380px;
+  background:linear-gradient(135deg,#c9a84c,#8b6820);color:#fff;text-decoration:none;
+  padding:14px 22px;border-radius:40px;font-family:var(--sans);font-weight:600;
+  letter-spacing:.06em;font-size:.95rem;box-shadow:0 8px 24px rgba(139,104,32,.35);transition:.3s}
+.exp-card-review:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(139,104,32,.50)}
+.exp-card-sig{font-family:var(--manus);font-size:clamp(1.8rem,5vw,2.8rem);color:#8b6820;margin-top:28px}
+.exp-card-vague{margin-top:8px;font-size:1.3rem;opacity:.65}
 
 /* ============ INTRO VIDÉO ============ */
 #hero{position:relative;height:100vh;min-height:600px;overflow:hidden;display:flex;
@@ -230,17 +272,42 @@ footer .wish{font-size:1.15rem;color:var(--creme2)}
 </head>
 <body>
 
-<!-- ===== ÉCRAN EXPIRÉ ===== -->
+<!-- ===== CARTE D'ADIEU (lien expiré) ===== -->
 <div id="expired">
-  <div class="exp-in">
-    <div class="exp-emoji">🌊</div>
-    <div class="exp-titre">Séjour terminé</div>
-    <div class="exp-texte">
-      Ce lien n'est plus valide.<br>
-      Merci pour votre séjour à Golfe-Juan,<br>
-      nous espérons vous revoir bientôt !
+  <div class="exp-plant exp-plant-tl">🌿</div>
+  <div class="exp-plant exp-plant-tr">🌿</div>
+  <div class="exp-plant exp-plant-bl">🍃</div>
+  <div class="exp-plant exp-plant-br">🍃</div>
+  <div class="exp-cadre"></div>
+
+  <!-- Écran d'entrée -->
+  <div id="exp-enter">
+    <div class="exp-ent-in">
+      <div class="exp-ent-sur">Résidence du Golfe · Golfe-Juan</div>
+      <div class="exp-ent-titre">Merci</div>
+      <div class="exp-ent-line"></div>
+      <div class="exp-ent-name">Merci de votre visite</div>
+      <button id="exp-btn" onclick="expEnter()">♪ Cliquez ici</button>
+      <div class="exp-ent-mini">avec musique</div>
     </div>
-    <div class="exp-sig">Mickaël Guedj</div>
+  </div>
+
+  <!-- Carte d'adieu -->
+  <div id="exp-farewell">
+    <div class="exp-card">
+      <div class="exp-card-orn">✦ · ✦ · ✦</div>
+      <div class="exp-card-maison">Résidence du Golfe</div>
+      <div class="exp-card-line"></div>
+      <div class="exp-card-nom">Chère famille Haimburger,</div>
+      <div class="exp-card-texte">
+        <p>J'espère sincèrement que vous avez passé un très agréable séjour dans mon appartement, et que Golfe-Juan vous a comblés sous ce beau soleil d'été.</p>
+        <p>J'ai été vraiment ravi de vous accueillir, vous et toute votre famille, et je vous souhaite un très bon voyage de retour.</p>
+        <p>Si vous avez apprécié votre séjour, un petit commentaire sur Abritel me ferait extrêmement plaisir — c'est une aide précieuse pour moi. Avec grand plaisir, et à très bientôt peut-être ! 🌊</p>
+      </div>
+      <a href="https://www.abritel.fr" target="_blank" class="exp-card-review">⭐ Laisser un avis sur Abritel</a>
+      <div class="exp-card-sig">Mickaël Guedj</div>
+      <div class="exp-card-vague">🌊 ☀️ 🌴</div>
+    </div>
   </div>
 </div>
 
@@ -433,8 +500,15 @@ footer .wish{font-size:1.15rem;color:var(--creme2)}
 /* ---------- EXPIRATION ---------- */
 var EXPIRY = new Date('2026-06-29T11:00:00');
 if(new Date() > EXPIRY){
-  document.getElementById('expired').style.display = 'flex';
+  document.getElementById('expired').style.display = 'block';
   document.getElementById('enter-screen').style.display = 'none';
+}
+function expEnter(){
+  document.getElementById('exp-enter').style.display = 'none';
+  var fw = document.getElementById('exp-farewell');
+  fw.style.display = 'flex';
+  started = true;
+  loadTrack(0, true);
 }
 
 /* ---------- BARRE solide au scroll ---------- */
