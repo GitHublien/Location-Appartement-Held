@@ -499,7 +499,8 @@ footer .wish{font-size:1.15rem;color:var(--creme2)}
 <script>
 /* ---------- EXPIRATION ---------- */
 var EXPIRY = new Date('2026-06-29T11:00:00');
-if(new Date() > EXPIRY){
+var previewAdieu = new URLSearchParams(window.location.search).get('adieu') === '1';
+if(new Date() > EXPIRY || previewAdieu){
   document.getElementById('expired').style.display = 'block';
   document.getElementById('enter-screen').style.display = 'none';
 }
