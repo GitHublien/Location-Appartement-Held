@@ -241,9 +241,113 @@ html[lang="fr"] [l~="fr"]{display:revert}
   .val{text-align:left}
   #visite{height:340vh}
 }
+
+/* ===== CARTE D'ADIEU ===== */
+#exp-adieu{position:fixed;inset:0;z-index:2000;display:none;overflow:hidden;
+  background:radial-gradient(ellipse at 40% 65%,#0f2010 0%,#050a05 60%,#020502 100%)}
+#exp-adieu::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 40% at 50% 85%,rgba(201,168,76,.07),transparent 70%),
+             radial-gradient(ellipse 45% 55% at 15% 20%,rgba(46,125,79,.10),transparent 60%)}
+.adieu-plant{position:absolute;font-size:clamp(5rem,15vw,13rem);opacity:.15;pointer-events:none;filter:blur(1.5px)}
+.adieu-plant-tl{top:-3%;left:-3%;transform:rotate(-12deg)}
+.adieu-plant-tr{top:-1%;right:-3%;transform:rotate(14deg) scaleX(-1)}
+.adieu-plant-bl{bottom:-3%;left:-2%;transform:rotate(8deg)}
+.adieu-plant-br{bottom:-3%;right:-2%;transform:rotate(-10deg) scaleX(-1)}
+.adieu-cadre{position:absolute;inset:20px;border:1px solid rgba(201,168,76,.18);pointer-events:none;z-index:1}
+#exp-ent{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px}
+.adieu-ent-in{position:relative;z-index:2;max-width:700px}
+.adieu-sur{font-family:var(--sans);letter-spacing:.45em;text-transform:uppercase;font-size:.78rem;color:var(--or);margin-bottom:28px}
+.adieu-titre{font-family:var(--manus);font-size:clamp(60px,13vw,140px);line-height:1.15;padding-top:.1em;color:var(--or-clair);text-shadow:0 4px 40px rgba(201,168,76,.30)}
+.adieu-line{width:min(160px,40vw);height:1px;margin:22px auto;background:linear-gradient(90deg,transparent,var(--or),transparent)}
+.adieu-ent-name{font-family:var(--titre);font-size:clamp(1.1rem,3vw,1.7rem);color:var(--creme2);margin-bottom:6px;font-weight:400}
+#exp-btn{margin-top:30px;padding:15px 48px;font-family:var(--sans);font-size:clamp(.95rem,2.2vw,1.1rem);
+  font-weight:500;letter-spacing:.12em;color:#080706;cursor:pointer;border:none;border-radius:40px;
+  background:linear-gradient(135deg,var(--or-clair),var(--or),var(--or-fonce));
+  box-shadow:0 0 40px rgba(201,168,76,.40);transition:.4s;animation:puls 3s ease infinite}
+#exp-btn:hover{transform:scale(1.05);box-shadow:0 0 65px rgba(201,168,76,.65)}
+.adieu-ent-mini{margin-top:12px;font-family:var(--sans);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gris)}
+.adieu-langs{margin-top:24px;display:flex;gap:8px;justify-content:center}
+.adieu-langs button{font-family:var(--sans);font-size:.82rem;color:var(--creme2);background:transparent;
+  border:var(--bord);padding:7px 15px;border-radius:30px;cursor:pointer;transition:.25s}
+.adieu-langs button.on{background:linear-gradient(135deg,var(--or-clair),var(--or));color:var(--noir);border-color:var(--or)}
+#exp-fw{position:absolute;inset:0;z-index:3;display:none;
+  align-items:center;justify-content:center;padding:clamp(16px,4vw,40px);overflow-y:auto}
+.adieu-card{position:relative;z-index:2;
+  background:linear-gradient(145deg,#fdf9f0,#f5edda,#fdf9f0);
+  border:1px solid rgba(201,168,76,.55);border-radius:18px;
+  padding:clamp(30px,5vw,60px) clamp(24px,5vw,70px);max-width:620px;width:100%;
+  box-shadow:0 0 80px rgba(201,168,76,.16),0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.6);
+  text-align:center}
+.adieu-card-orn{font-family:var(--sans);letter-spacing:.45em;color:#b8933a;font-size:.78rem;margin-bottom:18px}
+.adieu-card-maison{font-family:var(--manus);font-size:clamp(2rem,6vw,3.5rem);color:#8b6820;margin-bottom:4px}
+.adieu-card-line{width:80px;height:1px;margin:14px auto 20px;background:linear-gradient(90deg,transparent,#c9a84c,transparent)}
+.adieu-card-nom{font-family:var(--titre);font-size:clamp(1.05rem,2.5vw,1.4rem);font-weight:600;color:#3d2c0a;margin-bottom:22px}
+.adieu-card-texte{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1rem,2vw,1.2rem);color:#3d2c0a;line-height:1.9;text-align:left}
+.adieu-card-texte p+p{margin-top:14px}
+.adieu-card-review{display:block;margin:28px auto 0;max-width:380px;
+  background:linear-gradient(135deg,#c9a84c,#8b6820);color:#fff;text-decoration:none;
+  padding:14px 22px;border-radius:40px;font-family:var(--sans);font-weight:600;
+  letter-spacing:.06em;font-size:.95rem;box-shadow:0 8px 24px rgba(139,104,32,.35);transition:.3s}
+.adieu-card-review:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(139,104,32,.50)}
+.adieu-card-sig{font-family:var(--manus);font-size:clamp(1.8rem,5vw,2.8rem);color:#8b6820;margin-top:28px}
+.adieu-card-vague{margin-top:8px;font-size:1.3rem;opacity:.65}
 </style>
 </head>
 <body>
+
+<!-- ===== CARTE D'ADIEU (lien expiré) ===== -->
+<div id="exp-adieu">
+  <div class="adieu-plant adieu-plant-tl">🌿</div>
+  <div class="adieu-plant adieu-plant-tr">🌿</div>
+  <div class="adieu-plant adieu-plant-bl">🍃</div>
+  <div class="adieu-plant adieu-plant-br">🍃</div>
+  <div class="adieu-cadre"></div>
+
+  <div id="exp-ent">
+    <div class="adieu-ent-in">
+      <div class="adieu-sur">Résidence du Golfe · Golfe-Juan</div>
+      <div class="adieu-titre"><span l="en">Thank you</span><span l="fr">Merci</span></div>
+      <div class="adieu-line"></div>
+      <div class="adieu-ent-name"><span l="en">Thank you for your visit</span><span l="fr">Merci de votre visite</span></div>
+      <button id="exp-btn" onclick="expEnter()"><span l="en">♪ Click here</span><span l="fr">♪ Cliquez ici</span></button>
+      <div class="adieu-ent-mini"><span l="en">with music</span><span l="fr">avec musique</span></div>
+      <div class="adieu-langs">
+        <button id="aeb-en" class="on" onclick="setLang('en')">EN</button>
+        <button id="aeb-fr" onclick="setLang('fr')">FR</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="exp-fw">
+    <div class="adieu-card">
+      <div class="adieu-card-orn">✦ · ✦ · ✦</div>
+      <div class="adieu-card-maison">Résidence du Golfe</div>
+      <div class="adieu-card-line"></div>
+      <div class="adieu-card-nom">
+        <span l="en">Dear Mr Vaara,</span><span l="fr">Cher M. Vaara,</span>
+      </div>
+      <div class="adieu-card-texte">
+        <p>
+          <span l="en">I sincerely hope you had a wonderful stay in my apartment, and that Golfe-Juan left you with beautiful memories.</span>
+          <span l="fr">J'espère sincèrement que vous avez passé un très agréable séjour dans mon appartement, et que Golfe-Juan vous a laissé de beaux souvenirs.</span>
+        </p>
+        <p>
+          <span l="en">It was truly a pleasure hosting you and your guests here on the Côte d'Azur. I wish you all a safe and wonderful journey home.</span>
+          <span l="fr">Ce fut un vrai plaisir de vous accueillir sur la Côte d'Azur. Je vous souhaite, à vous et vos invités, un très bon voyage de retour.</span>
+        </p>
+        <p>
+          <span l="en">If you enjoyed your stay, I would be so grateful if you could leave a review on VRBO — it helps me enormously. With warm regards!</span>
+          <span l="fr">Si vous avez apprécié votre séjour, un petit commentaire sur VRBO me ferait énormément plaisir. Avec grand plaisir, et à bientôt peut-être !</span>
+        </p>
+      </div>
+      <a href="https://www.vrbo.com" target="_blank" class="adieu-card-review">
+        <span l="en">⭐ Leave a review on VRBO</span><span l="fr">⭐ Laisser un avis sur VRBO</span>
+      </a>
+      <div class="adieu-card-sig">Mickaël Guedj</div>
+      <div class="adieu-card-vague">🌊 ☀️ 🌴</div>
+    </div>
+  </div>
+</div>
 
 <!-- ===== ÉCRAN D'ENTRÉE ===== -->
 <div id="enter-screen">
@@ -651,6 +755,21 @@ lb.addEventListener('touchend',function(e){
   var dx=e.changedTouches[0].clientX-tx;
   if(Math.abs(dx)>50)lbStep(dx<0?1:-1);
 },{passive:true});
+
+/* ---------- EXPIRATION + CARTE D'ADIEU ---------- */
+var EXPIRY = new Date('2026-06-26T11:00:00');
+var previewAdieu = new URLSearchParams(window.location.search).get('adieu') === '1';
+if(new Date() > EXPIRY || previewAdieu){
+  document.getElementById('exp-adieu').style.display = 'block';
+  document.getElementById('enter-screen').style.display = 'none';
+}
+function expEnter(){
+  document.getElementById('exp-ent').style.display = 'none';
+  var fw = document.getElementById('exp-fw');
+  fw.style.display = 'flex';
+  started = true;
+  loadTrack(0, true);
+}
 </script>
 </body>
 </html>
