@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Résidence du Golfe — Bienvenue famille Haimburger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700;800&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<style>
+:root{
+  --noir:#080706; --noir2:#0f0d0a; --carte:#15120c;
+  --or:#c9a84c; --or-clair:#ecd58c; --or-fonce:#8b7332;
+  --creme:#f4eee0; --creme2:#cdc4b0; --gris:#9a927f;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --titre:'Playfair Display',Georgia,serif;
+  --manus:'Great Vibes',cursive;
+  --sans:'Jost',sans-serif;
+  --bord:1px solid rgba(201,168,76,.30);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--serif);background:var(--noir);color:var(--creme);line-height:1.7;
+  overflow-x:hidden;font-size:20px;-webkit-font-smoothing:antialiased}
+::selection{background:var(--or);color:var(--noir)}
+img{display:block;max-width:100%}
+
+/* ============ ÉCRAN EXPIRÉ ============ */
+#expired{position:fixed;inset:0;z-index:2000;background:#060504;
+  display:none;align-items:center;justify-content:center;text-align:center;padding:40px}
+.exp-in{max-width:600px}
+.exp-emoji{font-size:3.5rem;margin-bottom:24px}
+.exp-titre{font-family:var(--titre);font-size:clamp(2rem,5vw,3rem);color:var(--or-clair);margin-bottom:16px}
+.exp-texte{font-family:var(--sans);font-size:1.1rem;color:var(--gris);line-height:1.8}
+.exp-sig{font-family:var(--manus);font-size:2rem;color:var(--or);margin-top:30px}
+
+/* ============ INTRO VIDÉO ============ */
+#hero{position:relative;height:100vh;min-height:600px;overflow:hidden;display:flex;
+  align-items:center;justify-content:center;text-align:center}
+#hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  z-index:0;animation:zoomslow 48s ease-in-out infinite alternate;
+  filter:saturate(1.05) contrast(1.02) brightness(.96)}
+@keyframes zoomslow{from{transform:scale(1.02)}to{transform:scale(1.16)}}
+#hero::after{content:"";position:absolute;inset:0;z-index:1;
+  background:radial-gradient(ellipse at center,rgba(8,7,6,.35),rgba(8,7,6,.82) 85%),
+             linear-gradient(180deg,rgba(8,7,6,.6),transparent 30%,transparent 65%,rgba(8,7,6,.95))}
+.hero-cadre{position:absolute;inset:22px;border:var(--bord);z-index:2;pointer-events:none}
+.hero-in{position:relative;z-index:3;padding:24px;max-width:900px}
+.hero-sur{font-family:var(--sans);letter-spacing:.5em;text-transform:uppercase;
+  font-size:clamp(.7rem,1.6vw,.95rem);color:var(--or);font-weight:400;margin-bottom:34px}
+.hero-titre{font-family:var(--manus);font-size:clamp(64px,13vw,170px);line-height:1.15;
+  padding-top:.12em;color:var(--creme);text-shadow:0 6px 60px rgba(0,0,0,.9)}
+.hero-or{color:var(--or-clair)}
+.hero-line{width:min(160px,40vw);height:1px;margin:26px auto;
+  background:linear-gradient(90deg,transparent,var(--or),transparent)}
+.hero-name{font-family:var(--titre);font-size:clamp(1.3rem,3.5vw,2.1rem);font-weight:500;
+  color:var(--creme);letter-spacing:.02em}
+.hero-stay{font-family:var(--sans);font-weight:300;letter-spacing:.16em;text-transform:uppercase;
+  font-size:clamp(.75rem,1.8vw,1rem);color:var(--creme2);margin-top:10px}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+.cta{text-decoration:none;font-family:var(--sans);font-weight:500;letter-spacing:.06em;
+  font-size:clamp(.9rem,2vw,1.05rem);padding:15px 30px;border-radius:40px;transition:.35s;
+  border:1px solid rgba(244,238,224,.5);color:var(--creme);background:rgba(8,7,6,.35);backdrop-filter:blur(3px)}
+.cta:hover{transform:translateY(-3px);border-color:var(--or);color:var(--or-clair)}
+.cta-or{background:linear-gradient(135deg,var(--or-clair),var(--or),var(--or-fonce));color:var(--noir);
+  border:none;box-shadow:0 8px 30px rgba(201,168,76,.4);font-weight:600}
+.cta-or:hover{color:var(--noir);box-shadow:0 10px 40px rgba(201,168,76,.6)}
+.scrolldown{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;
+  color:var(--or);font-family:var(--sans);font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;
+  animation:bob 2.2s ease infinite;text-align:center}
+.scrolldown span{display:block;font-size:1.5rem;margin-top:4px}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* ============ BARRE + LECTEUR ============ */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:flex-end;
+  align-items:center;padding:16px clamp(16px,4vw,40px);transition:.4s;
+  background:linear-gradient(180deg,rgba(8,7,6,.55),transparent)}
+.topbar.solid{background:rgba(8,7,6,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(201,168,76,.18);padding-top:12px;padding-bottom:12px}
+.player{display:flex;align-items:center;gap:8px;background:rgba(21,18,12,.8);border:var(--bord);
+  border-radius:40px;padding:6px 14px 6px 8px;backdrop-filter:blur(6px);max-width:60vw}
+.pl-btn{width:34px;height:34px;border-radius:50%;border:none;background:transparent;color:var(--or);
+  font-size:.9rem;cursor:pointer;transition:.2s;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.pl-btn:hover{background:rgba(201,168,76,.2);color:var(--or-clair)}
+.pl-play{background:linear-gradient(135deg,var(--or-clair),var(--or));color:var(--noir);width:38px;height:38px;font-size:.85rem}
+.pl-play:hover{color:var(--noir);transform:scale(1.07)}
+.pl-name{font-family:var(--sans);font-size:.82rem;color:var(--creme2);letter-spacing:.04em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px}
+@media(max-width:560px){.pl-name{max-width:70px;font-size:.72rem}.player{padding:5px 10px 5px 6px}}
+
+/* ============ SECTION VISITE (scroll vidéo) ============ */
+#visite{position:relative;height:400vh;background:var(--noir)}
+#visite-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;
+  align-items:flex-end;justify-content:center}
+#visite-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+#visite-sticky::after{content:"";position:absolute;left:0;right:0;bottom:0;height:45%;z-index:1;
+  pointer-events:none;background:linear-gradient(180deg,transparent,rgba(8,7,6,.85))}
+.visite-cap{position:relative;z-index:2;text-align:center;padding:0 28px 9vh;max-width:760px;
+  opacity:0;transition:opacity .6s ease}
+.visite-cap.show{opacity:1}
+.visite-cap h3{font-family:var(--titre);font-size:clamp(1.7rem,5vw,3rem);font-weight:700;
+  color:var(--or-clair);text-shadow:0 2px 10px #000,0 2px 26px rgba(0,0,0,1);margin-bottom:6px}
+.visite-cap p{font-family:var(--serif);font-size:clamp(1.1rem,2.3vw,1.4rem);color:#fff;font-weight:600;
+  text-shadow:0 2px 10px #000,0 2px 22px rgba(0,0,0,1)}
+
+/* ============ CONTENU ============ */
+.wrap{max-width:840px;margin:0 auto;padding:0 clamp(16px,4vw,24px)}
+section.bloc{padding:70px 0 10px}
+.titre-sec{text-align:center;margin-bottom:36px}
+.titre-sec .k{font-family:var(--sans);letter-spacing:.4em;text-transform:uppercase;
+  font-size:.8rem;color:var(--or);display:block;margin-bottom:8px}
+.titre-sec h2{font-family:var(--titre);font-size:clamp(2rem,5vw,3rem);font-weight:600;color:var(--creme)}
+.deco{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--or);margin:8px 0 0}
+.deco::before,.deco::after{content:"";height:1px;width:60px;background:linear-gradient(90deg,transparent,var(--or-fonce))}
+.deco::after{background:linear-gradient(90deg,var(--or-fonce),transparent)}
+
+.carte{background:linear-gradient(160deg,#15120c,#0d0b08);border:var(--bord);border-radius:16px;
+  padding:34px clamp(22px,4vw,38px);margin:22px 0;
+  box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(201,168,76,.10)}
+.carte h3{font-family:var(--titre);font-size:clamp(1.4rem,3.5vw,1.8rem);font-weight:600;
+  color:var(--or-clair);display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.carte h3 .ic{font-size:1.4rem}
+.row{display:flex;justify-content:space-between;gap:20px;padding:13px 0;
+  border-bottom:1px solid rgba(201,168,76,.13);flex-wrap:wrap;align-items:baseline}
+.row:last-child{border-bottom:none}
+.lab{color:var(--gris);font-size:1.05rem}
+.val{color:var(--creme);font-weight:600;text-align:right;font-size:1.1rem}
+.tag{display:inline-block;border:var(--bord);border-radius:8px;padding:3px 13px;font-weight:700;
+  color:var(--or-clair);letter-spacing:.08em}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:middle}
+.dot.noir{background:#0a0a0a;border:1px solid #666}
+.dot.vert{background:#2e9d5f}
+
+/* wifi */
+.wifi{display:flex;gap:30px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.wifi-l{flex:1;min-width:240px}
+.wifi-pass{display:inline-block;margin-top:6px;font-family:var(--sans);font-weight:500;
+  font-size:1.2rem;letter-spacing:.05em;color:var(--or-clair);border:var(--bord);border-radius:10px;
+  padding:9px 15px;user-select:all;word-break:break-all}
+#qrcode{background:#fff;padding:12px;border-radius:14px;line-height:0}
+.qrleg{text-align:center;font-size:.9rem;color:var(--gris);margin-top:10px}
+
+.note{border-radius:13px;padding:18px 22px;margin-top:16px;font-size:1.05rem}
+.note.vert{background:rgba(46,125,79,.12);border-left:3px solid #2e9d5f;color:#cdebd6}
+.note.bleu{background:rgba(45,120,140,.12);border-left:3px solid #3aa0b8;color:#cdeaf2}
+.note.or{background:rgba(201,168,76,.10);border-left:3px solid var(--or);color:var(--or-clair)}
+
+.btns{display:flex;flex-wrap:wrap;gap:13px;margin-top:14px}
+.btns a{flex:1;min-width:150px;text-align:center;text-decoration:none;padding:15px;border-radius:11px;
+  font-weight:600;letter-spacing:.04em;transition:.3s;border:var(--bord);color:var(--creme);
+  background:#0d0b08;font-size:1.05rem}
+.btns a:hover{transform:translateY(-3px);border-color:var(--or);color:var(--or-clair)}
+.btns a.or{background:linear-gradient(135deg,var(--or-clair),var(--or),var(--or-fonce));color:var(--noir);border:none}
+
+/* galerie */
+.galerie{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.galerie a{overflow:hidden;border-radius:12px;border:var(--bord);aspect-ratio:4/3;cursor:pointer}
+.galerie img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.galerie a:hover img{transform:scale(1.08)}
+
+/* lightbox */
+#lb{position:fixed;inset:0;z-index:500;background:rgba(8,7,6,.97);display:none;
+  align-items:center;justify-content:center;padding:30px}
+#lb.open{display:flex}
+#lb img{max-width:86%;max-height:86vh;border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.7);
+  border:1px solid rgba(201,168,76,.3)}
+.lb-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+  width:58px;height:58px;border-radius:50%;border:var(--bord);background:rgba(21,18,12,.85);
+  color:var(--or);font-size:2rem;line-height:1;cursor:pointer;transition:.25s;
+  display:flex;align-items:center;justify-content:center;font-family:var(--sans)}
+.lb-arrow:hover{background:var(--or);color:var(--noir);transform:translateY(-50%) scale(1.08)}
+.lb-prev{left:18px}.lb-next{right:18px}
+.lb-close{position:absolute;top:18px;right:20px;z-index:2;width:48px;height:48px;border-radius:50%;
+  border:var(--bord);background:rgba(21,18,12,.85);color:var(--creme);font-size:1.3rem;cursor:pointer;transition:.25s}
+.lb-close:hover{background:var(--or);color:var(--noir)}
+.lb-count{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:2;
+  font-family:var(--sans);color:var(--creme2);letter-spacing:.1em;font-size:.95rem;
+  background:rgba(21,18,12,.7);padding:6px 16px;border-radius:20px;border:var(--bord)}
+@media(max-width:560px){.lb-arrow{width:46px;height:46px;font-size:1.6rem}.lb-prev{left:8px}.lb-next{right:8px}#lb img{max-width:94%}}
+
+footer{text-align:center;padding:60px 24px 70px;color:var(--gris)}
+footer .sig{font-family:var(--manus);font-size:2.4rem;color:var(--or-clair);margin-bottom:8px}
+footer .wish{font-size:1.15rem;color:var(--creme2)}
+
+/* ===== ÉCRAN D'ENTRÉE ===== */
+#enter-screen{position:fixed;inset:0;z-index:1000;background:#060504;display:flex;
+  align-items:center;justify-content:center;text-align:center;padding:24px;transition:opacity 1s ease}
+#enter-screen.gone{opacity:0;pointer-events:none}
+.enter-bg{position:absolute;inset:0;z-index:0;opacity:.30;background-size:cover;background-position:center;
+  background-image:linear-gradient(#060504aa,#060504ee),url('../assets/photos/photo-04.jpg');
+  animation:zoomslow 30s ease-in-out infinite alternate}
+.enter-cadre{position:absolute;inset:20px;border:var(--bord);z-index:1;pointer-events:none}
+.enter-in{position:relative;z-index:2;max-width:760px}
+.enter-sur{font-family:var(--sans);letter-spacing:.45em;text-transform:uppercase;font-size:.78rem;
+  color:var(--or);margin-bottom:30px}
+.enter-titre{font-family:var(--manus);font-size:clamp(60px,13vw,140px);line-height:1.15;padding-top:.12em;
+  color:var(--creme);text-shadow:0 6px 60px rgba(0,0,0,.9)}
+.enter-name{font-family:var(--titre);font-size:clamp(1.2rem,3.5vw,1.9rem);color:var(--creme);margin-bottom:6px}
+#enter-btn{margin-top:34px;padding:17px 56px;font-family:var(--sans);font-size:clamp(1rem,2.4vw,1.2rem);
+  font-weight:500;letter-spacing:.12em;color:var(--noir);cursor:pointer;border:none;border-radius:40px;
+  background:linear-gradient(135deg,var(--or-clair),var(--or),var(--or-fonce));
+  box-shadow:0 0 45px rgba(201,168,76,.5);transition:.4s;animation:puls 3s ease infinite}
+#enter-btn:hover{transform:scale(1.06);box-shadow:0 0 75px rgba(201,168,76,.75)}
+@keyframes puls{0%,100%{box-shadow:0 0 35px rgba(201,168,76,.4)}50%{box-shadow:0 0 60px rgba(201,168,76,.7)}}
+.enter-mini{margin-top:14px;font-family:var(--sans);font-size:.8rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--gris)}
+
+/* ===== VOILES ===== */
+.mist{position:absolute;inset:-30%;z-index:1;pointer-events:none;opacity:.7;mix-blend-mode:screen;
+  will-change:transform}
+.mist1{background:radial-gradient(ellipse 55% 45% at 28% 38%,rgba(236,213,140,.26),transparent 72%);
+  animation:drift1 40s ease-in-out infinite alternate}
+.mist2{background:radial-gradient(ellipse 65% 50% at 72% 62%,rgba(255,255,255,.20),transparent 72%);
+  animation:drift2 52s ease-in-out infinite alternate}
+.mist3{background:radial-gradient(ellipse 50% 55% at 50% 28%,rgba(170,195,255,.18),transparent 72%);
+  animation:drift3 64s ease-in-out infinite alternate}
+@keyframes drift1{from{transform:translate(-9%,-5%) scale(1)}to{transform:translate(11%,7%) scale(1.3)}}
+@keyframes drift2{from{transform:translate(7%,6%) scale(1.15)}to{transform:translate(-10%,-7%) scale(1)}}
+@keyframes drift3{from{transform:translate(0,8%) scale(1)}to{transform:translate(6%,-8%) scale(1.35)}}
+
+@media(max-width:560px){
+  body{font-size:18px}
+  .row{flex-direction:column;gap:3px}
+  .val{text-align:left}
+  #visite{height:340vh}
+}
+</style>
+</head>
+<body>
+
+<!-- ===== ÉCRAN EXPIRÉ ===== -->
+<div id="expired">
+  <div class="exp-in">
+    <div class="exp-emoji">🌊</div>
+    <div class="exp-titre">Séjour terminé</div>
+    <div class="exp-texte">
+      Ce lien n'est plus valide.<br>
+      Merci pour votre séjour à Golfe-Juan,<br>
+      nous espérons vous revoir bientôt !
+    </div>
+    <div class="exp-sig">Mickaël Guedj</div>
+  </div>
+</div>
+
+<!-- ===== ÉCRAN D'ENTRÉE ===== -->
+<div id="enter-screen">
+  <div class="enter-bg"></div>
+  <div class="enter-cadre"></div>
+  <div class="enter-in">
+    <div class="enter-sur">Résidence du Golfe · Golfe-Juan</div>
+    <div class="enter-titre">Bienvenue</div>
+    <div class="hero-line"></div>
+    <div class="enter-name">Chère Audrey, nous sommes ravis de vous accueillir</div>
+    <button id="enter-btn" onclick="enterSite()">♪ Cliquez pour entrer</button>
+    <div class="enter-mini">avec musique · son activé</div>
+  </div>
+</div>
+
+<!-- ===== BARRE + LECTEUR ===== -->
+<div class="topbar" id="topbar">
+  <div class="player">
+    <button class="pl-btn" onclick="prevTrack()" title="Précédent">⏮</button>
+    <button class="pl-btn pl-play" id="pl-play" onclick="togglePlay()" title="Play/Pause">▶</button>
+    <button class="pl-btn" onclick="nextTrack()" title="Suivant">⏭</button>
+    <span class="pl-name" id="pl-name">—</span>
+  </div>
+</div>
+
+<!-- ===== HERO VIDÉO ===== -->
+<section id="hero">
+  <video id="herovid" autoplay muted loop playsinline preload="auto">
+    <source src="../assets/appartement.mp4" type="video/mp4">
+  </video>
+  <div class="mist mist1"></div>
+  <div class="mist mist2"></div>
+  <div class="mist mist3"></div>
+  <div class="hero-cadre"></div>
+  <div class="hero-in">
+    <div class="hero-sur">Résidence du Golfe · Golfe-Juan</div>
+    <div class="hero-titre">Bienvenue</div>
+    <div class="hero-line"></div>
+    <div class="hero-name">Chère famille Haimburger, nous sommes ravis de vous accueillir</div>
+    <div class="hero-stay">Séjour · du 26 au 29 juin 2026</div>
+    <div class="hero-cta">
+      <a class="cta cta-or" href="#infos">🔑 Toutes les informations</a>
+      <a class="cta" href="#visite">🏠 Visite virtuelle</a>
+    </div>
+  </div>
+  <div class="scrolldown">Défiler<span>⌄</span></div>
+</section>
+
+<!-- ===== VISITE (scroll vidéo) ===== -->
+<section id="visite">
+  <div id="visite-sticky">
+    <img id="visite-canvas" alt="">
+    <div class="visite-cap" id="vcap">
+      <h3 id="vcap-t"></h3>
+      <p id="vcap-p"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INFOS ===== -->
+<div class="wrap">
+
+  <section class="bloc" id="infos" style="scroll-margin-top:80px">
+    <div class="titre-sec">
+      <span class="k">Guide pratique</span>
+      <h2>Tout ce qu'il vous faut</h2>
+      <div class="deco"><span>✦</span></div>
+    </div>
+
+    <!-- ADRESSE -->
+    <div class="carte">
+      <h3><span class="ic">📍</span>Votre adresse</h3>
+      <div class="row"><span class="lab">Rue</span><span class="val">35 avenue Georges Pompidou</span></div>
+      <div class="row"><span class="lab">Résidence</span><span class="val">Résidence du Golfe</span></div>
+      <div class="row"><span class="lab">Bâtiment</span><span class="val">6</span></div>
+      <div class="row"><span class="lab">Porte</span><span class="val">6004</span></div>
+    </div>
+
+    <!-- ACCÈS -->
+    <div class="carte">
+      <h3><span class="ic">🔑</span>Accès résidence</h3>
+      <div class="row">
+        <span class="lab"><span class="dot noir"></span>Badge noir</span>
+        <span class="val">Entrée principale + piscine</span>
+      </div>
+      <div class="row">
+        <span class="lab"><span class="dot vert"></span>Badge vert</span>
+        <span class="val">Parking extérieur</span>
+      </div>
+      <div class="row">
+        <span class="lab">Code porte piétonne parking</span>
+        <span class="val"><span class="tag">0702A</span></span>
+      </div>
+      <div class="row">
+        <span class="lab">Votre place de parking</span>
+        <span class="val"><span class="tag">N° 86</span></span>
+      </div>
+      <div class="note bleu" style="margin-top:14px">
+        🚗 Le parking extérieur se trouve à environ <b>50 mètres</b> de la résidence.
+      </div>
+    </div>
+
+    <!-- WIFI -->
+    <div class="carte">
+      <h3><span class="ic">📶</span>Wi-Fi / Internet</h3>
+      <div class="wifi">
+        <div class="wifi-l">
+          <div class="row"><span class="lab">Réseau 2,4 GHz</span><span class="val">SFR_8D00</span></div>
+          <div class="row"><span class="lab">Réseau 5 GHz</span><span class="val">SFR_8D00_5GHZ</span></div>
+          <div style="padding-top:14px">
+            <span class="lab">Mot de passe</span><br>
+            <span class="wifi-pass">utqr6apq96dxhj6fqq92</span>
+          </div>
+        </div>
+        <div style="text-align:center">
+          <div id="qrcode"></div>
+          <div class="qrleg">📱 Scannez = connexion automatique</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PISCINE -->
+    <div class="carte">
+      <h3><span class="ic">🏊</span>Piscine</h3>
+      <p>La piscine est <b>ouverte</b> et à votre disposition pour toute la famille. 🌞</p>
+      <div class="note vert">
+        <b>Important :</b> l'accès nécessite les <b>bracelets jaunes</b>. Je vous en fournis.
+      </div>
+      <div class="note or" style="margin-top:10px">
+        🧒 Vos enfants vont adorer ! Profitez bien du soleil de la Côte d'Azur.
+      </div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="carte">
+      <h3><span class="ic">📞</span>Contacts</h3>
+      <div class="row"><span class="lab">Votre hôte · Mickaël</span><span class="val">+33 (0)6 63 42 13 26</span></div>
+      <div class="row"><span class="lab">M. Guedj Alain (son père)</span><span class="val">+33 (0)6 61 72 13 55</span></div>
+      <div class="row"><span class="lab">Email</span><span class="val">caidj90@hotmail.com</span></div>
+      <div class="btns">
+        <a class="or" href="tel:+33663421326">📞 Appeler Mickaël</a>
+        <a href="tel:+33661721355">📞 Appeler Alain</a>
+      </div>
+      <div class="btns">
+        <a href="https://wa.me/33663421326">💬 WhatsApp</a>
+        <a href="mailto:caidj90@hotmail.com">✉️ Email</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALERIE -->
+  <section class="bloc">
+    <div class="titre-sec">
+      <span class="k">Galerie</span>
+      <h2>L'appartement</h2>
+      <div class="deco"><span>✦</span></div>
+    </div>
+    <div class="galerie" id="galerie"></div>
+  </section>
+
+  <!-- RAPPEL PLANTES -->
+  <div class="note vert" style="margin:30px 0">
+    🌿 <b>Petit rappel :</b> n'oubliez pas d'arroser régulièrement les plantes extérieures. Merci !
+  </div>
+
+</div>
+
+<footer>
+  <div class="sig">Mickaël Guedj</div>
+  <div class="wish">Je vous souhaite un merveilleux séjour en famille</div>
+  <div style="margin-top:10px;color:var(--or)">🌊 ☀️</div>
+</footer>
+
+<div id="lb">
+  <button class="lb-close" onclick="lbClose()">✕</button>
+  <button class="lb-arrow lb-prev" onclick="lbStep(-1)">‹</button>
+  <img id="lb-img" src="" alt="">
+  <button class="lb-arrow lb-next" onclick="lbStep(1)">›</button>
+  <div class="lb-count" id="lb-count"></div>
+</div>
+
+<script>
+/* ---------- EXPIRATION ---------- */
+var EXPIRY = new Date('2026-06-29T11:00:00');
+if(new Date() > EXPIRY){
+  document.getElementById('expired').style.display = 'flex';
+  document.getElementById('enter-screen').style.display = 'none';
+}
+
+/* ---------- BARRE solide au scroll ---------- */
+addEventListener('scroll',function(){
+  document.getElementById('topbar').classList.toggle('solid',scrollY>60);
+});
+
+/* ---------- LECTEUR MUSIQUE ---------- */
+var PLAYLIST=[
+  {f:'celestial-bloom.mp3',     n:'Celestial Bloom'},
+  {f:'vapor-choir.mp3',         n:'Vapor Choir'},
+  {f:'drifting-hums.mp3',       n:'Drifting Hums'},
+  {f:'mmm-ooooh-drift.mp3',     n:'Mmm Ooooh Drift'},
+  {f:'celestial-bloom-2.mp3',   n:'Celestial Bloom II'},
+  {f:'vapor-choir-2.mp3',       n:'Vapor Choir II'},
+  {f:'drifting-hums-2.mp3',     n:'Drifting Hums II'},
+  {f:'mmm-ooooh-drift-2.mp3',   n:'Mmm Ooooh Drift II'}
+];
+var DEFAULT_VOL=0.25;
+var audio=new Audio();
+audio.volume=DEFAULT_VOL;
+var track=0, started=false;
+function loadTrack(i,autoplay){
+  track=(i+PLAYLIST.length)%PLAYLIST.length;
+  audio.pause();
+  audio.src='../assets/music/'+PLAYLIST[track].f;
+  document.getElementById('pl-name').textContent=PLAYLIST[track].n;
+  if(autoplay){ audio.play().then(setPlayIcon).catch(function(){}); }
+}
+function setPlayIcon(){document.getElementById('pl-play').textContent=audio.paused?'▶':'❚❚';}
+var fadeTimer=null;
+function fadeTo(target,onDone){
+  clearInterval(fadeTimer);
+  fadeTimer=setInterval(function(){
+    var v=audio.volume, step=0.04;
+    if(Math.abs(v-target)<=step){audio.volume=target;clearInterval(fadeTimer);if(onDone)onDone();}
+    else audio.volume=v<target?v+step:v-step;
+  },40);
+}
+function togglePlay(){
+  if(!started){started=true;loadTrack(0,true);return;}
+  if(audio.paused){
+    audio.volume=0;
+    audio.play().then(function(){setPlayIcon();fadeTo(DEFAULT_VOL);}).catch(function(){});
+  }else{
+    fadeTo(0,function(){audio.pause();setPlayIcon();});
+    setPlayIcon();
+  }
+}
+function nextTrack(){started=true;loadTrack(track+1,true);}
+function prevTrack(){started=true;loadTrack(track-1,true);}
+audio.addEventListener('ended',function(){loadTrack(track+1,true);});
+audio.addEventListener('play',setPlayIcon);
+audio.addEventListener('pause',setPlayIcon);
+var wasPlaying=false;
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden){
+    wasPlaying=started && !audio.paused;
+    if(wasPlaying){audio.pause();setPlayIcon();}
+  }else if(wasPlaying){
+    audio.volume=0;
+    audio.play().then(function(){setPlayIcon();fadeTo(DEFAULT_VOL);}).catch(function(){});
+  }
+});
+
+/* ---------- VIDÉO ralentie ---------- */
+var hv=document.getElementById('herovid');
+function slowVideo(){ if(hv){ hv.playbackRate=0.5; hv.play().catch(function(){}); } }
+if(hv){ hv.addEventListener('loadedmetadata',slowVideo); slowVideo(); }
+
+/* ---------- ENTRÉE ---------- */
+function enterSite(){
+  document.getElementById('enter-screen').classList.add('gone');
+  setTimeout(function(){document.getElementById('enter-screen').style.display='none';},1000);
+  started=true;
+  loadTrack(0,true);
+  slowVideo();
+}
+
+/* ---------- QR WIFI ---------- */
+new QRCode(document.getElementById("qrcode"),{
+  text:"WIFI:T:WPA;S:SFR_8D00;P:utqr6apq96dxhj6fqq92;;",
+  width:150,height:150,colorDark:"#080706",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M
+});
+
+/* ---------- VISITE par scroll ---------- */
+var TOTAL=148;
+var canvas=document.getElementById('visite-canvas');
+var imgs=[], loaded=0;
+function pad(n){return String(n).padStart(3,'0');}
+for(var i=1;i<=TOTAL;i++){
+  var im=new Image();
+  im.src='../assets/frames/f-'+pad(i)+'.jpg';
+  im.onload=function(){loaded++;};
+  imgs.push(im);
+}
+canvas.src='../assets/frames/f-001.jpg';
+
+var CAPS=[
+  {at:.08, t:"Salon & cuisine",          p:"Un espace de vie chaleureux et zen"},
+  {at:.37, t:"Terrasse & vue sur le parc", p:"Votre terrasse privée avec vue sur le parc verdoyant"},
+  {at:.60, t:"La chambre",               p:"Douce et reposante"},
+  {at:.73, t:"Salon · TV",               p:"Retour dans le coin salon"},
+  {at:.87, t:"La salle de bain",         p:"Douche à l'italienne moderne"},
+  {at:.98, t:"Tout le confort pour vous", p:"Tout est prêt pour accueillir votre famille"}
+];
+var vcap=document.getElementById('vcap'),vt=document.getElementById('vcap-t'),vp=document.getElementById('vcap-p');
+var visite=document.getElementById('visite');
+var ticking=false, lastIdx=-1, vh=window.innerHeight;
+function updVH(){ vh=document.documentElement.clientHeight; }
+updVH();
+function render(){
+  ticking=false;
+  var r=visite.getBoundingClientRect();
+  var h=visite.offsetHeight-vh;
+  if(h<=0) return;
+  var prog=Math.min(1,Math.max(0,(-r.top)/h));
+  var idx=Math.min(TOTAL-1,Math.floor(prog*(TOTAL-1)));
+  if(idx!==lastIdx && imgs[idx] && imgs[idx].complete){
+    canvas.src=imgs[idx].src; lastIdx=idx;
+  }
+  var active=null;
+  for(var c=0;c<CAPS.length;c++){ if(Math.abs(prog-CAPS[c].at)<.11) active=CAPS[c]; }
+  if(active){vt.textContent=active.t;vp.textContent=active.p;vcap.classList.add('show');}
+  else vcap.classList.remove('show');
+}
+function onScroll(){
+  if(!ticking){ ticking=true; requestAnimationFrame(render); }
+}
+addEventListener('scroll',onScroll,{passive:true});
+addEventListener('resize',function(){updVH();onScroll();});
+addEventListener('orientationchange',function(){setTimeout(function(){updVH();onScroll();},300);});
+onScroll();
+
+/* ---------- GALERIE + LIGHTBOX ---------- */
+var g=document.getElementById('galerie');
+var PHOTOS=[4,5,6,1,15,16,17,18,19,8,9,2];
+var SRCS=PHOTOS.map(function(n){return '../assets/photos/photo-'+String(n).padStart(2,'0')+'.jpg';});
+var cur=0;
+SRCS.forEach(function(src,i){
+  var a=document.createElement('a');
+  a.href='#';
+  a.onclick=function(e){e.preventDefault();lbOpen(i);}
+  var img=document.createElement('img');
+  img.src=src; img.loading='lazy'; img.alt='';
+  a.appendChild(img); g.appendChild(a);
+});
+function lbOpen(i){
+  cur=i;
+  document.getElementById('lb-img').src=SRCS[i];
+  document.getElementById('lb-count').textContent=(i+1)+' / '+SRCS.length;
+  document.getElementById('lb').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function lbClose(){
+  document.getElementById('lb').classList.remove('open');
+  document.body.style.overflow='';
+}
+function lbStep(d){
+  cur=(cur+d+SRCS.length)%SRCS.length;
+  document.getElementById('lb-img').src=SRCS[cur];
+  document.getElementById('lb-count').textContent=(cur+1)+' / '+SRCS.length;
+}
+document.addEventListener('keydown',function(e){
+  var lb=document.getElementById('lb');
+  if(!lb.classList.contains('open')) return;
+  if(e.key==='ArrowLeft') lbStep(-1);
+  else if(e.key==='ArrowRight') lbStep(1);
+  else if(e.key==='Escape') lbClose();
+});
+</script>
+</body>
+</html>
