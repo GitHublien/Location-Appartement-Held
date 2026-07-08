@@ -22,8 +22,12 @@
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
+/* empêche Chrome de recaler la position (scroll anchoring) pendant que la visite change d'image → évite le saut vers le haut */
+html,body{overflow-anchor:none}
 body{font-family:var(--serif);background:var(--noir);color:var(--creme);line-height:1.7;
   overflow-x:hidden;font-size:20px;-webkit-font-smoothing:antialiased}
+/* met en pause les animations lourdes du haut quand on n'est plus dessus (libère le GPU pour la visite) */
+body.hero-out .mist,body.hero-out #hero video{animation-play-state:paused}
 ::selection{background:var(--or);color:var(--noir)}
 img{display:block;max-width:100%}
 
@@ -673,6 +677,18 @@ document.addEventListener('visibilitychange',function(){
 var hv=document.getElementById('herovid');
 function slowVideo(){ if(hv){ hv.playbackRate=0.5; hv.play().catch(()=>{}); } }
 if(hv){ hv.addEventListener('loadedmetadata',slowVideo); slowVideo(); }
+
+/* quand l'écran d'accueil sort de l'écran : on met la vidéo + les voiles en pause
+   (libère le GPU pour la visite, évite les à-coups) ; on reprend quand on remonte */
+var heroEl=document.getElementById('hero');
+if(heroEl && 'IntersectionObserver' in window){
+  new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ document.body.classList.remove('hero-out'); if(hv) hv.play().catch(()=>{}); }
+      else { document.body.classList.add('hero-out'); if(hv) hv.pause(); }
+    });
+  },{threshold:0.02}).observe(heroEl);
+}
 
 /* ---------- ENTRÉE (clic = page + musique) ---------- */
 function enterSite(){
