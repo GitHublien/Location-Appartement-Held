@@ -28,6 +28,8 @@ body{font-family:var(--serif);background:var(--noir);color:var(--creme);line-hei
   overflow-x:hidden;font-size:20px;-webkit-font-smoothing:antialiased}
 /* met en pause les animations lourdes du haut quand on n'est plus dessus (libère le GPU pour la visite) */
 body.hero-out .mist,body.hero-out #hero video{animation-play-state:paused}
+/* et retire carrément les voiles lumineux de la composition (mix-blend-mode = très coûteux pour la carte graphique) */
+body.hero-out .mist{display:none}
 ::selection{background:var(--or);color:var(--noir)}
 img{display:block;max-width:100%}
 
@@ -606,6 +608,7 @@ function setLang(l){
     var b1=document.getElementById('b-'+x); if(b1)b1.classList.toggle('on',x===l);
     var b2=document.getElementById('eb-'+x); if(b2)b2.classList.toggle('on',x===l);
   });
+  try{sessionStorage.setItem('rg_lang',l);}catch(e){}
 }
 
 /* ---------- BARRE solide au scroll ---------- */
@@ -697,7 +700,21 @@ function enterSite(){
   started=true;
   loadTrack(0,true);   // démarre la 1re musique au volume doux
   slowVideo();         // s'assure que la vidéo est bien ralentie
+  try{sessionStorage.setItem('rg_entered','1');}catch(e){}
 }
+
+/* ---------- REPRISE APRÈS RECHARGEMENT ----------
+   Si la page se recharge toute seule (plantage du rendu Chrome, économiseur
+   de mémoire, F5...), on ne réaffiche PAS l'écran de bienvenue : on restaure
+   la langue choisie et on laisse le visiteur là où il était. */
+try{
+  var savedLang=sessionStorage.getItem('rg_lang');
+  if(savedLang){setLang(savedLang);}
+  if(sessionStorage.getItem('rg_entered')==='1'){
+    var esc=document.getElementById('enter-screen');
+    if(esc){esc.style.display='none';}
+  }
+}catch(e){}
 
 /* ---------- QR WIFI ---------- */
 new QRCode(document.getElementById("qrcode"),{
