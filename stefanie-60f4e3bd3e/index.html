@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Résidence du Golfe — Ihr persönlicher Gästebereich</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700;800&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<style>
+:root{
+  --noir:#080706; --noir2:#0f0d0a; --carte:#15120c;
+  --or:#c9a84c; --or-clair:#ecd58c; --or-fonce:#8b7332;
+  --creme:#f4eee0; --creme2:#cdc4b0; --gris:#9a927f;
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --titre:'Playfair Display',Georgia,serif;
+  --manus:'Great Vibes',cursive;
+  --sans:'Jost',sans-serif;
+  --bord:1px solid rgba(201,168,76,.30);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+/* empêche Chrome de recaler la position (scroll anchoring) pendant que la visite change d'image → évite le saut vers le haut */
+html,body{overflow-anchor:none}
+body{font-family:var(--serif);background:var(--noir);color:var(--creme);line-height:1.7;
+  overflow-x:hidden;font-size:20px;-webkit-font-smoothing:antialiased}
+/* met en pause les animations lourdes du haut quand on n'est plus dessus (libère le GPU pour la visite) */
+body.hero-out .mist,body.hero-out #hero video{animation-play-state:paused}
+/* et retire carrément les voiles lumineux de la composition (mix-blend-mode = très coûteux pour la carte graphique) */
+body.hero-out .mist{display:none}
+::selection{background:var(--or);color:var(--noir)}
+img{display:block;max-width:100%}
+
+/* ============ INTRO VIDÉO ============ */
+#hero{position:relative;height:100vh;min-height:600px;overflow:hidden;display:flex;
+  align-items:center;justify-content:center;text-align:center}
+#hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  z-index:0;animation:zoomslow 48s ease-in-out infinite alternate;
+  filter:saturate(1.05) contrast(1.02) brightness(.96)}
+@keyframes zoomslow{from{transform:scale(1.02)}to{transform:scale(1.16)}}
+#hero::after{content:"";position:absolute;inset:0;z-index:1;
+  background:radial-gradient(ellipse at center,rgba(8,7,6,.35),rgba(8,7,6,.82) 85%),
+             linear-gradient(180deg,rgba(8,7,6,.6),transparent 30%,transparent 65%,rgba(8,7,6,.95))}
+.hero-cadre{position:absolute;inset:22px;border:var(--bord);z-index:2;pointer-events:none}
+.hero-in{position:relative;z-index:3;padding:24px;max-width:900px}
+.hero-sur{font-family:var(--sans);letter-spacing:.5em;text-transform:uppercase;
+  font-size:clamp(.7rem,1.6vw,.95rem);color:var(--or);font-weight:400;margin-bottom:34px}
+.hero-titre{font-family:var(--manus);font-size:clamp(64px,13vw,170px);line-height:1.15;
+  padding-top:.12em;color:var(--creme);text-shadow:0 6px 60px rgba(0,0,0,.9)}
+.hero-or{color:var(--or-clair)}
+.hero-line{width:min(160px,40vw);height:1px;margin:26px auto;
+  background:linear-gradient(90deg,transparent,var(--or),transparent)}
+.hero-name{font-family:var(--titre);font-size:clamp(1.3rem,3.5vw,2.1rem);font-weight:500;
+  color:var(--creme);letter-spacing:.02em}
+.hero-stay{font-family:var(--sans);font-weight:300;letter-spacing:.16em;text-transform:uppercase;
+  font-size:clamp(.75rem,1.8vw,1rem);color:var(--creme2);margin-top:10px}
+.hero-cta{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:32px}
+.cta{text-decoration:none;font-family:var(--sans);font-weight:500;letter-spacing:.06em;
+  font-size:clamp(.9rem,2vw,1.05rem);padding:15px 30px;border-radius:40px;transition:.35s;
+  border:1px solid rgba(244,238,224,.5);color:var(--creme);background:rgba(8,7,6,.35);backdrop-filter:blur(3px)}
+.cta:hover{transform:translateY(-3px);border-color:var(--or);color:var(--or-clair)}
+.cta-or{background:linear-gradient(135deg,var(--or-clair),var(--or),var(--or-fonce));color:var(--noir);
+  border:none;box-shadow:0 8px 30px rgba(201,168,76,.4);font-weight:600}
+.cta-or:hover{color:var(--noir);box-shadow:0 10px 40px rgba(201,168,76,.6)}
+.scrolldown{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);z-index:3;
+  color:var(--or);font-family:var(--sans);font-size:.75rem;letter-spacing:.3em;text-transform:uppercase;
+  animation:bob 2.2s ease infinite;text-align:center}
+.scrolldown span{display:block;font-size:1.5rem;margin-top:4px}
+@keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
+
+/* ============ BARRE LANGUE/MUSIQUE ============ */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;
+  align-items:center;padding:16px clamp(16px,4vw,40px);transition:.4s;
+  background:linear-gradient(180deg,rgba(8,7,6,.55),transparent)}
+.topbar.solid{background:rgba(8,7,6,.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid rgba(201,168,76,.18);padding-top:12px;padding-bottom:12px}
+.langs{display:flex;gap:7px}
+.langs button{font-family:var(--sans);font-size:.82rem;font-weight:400;letter-spacing:.08em;
+  color:var(--creme2);background:transparent;border:var(--bord);padding:7px 15px;border-radius:30px;
+  cursor:pointer;transition:.25s}
+.langs button.on{background:linear-gradient(135deg,var(--or-clair),var(--or));color:var(--noir);
+  border-color:var(--or);font-weight:500}
+.langs button:hover{color:var(--creme);border-color:var(--or)}
+#mus{width:46px;height:46px;border-radius:50%;border:var(--bord);background:rgba(21,18,12,.8);
+  color:var(--or);font-size:1.1rem;cursor:pointer;transition:.3s;flex-shrink:0}
+#mus:hover{background:var(--or);color:var(--noir)}
+#mus.play{animation:spin 6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ============ SECTION VISITE (scroll vidéo) ============ */
+#visite{position:relative;height:400vh;background:var(--noir)}
+#visite-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;
+  align-items:flex-end;justify-content:center}
+#visite-canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+/* dégradé sombre UNIQUEMENT en bas — l'image reste bien visible */
+#visite-sticky::after{content:"";position:absolute;left:0;right:0;bottom:0;height:45%;z-index:1;
+  pointer-events:none;background:linear-gradient(180deg,transparent,rgba(8,7,6,.85))}
+.visite-cap{position:relative;z-index:2;text-align:center;padding:0 28px 9vh;max-width:760px;
+  opacity:0;transition:opacity .6s ease}
+.visite-cap.show{opacity:1}
+.visite-cap h3{font-family:var(--titre);font-size:clamp(1.7rem,5vw,3rem);font-weight:700;
+  color:var(--or-clair);text-shadow:0 2px 10px #000,0 2px 26px rgba(0,0,0,1);margin-bottom:6px}
+.visite-cap p{font-family:var(--serif);font-size:clamp(1.1rem,2.3vw,1.4rem);color:#fff;font-weight:600;
+  text-shadow:0 2px 10px #000,0 2px 22px rgba(0,0,0,1)}
+
+/* ============ CONTENU ============ */
+.wrap{max-width:840px;margin:0 auto;padding:0 clamp(16px,4vw,24px)}
+section.bloc{padding:70px 0 10px}
+.titre-sec{text-align:center;margin-bottom:36px}
+.titre-sec .k{font-family:var(--sans);letter-spacing:.4em;text-transform:uppercase;
+  font-size:.8rem;color:var(--or);display:block;margin-bottom:8px}
+.titre-sec h2{font-family:var(--titre);font-size:clamp(2rem,5vw,3rem);font-weight:600;color:var(--creme)}
+.deco{display:flex;align-items:center;justify-content:center;gap:14px;color:var(--or);margin:8px 0 0}
+.deco::before,.deco::after{content:"";height:1px;width:60px;background:linear-gradient(90deg,transparent,var(--or-fonce))}
+.deco::after{background:linear-gradient(90deg,var(--or-fonce),transparent)}
+
+.carte{background:linear-gradient(160deg,#15120c,#0d0b08);border:var(--bord);border-radius:16px;
+  padding:34px clamp(22px,4vw,38px);margin:22px 0;
+  box-shadow:0 20px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(201,168,76,.10)}
+.carte h3{font-family:var(--titre);font-size:clamp(1.4rem,3.5vw,1.8rem);font-weight:600;
+  color:var(--or-clair);display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.carte h3 .ic{font-size:1.4rem}
+.row{display:flex;justify-content:space-between;gap:20px;padding:13px 0;
+  border-bottom:1px solid rgba(201,168,76,.13);flex-wrap:wrap;align-items:baseline}
+.row:last-child{border-bottom:none}
+.lab{color:var(--gris);font-size:1.05rem}
+.val{color:var(--creme);font-weight:600;text-align:right;font-size:1.1rem}
+.tag{display:inline-block;border:var(--bord);border-radius:8px;padding:3px 13px;font-weight:700;
+  color:var(--or-clair);letter-spacing:.08em}
+.dot{display:inline-block;width:12px;height:12px;border-radius:50%;margin-right:8px;vertical-align:middle}
+.dot.noir{background:#0a0a0a;border:1px solid #666}
+.dot.vert{background:#2e9d5f}
+
+/* wifi */
+.wifi{display:flex;gap:30px;align-items:center;flex-wrap:wrap;justify-content:space-between}
+.wifi-l{flex:1;min-width:240px}
+.wifi-pass{display:inline-block;margin-top:6px;font-family:var(--sans);font-weight:500;
+  font-size:1.2rem;letter-spacing:.05em;color:var(--or-clair);border:var(--bord);border-radius:10px;
+  padding:9px 15px;user-select:all;word-break:break-all}
+#qrcode{background:#fff;padding:12px;border-radius:14px;line-height:0}
+.qrleg{text-align:center;font-size:.9rem;color:var(--gris);margin-top:10px}
+
+.note{border-radius:13px;padding:18px 22px;margin-top:16px;font-size:1.05rem}
+.note.vert{background:rgba(46,125,79,.12);border-left:3px solid #2e9d5f;color:#cdebd6}
+.note.bleu{background:rgba(45,120,140,.12);border-left:3px solid #3aa0b8;color:#cdeaf2}
+
+.btns{display:flex;flex-wrap:wrap;gap:13px;margin-top:14px}
+.btns a{flex:1;min-width:150px;text-align:center;text-decoration:none;padding:15px;border-radius:11px;
+  font-weight:600;letter-spacing:.04em;transition:.3s;border:var(--bord);color:var(--creme);
+  background:#0d0b08;font-size:1.05rem}
+.btns a:hover{transform:translateY(-3px);border-color:var(--or);color:var(--or-clair)}
+.btns a.or{background:linear-gradient(135deg,var(--or-clair),var(--or),var(--or-fonce));color:var(--noir);border:none}
+
+/* galerie */
+.galerie{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.galerie a{overflow:hidden;border-radius:12px;border:var(--bord);aspect-ratio:4/3;cursor:pointer}
+.galerie img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.galerie a:hover img{transform:scale(1.08)}
+
+/* lightbox */
+#lb{position:fixed;inset:0;z-index:500;background:rgba(8,7,6,.97);display:none;
+  align-items:center;justify-content:center;padding:30px}
+#lb.open{display:flex}
+#lb img{max-width:86%;max-height:86vh;border-radius:10px;box-shadow:0 30px 80px rgba(0,0,0,.7);
+  border:1px solid rgba(201,168,76,.3)}
+.lb-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:2;
+  width:58px;height:58px;border-radius:50%;border:var(--bord);background:rgba(21,18,12,.85);
+  color:var(--or);font-size:2rem;line-height:1;cursor:pointer;transition:.25s;
+  display:flex;align-items:center;justify-content:center;font-family:var(--sans)}
+.lb-arrow:hover{background:var(--or);color:var(--noir);transform:translateY(-50%) scale(1.08)}
+.lb-prev{left:18px}.lb-next{right:18px}
+.lb-close{position:absolute;top:18px;right:20px;z-index:2;width:48px;height:48px;border-radius:50%;
+  border:var(--bord);background:rgba(21,18,12,.85);color:var(--creme);font-size:1.3rem;cursor:pointer;transition:.25s}
+.lb-close:hover{background:var(--or);color:var(--noir)}
+.lb-count{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:2;
+  font-family:var(--sans);color:var(--creme2);letter-spacing:.1em;font-size:.95rem;
+  background:rgba(21,18,12,.7);padding:6px 16px;border-radius:20px;border:var(--bord)}
+@media(max-width:560px){.lb-arrow{width:46px;height:46px;font-size:1.6rem}.lb-prev{left:8px}.lb-next{right:8px}#lb img{max-width:94%}}
+
+footer{text-align:center;padding:60px 24px 70px;color:var(--gris)}
+footer .sig{font-family:var(--manus);font-size:2.4rem;color:var(--or-clair);margin-bottom:8px}
+footer .wish{font-size:1.15rem;color:var(--creme2)}
+
+/* ===== ÉCRAN D'ENTRÉE ===== */
+#enter-screen{position:fixed;inset:0;z-index:1000;background:#060504;display:flex;
+  align-items:center;justify-content:center;text-align:center;padding:24px;transition:opacity 1s ease}
+#enter-screen.gone{opacity:0;pointer-events:none}
+.enter-bg{position:absolute;inset:0;z-index:0;opacity:.30;background-size:cover;background-position:center;
+  background-image:linear-gradient(#060504aa,#060504ee),url('../assets/photos/photo-04.jpg');
+  animation:zoomslow 30s ease-in-out infinite alternate}
+.enter-cadre{position:absolute;inset:20px;border:var(--bord);z-index:1;pointer-events:none}
+.enter-in{position:relative;z-index:2;max-width:760px}
+.enter-sur{font-family:var(--sans);letter-spacing:.45em;text-transform:uppercase;font-size:.78rem;
+  color:var(--or);margin-bottom:30px}
+.enter-titre{font-family:var(--manus);font-size:clamp(60px,13vw,140px);line-height:1.15;padding-top:.12em;
+  color:var(--creme);text-shadow:0 6px 60px rgba(0,0,0,.9)}
+.enter-name{font-family:var(--titre);font-size:clamp(1.2rem,3.5vw,1.9rem);color:var(--creme);margin-bottom:6px}
+#enter-btn{margin-top:34px;padding:17px 56px;font-family:var(--sans);font-size:clamp(1rem,2.4vw,1.2rem);
+  font-weight:500;letter-spacing:.12em;color:var(--noir);cursor:pointer;border:none;border-radius:40px;
+  background:linear-gradient(135deg,var(--or-clair),var(--or),var(--or-fonce));
+  box-shadow:0 0 45px rgba(201,168,76,.5);transition:.4s;animation:puls 3s ease infinite}
+#enter-btn:hover{transform:scale(1.06);box-shadow:0 0 75px rgba(201,168,76,.75)}
+@keyframes puls{0%,100%{box-shadow:0 0 35px rgba(201,168,76,.4)}50%{box-shadow:0 0 60px rgba(201,168,76,.7)}}
+.enter-mini{margin-top:14px;font-family:var(--sans);font-size:.8rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--gris)}
+.enter-langs{margin-top:30px;display:flex;gap:8px;justify-content:center}
+.enter-langs button{font-family:var(--sans);font-size:.82rem;color:var(--creme2);background:transparent;
+  border:var(--bord);padding:7px 15px;border-radius:30px;cursor:pointer;transition:.25s}
+.enter-langs button.on{background:linear-gradient(135deg,var(--or-clair),var(--or));color:var(--noir);border-color:var(--or)}
+
+/* ===== LECTEUR MUSIQUE ===== */
+.player{display:flex;align-items:center;gap:8px;background:rgba(21,18,12,.8);border:var(--bord);
+  border-radius:40px;padding:6px 14px 6px 8px;backdrop-filter:blur(6px);max-width:60vw}
+.pl-btn{width:34px;height:34px;border-radius:50%;border:none;background:transparent;color:var(--or);
+  font-size:.9rem;cursor:pointer;transition:.2s;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.pl-btn:hover{background:rgba(201,168,76,.2);color:var(--or-clair)}
+.pl-play{background:linear-gradient(135deg,var(--or-clair),var(--or));color:var(--noir);width:38px;height:38px;font-size:.85rem}
+.pl-play:hover{color:var(--noir);transform:scale(1.07)}
+.pl-name{font-family:var(--sans);font-size:.82rem;color:var(--creme2);letter-spacing:.04em;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:130px}
+@media(max-width:560px){.pl-name{max-width:70px;font-size:.72rem}.player{padding:5px 10px 5px 6px}}
+
+/* ===== VOILES / NUAGES ÉTHÉRÉS ===== */
+.mist{position:absolute;inset:-30%;z-index:1;pointer-events:none;opacity:.7;mix-blend-mode:screen;
+  will-change:transform}
+.mist1{background:radial-gradient(ellipse 55% 45% at 28% 38%,rgba(236,213,140,.26),transparent 72%);
+  animation:drift1 40s ease-in-out infinite alternate}
+.mist2{background:radial-gradient(ellipse 65% 50% at 72% 62%,rgba(255,255,255,.20),transparent 72%);
+  animation:drift2 52s ease-in-out infinite alternate}
+.mist3{background:radial-gradient(ellipse 50% 55% at 50% 28%,rgba(170,195,255,.18),transparent 72%);
+  animation:drift3 64s ease-in-out infinite alternate}
+@keyframes drift1{from{transform:translate(-9%,-5%) scale(1)}to{transform:translate(11%,7%) scale(1.3)}}
+@keyframes drift2{from{transform:translate(7%,6%) scale(1.15)}to{transform:translate(-10%,-7%) scale(1)}}
+@keyframes drift3{from{transform:translate(0,8%) scale(1)}to{transform:translate(6%,-8%) scale(1.35)}}
+
+/* ===== LANGUES (robuste) ===== */
+[l]{display:none}
+html[lang="en"] [l~="en"],
+html[lang="de"] [l~="de"],
+html[lang="fr"] [l~="fr"]{display:revert}
+
+@media(max-width:560px){
+  body{font-size:18px}
+  .row{flex-direction:column;gap:3px}
+  .val{text-align:left}
+  #visite{height:340vh}
+}
+
+/* ===== CARTE D'ADIEU ===== */
+#exp-adieu{position:fixed;inset:0;z-index:2000;display:none;overflow:hidden;
+  background:radial-gradient(ellipse at 40% 65%,#0f2010 0%,#050a05 60%,#020502 100%)}
+#exp-adieu::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(ellipse 60% 40% at 50% 85%,rgba(201,168,76,.07),transparent 70%),
+             radial-gradient(ellipse 45% 55% at 15% 20%,rgba(46,125,79,.10),transparent 60%)}
+.adieu-plant{position:absolute;font-size:clamp(5rem,15vw,13rem);opacity:.15;pointer-events:none;filter:blur(1.5px)}
+.adieu-plant-tl{top:-3%;left:-3%;transform:rotate(-12deg)}
+.adieu-plant-tr{top:-1%;right:-3%;transform:rotate(14deg) scaleX(-1)}
+.adieu-plant-bl{bottom:-3%;left:-2%;transform:rotate(8deg)}
+.adieu-plant-br{bottom:-3%;right:-2%;transform:rotate(-10deg) scaleX(-1)}
+.adieu-cadre{position:absolute;inset:20px;border:1px solid rgba(201,168,76,.18);pointer-events:none;z-index:1}
+#exp-ent{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px}
+.adieu-ent-in{position:relative;z-index:2;max-width:700px}
+.adieu-sur{font-family:var(--sans);letter-spacing:.45em;text-transform:uppercase;font-size:.78rem;color:var(--or);margin-bottom:28px}
+.adieu-titre{font-family:var(--manus);font-size:clamp(60px,13vw,140px);line-height:1.15;padding-top:.1em;color:var(--or-clair);text-shadow:0 4px 40px rgba(201,168,76,.30)}
+.adieu-line{width:min(160px,40vw);height:1px;margin:22px auto;background:linear-gradient(90deg,transparent,var(--or),transparent)}
+.adieu-ent-name{font-family:var(--titre);font-size:clamp(1.1rem,3vw,1.7rem);color:var(--creme2);margin-bottom:6px;font-weight:400}
+#exp-btn{margin-top:30px;padding:15px 48px;font-family:var(--sans);font-size:clamp(.95rem,2.2vw,1.1rem);
+  font-weight:500;letter-spacing:.12em;color:#080706;cursor:pointer;border:none;border-radius:40px;
+  background:linear-gradient(135deg,var(--or-clair),var(--or),var(--or-fonce));
+  box-shadow:0 0 40px rgba(201,168,76,.40);transition:.4s;animation:puls 3s ease infinite}
+#exp-btn:hover{transform:scale(1.05);box-shadow:0 0 65px rgba(201,168,76,.65)}
+.adieu-ent-mini{margin-top:12px;font-family:var(--sans);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gris)}
+.adieu-langs{margin-top:24px;display:flex;gap:8px;justify-content:center}
+.adieu-langs button{font-family:var(--sans);font-size:.82rem;color:var(--creme2);background:transparent;
+  border:var(--bord);padding:7px 15px;border-radius:30px;cursor:pointer;transition:.25s}
+.adieu-langs button.on{background:linear-gradient(135deg,var(--or-clair),var(--or));color:var(--noir);border-color:var(--or)}
+#exp-fw{position:absolute;inset:0;z-index:3;display:none;
+  align-items:center;justify-content:center;padding:clamp(16px,4vw,40px);overflow-y:auto}
+.adieu-card{position:relative;z-index:2;
+  background:linear-gradient(145deg,#fdf9f0,#f5edda,#fdf9f0);
+  border:1px solid rgba(201,168,76,.55);border-radius:18px;
+  padding:clamp(30px,5vw,60px) clamp(24px,5vw,70px);max-width:620px;width:100%;
+  box-shadow:0 0 80px rgba(201,168,76,.16),0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.6);
+  text-align:center}
+.adieu-card-orn{font-family:var(--sans);letter-spacing:.45em;color:#b8933a;font-size:.78rem;margin-bottom:18px}
+.adieu-card-maison{font-family:var(--manus);font-size:clamp(2rem,6vw,3.5rem);color:#8b6820;margin-bottom:4px}
+.adieu-card-line{width:80px;height:1px;margin:14px auto 20px;background:linear-gradient(90deg,transparent,#c9a84c,transparent)}
+.adieu-card-nom{font-family:var(--titre);font-size:clamp(1.05rem,2.5vw,1.4rem);font-weight:600;color:#3d2c0a;margin-bottom:22px}
+.adieu-card-texte{font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(1rem,2vw,1.2rem);color:#3d2c0a;line-height:1.9;text-align:left}
+.adieu-card-texte p+p{margin-top:14px}
+.adieu-card-review{display:block;margin:28px auto 0;max-width:380px;
+  background:linear-gradient(135deg,#c9a84c,#8b6820);color:#fff;text-decoration:none;
+  padding:14px 22px;border-radius:40px;font-family:var(--sans);font-weight:600;
+  letter-spacing:.06em;font-size:.95rem;box-shadow:0 8px 24px rgba(139,104,32,.35);transition:.3s}
+.adieu-card-review:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(139,104,32,.50)}
+.adieu-card-sig{font-family:var(--manus);font-size:clamp(1.8rem,5vw,2.8rem);color:#8b6820;margin-top:28px}
+.adieu-card-vague{margin-top:8px;font-size:1.3rem;opacity:.65}
+</style>
+</head>
+<body>
+
+<!-- ===== CARTE D'ADIEU (lien expiré) ===== -->
+<div id="exp-adieu">
+  <div class="adieu-plant adieu-plant-tl">🌿</div>
+  <div class="adieu-plant adieu-plant-tr">🌿</div>
+  <div class="adieu-plant adieu-plant-bl">🍃</div>
+  <div class="adieu-plant adieu-plant-br">🍃</div>
+  <div class="adieu-cadre"></div>
+
+  <div id="exp-ent">
+    <div class="adieu-ent-in">
+      <div class="adieu-sur">Résidence du Golfe · Golfe-Juan</div>
+      <div class="adieu-titre"><span l="de">Danke</span><span l="en">Thank you</span><span l="fr">Merci</span></div>
+      <div class="adieu-line"></div>
+      <div class="adieu-ent-name"><span l="de">Vielen Dank für Ihren Besuch</span><span l="en">Thank you for your visit</span><span l="fr">Merci de votre visite</span></div>
+      <button id="exp-btn" onclick="expEnter()"><span l="de">♪ Hier klicken</span><span l="en">♪ Click here</span><span l="fr">♪ Cliquez ici</span></button>
+      <div class="adieu-ent-mini"><span l="de">mit Musik</span><span l="en">with music</span><span l="fr">avec musique</span></div>
+      <div class="adieu-langs">
+        <button id="aeb-de" class="on" onclick="setLang('de')">DE</button>
+        <button id="aeb-en" onclick="setLang('en')">EN</button>
+        <button id="aeb-fr" onclick="setLang('fr')">FR</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="exp-fw">
+    <div class="adieu-card">
+      <div class="adieu-card-orn">✦ · ✦ · ✦</div>
+      <div class="adieu-card-maison">Résidence du Golfe</div>
+      <div class="adieu-card-line"></div>
+      <div class="adieu-card-nom">
+        <span l="de">Liebe Stefanie und Familie,</span><span l="en">Dear Stefanie and family,</span><span l="fr">Chère Stefanie et famille,</span>
+      </div>
+      <div class="adieu-card-texte">
+        <p>
+          <span l="de">Ich hoffe von Herzen, dass Sie einen wunderschönen Aufenthalt in meiner Wohnung hatten und dass Golfe-Juan Ihnen schöne Erinnerungen hinterlassen hat.</span>
+          <span l="en">I sincerely hope you had a wonderful stay in my apartment, and that Golfe-Juan left you with beautiful memories.</span>
+          <span l="fr">J'espère sincèrement que vous avez passé un très agréable séjour dans mon appartement, et que Golfe-Juan vous a laissé de beaux souvenirs.</span>
+        </p>
+        <p>
+          <span l="de">Es war mir eine große Freude, Sie hier an der Côte d'Azur zu empfangen. Ich wünsche Ihnen eine gute und sichere Heimreise.</span>
+          <span l="en">It was truly a pleasure hosting you and your guests here on the Côte d'Azur. I wish you all a safe and wonderful journey home.</span>
+          <span l="fr">Ce fut un vrai plaisir de vous accueillir sur la Côte d'Azur. Je vous souhaite, à vous et vos invités, un très bon voyage de retour.</span>
+        </p>
+        <p>
+          <span l="de">Wenn Ihnen Ihr Aufenthalt gefallen hat, würde ich mich sehr über eine Bewertung auf VRBO freuen — das hilft mir enorm. Herzliche Grüße!</span>
+          <span l="en">If you enjoyed your stay, I would be so grateful if you could leave a review on VRBO — it helps me enormously. With warm regards!</span>
+          <span l="fr">Si vous avez apprécié votre séjour, un petit commentaire sur VRBO me ferait énormément plaisir. Avec grand plaisir, et à bientôt peut-être !</span>
+        </p>
+      </div>
+      <a href="https://www.vrbo.com" target="_blank" class="adieu-card-review">
+        <span l="de">⭐ Eine Bewertung auf VRBO hinterlassen</span><span l="en">⭐ Leave a review on VRBO</span><span l="fr">⭐ Laisser un avis sur VRBO</span>
+      </a>
+      <div class="adieu-card-sig">Mickaël Guedj</div>
+      <div class="adieu-card-vague">🌊 ☀️ 🌴</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ÉCRAN D'ENTRÉE ===== -->
+<div id="enter-screen">
+  <div class="enter-bg"></div>
+  <div class="enter-cadre"></div>
+  <div class="enter-in">
+    <div class="enter-sur">Résidence du Golfe · Golfe-Juan</div>
+    <div class="enter-titre"><span l="en">Welcome</span><span l="de">Willkommen</span><span l="fr">Bienvenue</span></div>
+    <div class="hero-line"></div>
+    <div class="enter-name">
+      <span l="de">Liebe Stefanie und Familie</span><span l="en">Dear Stefanie and family</span><span l="fr">Chère Stefanie et famille</span>
+    </div>
+    <button id="enter-btn" onclick="enterSite()">
+      <span l="en">♪ Click to enter</span><span l="de">♪ Klicken zum Eintreten</span><span l="fr">♪ Cliquez pour entrer</span>
+    </button>
+    <div class="enter-mini">
+      <span l="en">with music · sound on</span><span l="de">mit Musik · Ton an</span><span l="fr">avec musique · son activé</span>
+    </div>
+    <div class="enter-langs">
+      <button id="eb-de" class="on" onclick="setLang('de')">DE</button>
+      <button id="eb-en" onclick="setLang('en')">EN</button>
+      <button id="eb-fr" onclick="setLang('fr')">FR</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== BARRE + LECTEUR ===== -->
+<div class="topbar" id="topbar">
+  <div class="langs">
+    <button id="b-de" class="on" onclick="setLang('de')">DE</button>
+    <button id="b-en" onclick="setLang('en')">EN</button>
+    <button id="b-fr" onclick="setLang('fr')">FR</button>
+  </div>
+  <div class="player">
+    <button class="pl-btn" onclick="prevTrack()" title="Précédent">⏮</button>
+    <button class="pl-btn pl-play" id="pl-play" onclick="togglePlay()" title="Play/Pause">▶</button>
+    <button class="pl-btn" onclick="nextTrack()" title="Suivant">⏭</button>
+    <span class="pl-name" id="pl-name">—</span>
+  </div>
+</div>
+
+<!-- ===== HERO VIDÉO ===== -->
+<section id="hero">
+  <video id="herovid" autoplay muted loop playsinline preload="auto">
+    <source src="../assets/appartement.mp4" type="video/mp4">
+  </video>
+  <!-- voiles / nuages éthérés -->
+  <div class="mist mist1"></div>
+  <div class="mist mist2"></div>
+  <div class="mist mist3"></div>
+  <div class="hero-cadre"></div>
+  <div class="hero-in">
+    <div class="hero-sur">Résidence du Golfe · Golfe-Juan</div>
+    <div class="hero-titre"><span l="en">Welcome</span><span l="de">Willkommen</span><span l="fr">Bienvenue</span></div>
+    <div class="hero-line"></div>
+    <div class="hero-name">
+      <span l="de">Liebe Stefanie und Familie, am Ende der Reise wartet das Mittelmeer auf Sie</span>
+      <span l="en">Dear Stefanie and family, at the end of the road, the Mediterranean awaits you</span>
+      <span l="fr">Chère Stefanie et famille, au bout de la route, la Méditerranée vous attend</span>
+    </div>
+    <div class="hero-stay">
+      <span l="de">Aufenthalt · 14. – 21. Juli 2026</span>
+      <span l="en">Stay · July 14 – 21, 2026</span>
+      <span l="fr">Séjour · du 14 au 21 juillet 2026</span>
+    </div>
+    <div class="hero-cta">
+      <a class="cta cta-or" href="#infos">
+        <span l="en">🔑 All the information</span><span l="de">🔑 Alle Informationen</span><span l="fr">🔑 Tous les renseignements</span>
+      </a>
+      <a class="cta" href="#visite">
+        <span l="en">🏠 Virtual tour</span><span l="de">🏠 Virtuelle Tour</span><span l="fr">🏠 Visite virtuelle</span>
+      </a>
+    </div>
+  </div>
+  <div class="scrolldown">
+    <span l="en" style="display:none">Scroll</span><span l="de" style="display:none">Scrollen</span><span l="fr" style="display:none">Défiler</span>
+    <span>⌄</span>
+  </div>
+</section>
+
+<!-- ===== VISITE (scroll vidéo) ===== -->
+<section id="visite">
+  <div id="visite-sticky">
+    <img id="visite-canvas" alt="">
+    <div class="visite-cap" id="vcap">
+      <h3 id="vcap-t"></h3>
+      <p id="vcap-p"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== INFOS ===== -->
+<div class="wrap">
+
+  <section class="bloc" id="infos" style="scroll-margin-top:80px">
+    <div class="titre-sec">
+      <span class="k"><span l="en">Practical guide</span><span l="de">Praktischer Leitfaden</span><span l="fr">Guide pratique</span></span>
+      <h2><span l="en">Everything you need</span><span l="de">Alles, was Sie brauchen</span><span l="fr">Tout ce qu'il vous faut</span></h2>
+      <div class="deco"><span>✦</span></div>
+    </div>
+
+    <!-- MOT DE BIENVENUE -->
+    <div class="carte">
+      <h3><span class="ic">💛</span><span l="en">A word of welcome</span><span l="de">Ein Wort des Willkommens</span><span l="fr">Un mot de bienvenue</span></h3>
+      <p>
+        <span l="de">Liebe Stefanie und Familie, es freut mich sehr, Sie und Ihre Kinder bei uns begrüßen zu dürfen. Sobald Sie angekommen sind, können Sie die Koffer abstellen und tief durchatmen: Die Wohnung ist für die Zeit Ihres Aufenthalts bequem und behaglich für Sie eingerichtet. Nehmen Sie sich alle Zeit, in Ruhe anzukommen, das Fenster zum Park zu öffnen und die Stille zu genießen. Die Sonne, das Meer und der sanfte Zauber der Côte d'Azur warten auf Sie. Von ganzem Herzen wünsche ich Ihnen hier echte, glückliche Momente als Familie. 🌊☀️</span>
+        <span l="en">Dear Stefanie and family, I'm truly delighted to welcome you and your children. As soon as you arrive, you'll be able to set down your bags and take a deep breath: the apartment is comfortably and warmly prepared for you for the time of your stay. Take all the time you need to settle in gently, open the window onto the park and let the quiet wash over you. The sun, the sea and the soft charm of the Côte d'Azur are waiting for you. From the bottom of my heart, I wish you real moments of family happiness here. 🌊☀️</span>
+        <span l="fr">Chère Stefanie et famille, je suis vraiment heureux de vous accueillir, vous et vos enfants. Dès votre arrivée, vous pourrez poser vos valises et respirer un grand coup : l'appartement est préparé pour vous, confortable et chaleureux, le temps de votre séjour. Prenez tout le temps de vous installer tranquillement, d'ouvrir la fenêtre sur le parc et de laisser le calme vous envelopper. Le soleil, la mer et la douceur de la Côte d'Azur vous attendent. De tout cœur, je vous souhaite ici de vrais moments de bonheur en famille. 🌊☀️</span>
+      </p>
+    </div>
+
+    <!-- ADRESSE -->
+    <div class="carte">
+      <h3><span class="ic">📍</span><span l="en">Your address</span><span l="de">Ihre Adresse</span><span l="fr">Votre adresse</span></h3>
+      <div class="row"><span class="lab"><span l="en">Street</span><span l="de">Straße</span><span l="fr">Rue</span></span><span class="val">35 avenue Georges Pompidou</span></div>
+      <div class="row"><span class="lab"><span l="en">Residence</span><span l="de">Residenz</span><span l="fr">Résidence</span></span><span class="val">Résidence du Golfe</span></div>
+      <div class="row"><span class="lab"><span l="en">Building</span><span l="de">Gebäude</span><span l="fr">Bâtiment</span></span><span class="val">6</span></div>
+      <div class="row"><span class="lab"><span l="en">Apartment · Door</span><span l="de">Wohnung · Tür</span><span l="fr">Porte</span></span><span class="val">6004</span></div>
+    </div>
+
+    <!-- ACCÈS -->
+    <div class="carte">
+      <h3><span class="ic">🔑</span><span l="en">Access</span><span l="de">Zugang</span><span l="fr">Accès résidence</span></h3>
+      <div class="row">
+        <span class="lab"><span class="dot noir"></span><span l="en">Black badge</span><span l="de">Schwarzer Badge</span><span l="fr">Badge noir</span></span>
+        <span class="val"><span l="en">Main entrance + pool</span><span l="de">Eingang + Pool</span><span l="fr">Entrée principale + piscine</span></span>
+      </div>
+      <div class="row">
+        <span class="lab"><span class="dot vert"></span><span l="en">Green badge</span><span l="de">Grüner Badge</span><span l="fr">Badge vert</span></span>
+        <span class="val"><span l="en">Outdoor parking</span><span l="de">Außenparkplatz</span><span l="fr">Parking extérieur</span></span>
+      </div>
+      <div class="row">
+        <span class="lab"><span l="en">Pedestrian gate code</span><span l="de">Code Fußgängertür</span><span l="fr">Code porte piétonne parking</span></span>
+        <span class="val"><span class="tag">0702A</span></span>
+      </div>
+      <div class="row">
+        <span class="lab"><span l="en">Your parking space</span><span l="de">Ihr Parkplatz</span><span l="fr">Votre place de parking</span></span>
+        <span class="val"><span class="tag">N° 86</span></span>
+      </div>
+    </div>
+
+    <!-- WIFI -->
+    <div class="carte">
+      <h3><span class="ic">📶</span><span l="en">Wi-Fi</span><span l="de">WLAN</span><span l="fr">Wi-Fi</span></h3>
+      <div class="wifi">
+        <div class="wifi-l">
+          <div class="row"><span class="lab">Réseau 2,4 GHz</span><span class="val">SFR_8D00</span></div>
+          <div class="row"><span class="lab">Réseau 5 GHz</span><span class="val">SFR_8D00_5GHZ</span></div>
+          <div style="padding-top:14px">
+            <span class="lab"><span l="en">Password</span><span l="de">Passwort</span><span l="fr">Mot de passe</span></span><br>
+            <span class="wifi-pass">utqr6apq96dxhj6fqq92</span>
+          </div>
+        </div>
+        <div style="text-align:center">
+          <div id="qrcode"></div>
+          <div class="qrleg">
+            <span l="en">📱 Scan = auto connect</span><span l="de">📱 Scannen = automatisch verbinden</span><span l="fr">📱 Scannez = connexion automatique</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PISCINE -->
+    <div class="carte">
+      <h3><span class="ic">🏊</span><span l="en">Swimming pool</span><span l="de">Schwimmbad</span><span l="fr">Piscine</span></h3>
+      <p>
+        <span l="en">The pool is <b>open</b> and at the whole family's disposal. 🌞</span>
+        <span l="de">Das Schwimmbad ist <b>geöffnet</b> und steht der ganzen Familie zur Verfügung. 🌞</span>
+        <span l="fr">La piscine est <b>ouverte</b> et à la disposition de toute la famille. 🌞</span>
+      </p>
+      <div class="note" style="background:rgba(201,168,76,.14);border-left:3px solid var(--or);color:var(--or-clair)">
+        <span l="en">🟡 <b>Important:</b> access requires the <b>yellow wristbands</b>. I provide <b>four</b>, one for each of you.</span>
+        <span l="de">🟡 <b>Wichtig:</b> Für den Zugang sind die <b>gelben Armbänder</b> erforderlich. Ich stelle Ihnen <b>vier</b> bereit, für jeden eines.</span>
+        <span l="fr">🟡 <b>Important :</b> l'accès nécessite les <b>bracelets jaunes</b>. Je vous en fournis <b>quatre</b>, un pour chacun.</span>
+      </div>
+      <div class="note bleu" style="margin-top:10px">
+        <span l="en">🧒 Your children will love it! Enjoy the Côte d'Azur sunshine.</span>
+        <span l="de">🧒 Ihre Kinder werden es lieben! Genießen Sie die Sonne der Côte d'Azur.</span>
+        <span l="fr">🧒 Vos enfants vont adorer ! Profitez bien du soleil de la Côte d'Azur.</span>
+      </div>
+    </div>
+
+    <!-- CONTACTS -->
+    <div class="carte">
+      <h3><span class="ic">📞</span><span l="en">Contacts</span><span l="de">Kontakt</span><span l="fr">Contacts</span></h3>
+      <div class="row"><span class="lab"><span l="en">Your host · Mickaël</span><span l="de">Ihr Gastgeber · Mickaël</span><span l="fr">Votre hôte · Mickaël</span></span><span class="val">+33 (0)6 63 42 13 26</span></div>
+      <div class="row"><span class="lab"><span l="en">Mr Guedj Alain (his father)</span><span l="de">Herr Guedj Alain (Vater)</span><span l="fr">M. Guedj Alain (son père)</span></span><span class="val">+33 (0)6 61 72 13 55</span></div>
+      <div class="row"><span class="lab">Email</span><span class="val">caidj90@hotmail.com</span></div>
+      <div class="btns">
+        <a class="or" href="tel:+33663421326">📞 <span l="en">Call Mickaël</span><span l="de">Mickaël anrufen</span><span l="fr">Appeler Mickaël</span></a>
+        <a href="tel:+33661721355">📞 <span l="en">Call Alain</span><span l="de">Alain anrufen</span><span l="fr">Appeler Alain</span></a>
+      </div>
+      <div class="btns">
+        <a href="https://wa.me/33663421326">💬 WhatsApp</a>
+        <a href="mailto:caidj90@hotmail.com">✉️ Email</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANTES (bien mise en évidence, avant les photos) -->
+  <div class="carte">
+    <h3><span class="ic">🌿</span><span l="en">Our little plants</span><span l="de">Unsere kleinen Pflanzen</span><span l="fr">Nos petites plantes</span></h3>
+    <p>
+      <span l="en">In this lovely Mediterranean heat, the plants on the terrace will need a little attention. Water them regularly, and they'll reward you with their beauty throughout your stay.</span>
+      <span l="de">Bei dieser schönen mediterranen Hitze brauchen die Pflanzen auf der Terrasse ein wenig Aufmerksamkeit. Gießen Sie sie regelmäßig, und sie werden es Ihnen mit ihrer Schönheit während Ihres ganzen Aufenthalts danken.</span>
+      <span l="fr">Par cette belle chaleur méditerranéenne, les plantes de la terrasse auront besoin d'un peu d'attention. Un arrosage régulier, et elles vous le rendront en beauté tout au long de votre séjour.</span>
+    </p>
+    <div class="note vert" style="margin-top:16px">
+      💧 <span l="en"><b>They thank you in advance!</b></span><span l="de"><b>Sie danken Ihnen schon jetzt!</b></span><span l="fr"><b>Elles vous remercient déjà d'avance !</b></span>
+    </div>
+  </div>
+
+  <!-- GALERIE -->
+  <section class="bloc">
+    <div class="titre-sec">
+      <span class="k"><span l="en">Gallery</span><span l="de">Galerie</span><span l="fr">Galerie</span></span>
+      <h2><span l="en">The apartment</span><span l="de">Die Wohnung</span><span l="fr">L'appartement</span></h2>
+      <div class="deco"><span>✦</span></div>
+    </div>
+    <div class="galerie" id="galerie"></div>
+  </section>
+</div>
+
+<footer>
+  <div class="sig">Mickaël Guedj</div>
+  <div class="wish">
+    <span l="en">Wishing you a wonderful stay</span>
+    <span l="de">Ich wünsche Ihnen einen wunderschönen Aufenthalt</span>
+    <span l="fr">Je vous souhaite un merveilleux séjour</span>
+  </div>
+  <div style="margin-top:10px;color:var(--or)">🌊 ☀️</div>
+</footer>
+
+<div id="lb">
+  <button class="lb-close" onclick="lbClose()">✕</button>
+  <button class="lb-arrow lb-prev" onclick="lbStep(-1)">‹</button>
+  <img id="lb-img" src="" alt="">
+  <button class="lb-arrow lb-next" onclick="lbStep(1)">›</button>
+  <div class="lb-count" id="lb-count"></div>
+</div>
+
+
+<script>
+/* ---------- LANGUES (sur les 2 barres) ---------- */
+function setLang(l){
+  document.documentElement.lang=l;
+  ['en','de','fr'].forEach(function(x){
+    var b1=document.getElementById('b-'+x); if(b1)b1.classList.toggle('on',x===l);
+    var b2=document.getElementById('eb-'+x); if(b2)b2.classList.toggle('on',x===l);
+  });
+  try{sessionStorage.setItem('rg_lang',l);}catch(e){}
+}
+
+/* ---------- BARRE solide au scroll ---------- */
+addEventListener('scroll',()=>{
+  document.getElementById('topbar').classList.toggle('solid',scrollY>60);
+});
+
+/* ---------- LECTEUR MUSIQUE (multi-pistes, SANS fondu) ---------- */
+var PLAYLIST=[
+  {f:'celestial-bloom.mp3',     n:'Celestial Bloom'},
+  {f:'vapor-choir.mp3',         n:'Vapor Choir'},
+  {f:'drifting-hums.mp3',       n:'Drifting Hums'},
+  {f:'mmm-ooooh-drift.mp3',     n:'Mmm Ooooh Drift'},
+  {f:'celestial-bloom-2.mp3',   n:'Celestial Bloom II'},
+  {f:'vapor-choir-2.mp3',       n:'Vapor Choir II'},
+  {f:'drifting-hums-2.mp3',     n:'Drifting Hums II'},
+  {f:'mmm-ooooh-drift-2.mp3',   n:'Mmm Ooooh Drift II'}
+];
+var DEFAULT_VOL=0.25;        // doux par défaut, n'agresse pas
+var audio=new Audio();
+audio.volume=DEFAULT_VOL;
+var track=0, started=false;
+function loadTrack(i,autoplay){
+  track=(i+PLAYLIST.length)%PLAYLIST.length;
+  audio.pause();                       // arrêt net (pas de crossfade)
+  audio.src='../assets/music/'+PLAYLIST[track].f;
+  document.getElementById('pl-name').textContent=PLAYLIST[track].n;
+  if(autoplay){ audio.play().then(setPlayIcon).catch(()=>{}); }
+}
+function setPlayIcon(){document.getElementById('pl-play').textContent=audio.paused?'▶':'❚❚';}
+/* fondu : monte ou descend le volume en douceur */
+var fadeTimer=null;
+function fadeTo(target,onDone){
+  clearInterval(fadeTimer);
+  fadeTimer=setInterval(function(){
+    var v=audio.volume, step=0.04;
+    if(Math.abs(v-target)<=step){audio.volume=target;clearInterval(fadeTimer);if(onDone)onDone();}
+    else audio.volume=v<target?v+step:v-step;
+  },40);
+}
+function togglePlay(){
+  if(!started){started=true;loadTrack(0,true);return;}
+  if(audio.paused){
+    audio.volume=0;
+    audio.play().then(function(){setPlayIcon();fadeTo(DEFAULT_VOL);}).catch(()=>{});
+  }else{
+    fadeTo(0,function(){audio.pause();setPlayIcon();}); // pause en fondu
+    setPlayIcon();
+  }
+}
+function nextTrack(){started=true;loadTrack(track+1,true);}
+function prevTrack(){started=true;loadTrack(track-1,true);}
+audio.addEventListener('ended',function(){loadTrack(track+1,true);}); // enchaîne net
+audio.addEventListener('play',setPlayIcon);
+audio.addEventListener('pause',setPlayIcon);
+/* quitter l'onglet/verrouiller le tél = pause douce ; revenir = reprise douce */
+var wasPlaying=false;
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden){
+    wasPlaying=started && !audio.paused;
+    if(wasPlaying){audio.pause();setPlayIcon();}
+  }else if(wasPlaying){
+    audio.volume=0;
+    audio.play().then(function(){setPlayIcon();fadeTo(DEFAULT_VOL);}).catch(()=>{});
+  }
+});
+
+/* ---------- VIDÉO ralentie (atmosphère onirique) ---------- */
+var hv=document.getElementById('herovid');
+function slowVideo(){ if(hv){ hv.playbackRate=0.5; hv.play().catch(()=>{}); } }
+if(hv){ hv.addEventListener('loadedmetadata',slowVideo); slowVideo(); }
+
+/* quand l'écran d'accueil sort de l'écran : on met la vidéo + les voiles en pause
+   (libère le GPU pour la visite, évite les à-coups) ; on reprend quand on remonte */
+var heroEl=document.getElementById('hero');
+if(heroEl && 'IntersectionObserver' in window){
+  new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ document.body.classList.remove('hero-out'); if(hv) hv.play().catch(()=>{}); }
+      else { document.body.classList.add('hero-out'); if(hv) hv.pause(); }
+    });
+  },{threshold:0.02}).observe(heroEl);
+}
+
+/* ---------- ENTRÉE (clic = page + musique) ---------- */
+function enterSite(){
+  document.getElementById('enter-screen').classList.add('gone');
+  setTimeout(function(){document.getElementById('enter-screen').style.display='none';},1000);
+  started=true;
+  loadTrack(0,true);   // démarre la 1re musique au volume doux
+  slowVideo();         // s'assure que la vidéo est bien ralentie
+  try{sessionStorage.setItem('rg_entered','1');}catch(e){}
+}
+
+/* ---------- REPRISE APRÈS RECHARGEMENT ----------
+   Si la page se recharge toute seule (plantage du rendu Chrome, économiseur
+   de mémoire, F5...), on ne réaffiche PAS l'écran de bienvenue : on restaure
+   la langue choisie et on laisse le visiteur là où il était. */
+try{
+  var savedLang=sessionStorage.getItem('rg_lang');
+  if(savedLang){setLang(savedLang);}
+  if(sessionStorage.getItem('rg_entered')==='1'){
+    var esc=document.getElementById('enter-screen');
+    if(esc){esc.style.display='none';}
+  }
+}catch(e){}
+
+/* ---------- QR WIFI ---------- */
+new QRCode(document.getElementById("qrcode"),{
+  text:"WIFI:T:WPA;S:SFR_8D00;P:utqr6apq96dxhj6fqq92;;",
+  width:150,height:150,colorDark:"#080706",colorLight:"#ffffff",correctLevel:QRCode.CorrectLevel.M
+});
+
+/* ---------- VISITE pilotée par le scroll ---------- */
+var TOTAL=148;
+var canvas=document.getElementById('visite-canvas');
+var imgs=[], loaded=0;
+function pad(n){return String(n).padStart(3,'0');}
+for(var i=1;i<=TOTAL;i++){
+  var im=new Image();
+  im.src='../assets/frames/f-'+pad(i)+'.jpg';
+  im.onload=function(){loaded++;};
+  imgs.push(im);
+}
+canvas.src='../assets/frames/f-001.jpg';
+
+/* légendes synchronisées (3 langues) */
+var CAPS=[
+  {at:.08, t:{en:"Living room & kitchen",de:"Wohnzimmer & Küche",fr:"Salon & cuisine"},
+           p:{en:"A warm, zen living space",de:"Ein warmer, zen Wohnbereich",fr:"Un espace de vie chaleureux et zen"}},
+  {at:.37, t:{en:"Terrace & park view",de:"Terrasse & Parkblick",fr:"Terrasse & vue sur le parc"},
+           p:{en:"Your private terrace overlooking the green park",de:"Ihre private Terrasse mit Blick auf den grünen Park",fr:"Votre terrasse privée avec vue sur le parc verdoyant"}},
+  {at:.60, t:{en:"The bedroom",de:"Das Schlafzimmer",fr:"La chambre"},
+           p:{en:"Soft and restful",de:"Sanft und erholsam",fr:"Douce et reposante"}},
+  {at:.73, t:{en:"Living room · TV",de:"Wohnzimmer · TV",fr:"Salon · TV"},
+           p:{en:"Back to the cosy lounge",de:"Zurück zum gemütlichen Wohnbereich",fr:"Retour dans le coin salon"}},
+  {at:.87, t:{en:"The bathroom",de:"Das Badezimmer",fr:"La salle de bain"},
+           p:{en:"Modern walk-in shower",de:"Moderne ebenerdige Dusche",fr:"Douche à l'italienne moderne"}},
+  {at:.98, t:{en:"Every comfort for you",de:"Aller Komfort für Sie",fr:"Tout le confort pour vous"},
+           p:{en:"Everything is ready for you",de:"Alles ist für Sie bereit",fr:"Tout est prêt pour vous"}}
+];
+var vcap=document.getElementById('vcap'),vt=document.getElementById('vcap-t'),vp=document.getElementById('vcap-p');
+
+var visite=document.getElementById('visite');
+var ticking=false, lastIdx=-1, vh=window.innerHeight;
+// hauteur de fenêtre stable (évite les sauts quand la barre mobile se rétracte)
+function updVH(){ vh=document.documentElement.clientHeight; }
+updVH();
+function render(){
+  ticking=false;
+  var r=visite.getBoundingClientRect();
+  var h=visite.offsetHeight-vh;
+  if(h<=0) return;
+  var prog=Math.min(1,Math.max(0,(-r.top)/h));
+  var idx=Math.min(TOTAL-1,Math.floor(prog*(TOTAL-1)));
+  // ne change l'image que si elle est différente ET déjà chargée (anti-saccade)
+  if(idx!==lastIdx && imgs[idx] && imgs[idx].complete){
+    canvas.src=imgs[idx].src; lastIdx=idx;
+  }
+  // légende
+  var lang=document.documentElement.lang;
+  var active=null;
+  for(var c of CAPS){ if(Math.abs(prog-c.at)<.11) active=c; }
+  if(active){vt.textContent=active.t[lang];vp.textContent=active.p[lang];vcap.classList.add('show');}
+  else vcap.classList.remove('show');
+}
+function onScroll(){
+  if(!ticking){ ticking=true; requestAnimationFrame(render); }
+}
+addEventListener('scroll',onScroll,{passive:true});
+addEventListener('resize',function(){updVH();onScroll();});
+addEventListener('orientationchange',function(){setTimeout(function(){updVH();onScroll();},300);});
+onScroll();
+
+/* ---------- GALERIE + LIGHTBOX avec flèches ---------- */
+var g=document.getElementById('galerie');
+var PHOTOS=[4,5,6,1,15,16,17,18,19,8,9,2]; // sélection des plus belles
+var SRCS=PHOTOS.map(function(n){return '../assets/photos/photo-'+String(n).padStart(2,'0')+'.jpg';});
+var cur=0;
+SRCS.forEach(function(src,i){
+  var a=document.createElement('a');
+  a.innerHTML='<img loading="lazy" src="'+src+'" alt="">';
+  a.onclick=function(){lbOpen(i);};
+  g.appendChild(a);
+});
+var lb=document.getElementById('lb'), lbImg=document.getElementById('lb-img'), lbCount=document.getElementById('lb-count');
+function lbShow(){lbImg.src=SRCS[cur];lbCount.textContent=(cur+1)+' / '+SRCS.length;}
+function lbOpen(i){cur=i;lbShow();lb.classList.add('open');document.body.style.overflow='hidden';}
+function lbClose(){lb.classList.remove('open');document.body.style.overflow='';}
+function lbStep(d){cur=(cur+d+SRCS.length)%SRCS.length;lbShow();}
+// fermer en cliquant le fond (mais pas sur l'image/les boutons)
+lb.addEventListener('click',function(e){if(e.target===lb)lbClose();});
+// clavier
+addEventListener('keydown',function(e){
+  if(!lb.classList.contains('open'))return;
+  if(e.key==='ArrowRight')lbStep(1);
+  else if(e.key==='ArrowLeft')lbStep(-1);
+  else if(e.key==='Escape')lbClose();
+});
+// swipe tactile (mobile)
+var tx=0;
+lb.addEventListener('touchstart',function(e){tx=e.touches[0].clientX;},{passive:true});
+lb.addEventListener('touchend',function(e){
+  var dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>50)lbStep(dx<0?1:-1);
+},{passive:true});
+
+/* ---------- EXPIRATION + CARTE D'ADIEU ---------- */
+var EXPIRY = new Date('2026-07-13T11:00:00');
+var previewAdieu = new URLSearchParams(window.location.search).get('adieu') === '1';
+if(new Date() > EXPIRY || previewAdieu){
+  document.getElementById('exp-adieu').style.display = 'block';
+  document.getElementById('enter-screen').style.display = 'none';
+}
+function expEnter(){
+  document.getElementById('exp-ent').style.display = 'none';
+  var fw = document.getElementById('exp-fw');
+  fw.style.display = 'flex';
+  started = true;
+  loadTrack(0, true);
+}
+</script>
+</body>
+</html>
