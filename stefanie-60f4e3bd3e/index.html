@@ -817,7 +817,7 @@ lb.addEventListener('touchend',function(e){
 },{passive:true});
 
 /* ---------- EXPIRATION + CARTE D'ADIEU ---------- */
-var EXPIRY = new Date('2026-07-13T11:00:00');
+var EXPIRY = new Date('2026-07-21T11:00:00');
 var previewAdieu = new URLSearchParams(window.location.search).get('adieu') === '1';
 if(new Date() > EXPIRY || previewAdieu){
   document.getElementById('exp-adieu').style.display = 'block';
