@@ -28,6 +28,15 @@ body{font-family:var(--serif);background:var(--noir);color:var(--creme);line-hei
 ::selection{background:var(--or);color:var(--noir)}
 img{display:block;max-width:100%}
 
+/* ===== LANGUE ===== */
+html[lang="fr"] [l~="en"]{display:none!important}
+html[lang="en"] [l~="fr"]{display:none!important}
+.lang-btns{display:flex;gap:6px}
+.lang-btn{border:var(--bord);background:transparent;color:var(--gris);font-family:var(--sans);
+  font-size:.82rem;padding:5px 13px;border-radius:20px;cursor:pointer;transition:.2s;letter-spacing:.04em}
+.lang-btn.active{background:rgba(201,168,76,.18);color:var(--or-clair);border-color:var(--or)}
+.lang-btn:hover{color:var(--or-clair)}
+
 /* ===== CARTE D'ADIEU ===== */
 #expired{position:fixed;inset:0;z-index:2000;display:none;overflow:hidden;
   background:radial-gradient(ellipse at 40% 65%,#0f2010 0%,#050a05 60%,#020502 100%)}
@@ -109,7 +118,7 @@ img{display:block;max-width:100%}
 @keyframes bob{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(8px)}}
 
 /* ===== TOPBAR + PLAYER ===== */
-.topbar{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:flex-end;
+.topbar{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;justify-content:space-between;
   align-items:center;padding:16px clamp(16px,4vw,40px);transition:.4s;
   background:linear-gradient(180deg,rgba(8,7,6,.55),transparent)}
 .topbar.solid{background:rgba(8,7,6,.92);backdrop-filter:blur(10px);
@@ -213,6 +222,7 @@ footer .wish{font-size:1.15rem;color:var(--creme2)}
 #enter-btn:hover{transform:scale(1.06);box-shadow:0 0 75px rgba(201,168,76,.75)}
 @keyframes puls{0%,100%{box-shadow:0 0 35px rgba(201,168,76,.4)}50%{box-shadow:0 0 60px rgba(201,168,76,.7)}}
 .enter-mini{margin-top:14px;font-family:var(--sans);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gris)}
+.enter-lang{display:flex;gap:8px;justify-content:center;margin-bottom:22px;position:relative;z-index:2}
 .mist{position:absolute;inset:-30%;z-index:1;pointer-events:none;opacity:.7;mix-blend-mode:screen;will-change:transform}
 .mist1{background:radial-gradient(ellipse 55% 45% at 28% 38%,rgba(236,213,140,.26),transparent 72%);animation:drift1 40s ease-in-out infinite alternate}
 .mist2{background:radial-gradient(ellipse 65% 50% at 72% 62%,rgba(255,255,255,.20),transparent 72%);animation:drift2 52s ease-in-out infinite alternate}
@@ -241,11 +251,20 @@ footer .wish{font-size:1.15rem;color:var(--creme2)}
   <div id="exp-enter">
     <div class="exp-ent-in">
       <div class="exp-ent-sur">Résidence du Golfe · Golfe-Juan</div>
-      <div class="exp-ent-titre">Thank you</div>
+      <div class="exp-ent-titre">
+        <span l="en">Thank you</span><span l="fr">Merci</span>
+      </div>
       <div class="exp-ent-line"></div>
-      <div class="exp-ent-name">Thank you for your visit</div>
-      <button id="exp-btn" onclick="expEnter()">♪ Click here</button>
-      <div class="exp-ent-mini">with music</div>
+      <div class="exp-ent-name">
+        <span l="en">Thank you for your visit</span>
+        <span l="fr">Merci pour votre visite</span>
+      </div>
+      <button id="exp-btn" onclick="expEnter()">
+        <span l="en">♪ Click here</span><span l="fr">♪ Cliquez ici</span>
+      </button>
+      <div class="exp-ent-mini">
+        <span l="en">with music</span><span l="fr">avec musique</span>
+      </div>
     </div>
   </div>
   <div id="exp-fw">
@@ -253,13 +272,24 @@ footer .wish{font-size:1.15rem;color:var(--creme2)}
       <div class="exp-card-orn">✦ · ✦ · ✦</div>
       <div class="exp-card-maison">Résidence du Golfe</div>
       <div class="exp-card-line"></div>
-      <div class="exp-card-nom">Dear Julie,</div>
-      <div class="exp-card-texte">
+      <div class="exp-card-nom">
+        <span l="en">Dear Julie,</span>
+        <span l="fr">Chère Julie,</span>
+      </div>
+      <div class="exp-card-texte" l="en">
         <p>I sincerely hope you and your family had a wonderful stay in my apartment, and that the French Riviera left you with beautiful memories to take home.</p>
         <p>It was truly a pleasure hosting you here in Golfe-Juan. I wish you all a wonderful journey back to the United States!</p>
         <p>If you enjoyed your stay, a review on VRBO would mean the world to me — it really helps other families find this little corner of paradise.</p>
       </div>
-      <a href="https://www.vrbo.com" target="_blank" class="exp-card-review">⭐ Leave a review on VRBO</a>
+      <div class="exp-card-texte" l="fr">
+        <p>J'espère sincèrement que vous et votre famille avez passé un merveilleux séjour dans mon appartement, et que la Côte d'Azur vous laisse de beaux souvenirs à rapporter chez vous.</p>
+        <p>Ce fut un vrai plaisir de vous accueillir ici à Golfe-Juan. Je vous souhaite un excellent voyage de retour aux États-Unis !</p>
+        <p>Si vous avez apprécié votre séjour, un avis sur VRBO me ferait énormément plaisir — cela aide vraiment d'autres familles à trouver ce petit coin de paradis.</p>
+      </div>
+      <a href="https://www.vrbo.com" target="_blank" class="exp-card-review">
+        <span l="en">⭐ Leave a review on VRBO</span>
+        <span l="fr">⭐ Laisser un avis sur VRBO</span>
+      </a>
       <div class="exp-card-sig">Mickaël Guedj</div>
       <div class="exp-card-vague">🌊 ☀️ 🌴</div>
     </div>
@@ -271,17 +301,34 @@ footer .wish{font-size:1.15rem;color:var(--creme2)}
   <div class="enter-bg"></div>
   <div class="enter-cadre"></div>
   <div class="enter-in">
+    <div class="enter-lang">
+      <button onclick="setLang('en')" id="ent-en" class="lang-btn active">🇬🇧 EN</button>
+      <button onclick="setLang('fr')" id="ent-fr" class="lang-btn">🇫🇷 FR</button>
+    </div>
     <div class="enter-sur">Résidence du Golfe · Golfe-Juan</div>
-    <div class="enter-titre">Welcome</div>
+    <div class="enter-titre">
+      <span l="en">Welcome</span><span l="fr">Bienvenue</span>
+    </div>
     <div class="hero-line"></div>
-    <div class="enter-name">Dear Julie, it's with great pleasure that I welcome you and your family to the French Riviera</div>
-    <button id="enter-btn" onclick="enterSite()">♪ Click to enter</button>
-    <div class="enter-mini">with music · sound on</div>
+    <div class="enter-name">
+      <span l="en">Dear Julie, it's with great pleasure that I welcome you and your family to the French Riviera</span>
+      <span l="fr">Chère Julie, c'est avec grand plaisir que je vous accueille, vous et votre famille, sur la Côte d'Azur</span>
+    </div>
+    <button id="enter-btn" onclick="enterSite()">
+      <span l="en">♪ Click to enter</span><span l="fr">♪ Cliquez pour entrer</span>
+    </button>
+    <div class="enter-mini">
+      <span l="en">with music · sound on</span><span l="fr">avec musique · son activé</span>
+    </div>
   </div>
 </div>
 
 <!-- ===== TOPBAR + PLAYER ===== -->
 <div class="topbar" id="topbar">
+  <div class="lang-btns">
+    <button onclick="setLang('en')" id="btn-en" class="lang-btn active">🇬🇧 EN</button>
+    <button onclick="setLang('fr')" id="btn-fr" class="lang-btn">🇫🇷 FR</button>
+  </div>
   <div class="player">
     <button class="pl-btn" onclick="prevTrack()">⏮</button>
     <button class="pl-btn pl-play" id="pl-play" onclick="togglePlay()">▶</button>
@@ -301,16 +348,30 @@ footer .wish{font-size:1.15rem;color:var(--creme2)}
   <div class="hero-cadre"></div>
   <div class="hero-in">
     <div class="hero-sur">Résidence du Golfe · Golfe-Juan</div>
-    <div class="hero-titre">Welcome</div>
+    <div class="hero-titre">
+      <span l="en">Welcome</span><span l="fr">Bienvenue</span>
+    </div>
     <div class="hero-line"></div>
-    <div class="hero-name">Dear Julie, it's with great pleasure that I welcome you and your family to the French Riviera</div>
-    <div class="hero-stay">Stay · August 7 – 11, 2026</div>
+    <div class="hero-name">
+      <span l="en">Dear Julie, it's with great pleasure that I welcome you and your family to the French Riviera</span>
+      <span l="fr">Chère Julie, c'est avec grand plaisir que je vous accueille, vous et votre famille, sur la Côte d'Azur</span>
+    </div>
+    <div class="hero-stay">
+      <span l="en">Stay · August 7 – 11, 2026</span>
+      <span l="fr">Séjour · 7 – 11 août 2026</span>
+    </div>
     <div class="hero-cta">
-      <a class="cta cta-or" href="#infos">🔑 All the information</a>
-      <a class="cta" href="#visite">🏠 Virtual tour</a>
+      <a class="cta cta-or" href="#infos">
+        <span l="en">🔑 All the information</span><span l="fr">🔑 Toutes les informations</span>
+      </a>
+      <a class="cta" href="#visite">
+        <span l="en">🏠 Virtual tour</span><span l="fr">🏠 Visite virtuelle</span>
+      </a>
     </div>
   </div>
-  <div class="scrolldown">Scroll<span>⌄</span></div>
+  <div class="scrolldown">
+    <span l="en">Scroll</span><span l="fr">Défiler</span><span>⌄</span>
+  </div>
 </section>
 
 <!-- ===== VISITE ===== -->
@@ -325,85 +386,158 @@ footer .wish{font-size:1.15rem;color:var(--creme2)}
 <div class="wrap">
   <section class="bloc" id="infos" style="scroll-margin-top:80px">
     <div class="titre-sec">
-      <span class="k">Practical guide</span>
-      <h2>Everything you need</h2>
+      <span class="k">
+        <span l="en">Practical guide</span><span l="fr">Guide pratique</span>
+      </span>
+      <h2>
+        <span l="en">Everything you need</span><span l="fr">Tout ce qu'il vous faut</span>
+      </h2>
       <div class="deco"><span>✦</span></div>
     </div>
 
     <div class="carte">
-      <h3><span class="ic">📍</span>Your address</h3>
-      <div class="row"><span class="lab">Street</span><span class="val">35 avenue Georges Pompidou</span></div>
-      <div class="row"><span class="lab">Residence</span><span class="val">Résidence du Golfe</span></div>
-      <div class="row"><span class="lab">Building</span><span class="val">6</span></div>
-      <div class="row"><span class="lab">Apartment</span><span class="val">6004</span></div>
+      <h3><span class="ic">📍</span>
+        <span l="en">Your address</span><span l="fr">Votre adresse</span>
+      </h3>
+      <div class="row">
+        <span class="lab"><span l="en">Street</span><span l="fr">Rue</span></span>
+        <span class="val">35 avenue Georges Pompidou</span>
+      </div>
+      <div class="row">
+        <span class="lab"><span l="en">Residence</span><span l="fr">Résidence</span></span>
+        <span class="val">Résidence du Golfe</span>
+      </div>
+      <div class="row">
+        <span class="lab"><span l="en">Building</span><span l="fr">Bâtiment</span></span>
+        <span class="val">6</span>
+      </div>
+      <div class="row">
+        <span class="lab"><span l="en">Apartment</span><span l="fr">Appartement</span></span>
+        <span class="val">6004</span>
+      </div>
     </div>
 
     <div class="carte">
-      <h3><span class="ic">🔑</span>Access</h3>
+      <h3><span class="ic">🔑</span>
+        <span l="en">Access</span><span l="fr">Accès</span>
+      </h3>
       <div class="row">
-        <span class="lab"><span class="dot noir"></span>Black badge</span>
-        <span class="val">Main entrance + pool</span>
+        <span class="lab"><span class="dot noir"></span>
+          <span l="en">Black badge</span><span l="fr">Badge noir</span>
+        </span>
+        <span class="val">
+          <span l="en">Main entrance + pool</span><span l="fr">Entrée principale + piscine</span>
+        </span>
       </div>
       <div class="row">
-        <span class="lab"><span class="dot vert"></span>Green badge</span>
-        <span class="val">Outdoor parking</span>
+        <span class="lab"><span class="dot vert"></span>
+          <span l="en">Green badge</span><span l="fr">Badge vert</span>
+        </span>
+        <span class="val">
+          <span l="en">Outdoor parking</span><span l="fr">Parking extérieur</span>
+        </span>
       </div>
       <div class="row">
-        <span class="lab">Pedestrian gate code</span>
+        <span class="lab">
+          <span l="en">Pedestrian gate code</span><span l="fr">Code portillon piéton</span>
+        </span>
         <span class="val"><span class="tag">0702A</span></span>
       </div>
       <div class="row">
-        <span class="lab">Your parking space</span>
+        <span class="lab">
+          <span l="en">Your parking space</span><span l="fr">Votre place de parking</span>
+        </span>
         <span class="val"><span class="tag">N° 86</span></span>
       </div>
-      <div class="note bleu" style="margin-top:14px">🚗 The outdoor parking lot is about 50 metres from the residence.</div>
+      <div class="note bleu" style="margin-top:14px">
+        🚗 <span l="en">The outdoor parking lot is about 50 metres from the residence.</span>
+           <span l="fr">Le parking extérieur se trouve à environ 50 mètres de la résidence.</span>
+      </div>
     </div>
 
     <div class="carte">
       <h3><span class="ic">📶</span>Wi-Fi</h3>
       <div class="wifi">
         <div class="wifi-l">
-          <div class="row"><span class="lab">Network (2.4 GHz)</span><span class="val">SFR_8D00</span></div>
-          <div class="row"><span class="lab">Network (5 GHz)</span><span class="val">SFR_8D00_5GHZ</span></div>
+          <div class="row">
+            <span class="lab"><span l="en">Network (2.4 GHz)</span><span l="fr">Réseau (2,4 GHz)</span></span>
+            <span class="val">SFR_8D00</span>
+          </div>
+          <div class="row">
+            <span class="lab"><span l="en">Network (5 GHz)</span><span l="fr">Réseau (5 GHz)</span></span>
+            <span class="val">SFR_8D00_5GHZ</span>
+          </div>
           <div style="padding-top:14px">
-            <span class="lab">Password</span><br>
+            <span class="lab"><span l="en">Password</span><span l="fr">Mot de passe</span></span><br>
             <span class="wifi-pass">utqr6apq96dxhj6fqq92</span>
           </div>
         </div>
         <div style="text-align:center">
           <div id="qrcode"></div>
-          <div class="qrleg">📱 Scan = auto connect</div>
+          <div class="qrleg">
+            <span l="en">📱 Scan = auto connect</span>
+            <span l="fr">📱 Scanner = connexion automatique</span>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="carte">
-      <h3><span class="ic">🏊</span>Swimming pool</h3>
-      <p>The pool is <b>open</b> and at your disposal for the whole family. 🌞</p>
+      <h3><span class="ic">🏊</span>
+        <span l="en">Swimming pool</span><span l="fr">Piscine</span>
+      </h3>
+      <p>
+        <span l="en">The pool is <b>open</b> and at your disposal for the whole family. 🌞</span>
+        <span l="fr">La piscine est <b>ouverte</b> et à votre disposition pour toute la famille. 🌞</span>
+      </p>
       <div class="note vert">
-        <b>Important:</b> access requires the <b>yellow wristbands</b>. You will find 4 on the table — one per person. Please keep them safe and do not lose them, this is very important.
+        <span l="en"><b>Important:</b> access requires the <b>yellow wristbands</b>. You will find 4 on the table — one per person. Please keep them safe and do not lose them, this is very important.</span>
+        <span l="fr"><b>Important :</b> l'accès nécessite les <b>bracelets jaunes</b>. Vous en trouverez 4 sur la table — un par personne. Gardez-les précieusement et ne les perdez pas, c'est très important.</span>
       </div>
       <div class="note or" style="margin-top:10px">
-        🧒 Your children are going to love it!
+        <span l="en">🧒 Your children are going to love it!</span>
+        <span l="fr">🧒 Vos enfants vont adorer !</span>
       </div>
     </div>
 
     <div class="carte">
-      <h3><span class="ic">🌿</span>Our little plants</h3>
-      <p>August on the French Riviera can be very warm, and our terrace plants are counting on you! A little water every day or two, and they will reward you with their beauty throughout your stay.</p>
+      <h3><span class="ic">🌿</span>
+        <span l="en">Our little plants</span><span l="fr">Nos petites plantes</span>
+      </h3>
+      <p>
+        <span l="en">August on the French Riviera can be very warm, and our terrace plants are counting on you! A little water every day or two, and they will reward you with their beauty throughout your stay.</span>
+        <span l="fr">En août sur la Côte d'Azur, il peut faire très chaud, et nos plantes de terrasse comptent sur vous ! Un peu d'eau tous les jours ou tous les deux jours, et elles vous récompenseront de leur beauté tout au long de votre séjour.</span>
+      </p>
       <div class="note vert" style="margin-top:16px">
-        💧 They thank you in advance!
+        <span l="en">💧 They thank you in advance!</span>
+        <span l="fr">💧 Elles vous remercient d'avance !</span>
       </div>
     </div>
 
     <div class="carte">
-      <h3><span class="ic">📞</span>Contacts</h3>
-      <div class="row"><span class="lab">Your host · Mickaël</span><span class="val">+33 (0)6 63 42 13 26</span></div>
-      <div class="row"><span class="lab">Mr Guedj Alain (his father)</span><span class="val">+33 (0)6 61 72 13 55</span></div>
+      <h3><span class="ic">📞</span>
+        <span l="en">Contacts</span><span l="fr">Contacts</span>
+      </h3>
+      <div class="row">
+        <span class="lab">
+          <span l="en">Your host · Mickaël</span><span l="fr">Votre hôte · Mickaël</span>
+        </span>
+        <span class="val">+33 (0)6 63 42 13 26</span>
+      </div>
+      <div class="row">
+        <span class="lab">
+          <span l="en">Mr Guedj Alain (his father)</span><span l="fr">M. Guedj Alain (son père)</span>
+        </span>
+        <span class="val">+33 (0)6 61 72 13 55</span>
+      </div>
       <div class="row"><span class="lab">Email</span><span class="val">caidj90@hotmail.com</span></div>
       <div class="btns">
-        <a class="or" href="tel:+33663421326">📞 Call Mickaël</a>
-        <a href="tel:+33661721355">📞 Call Alain</a>
+        <a class="or" href="tel:+33663421326">
+          <span l="en">📞 Call Mickaël</span><span l="fr">📞 Appeler Mickaël</span>
+        </a>
+        <a href="tel:+33661721355">
+          <span l="en">📞 Call Alain</span><span l="fr">📞 Appeler Alain</span>
+        </a>
       </div>
       <div class="btns">
         <a href="https://wa.me/33663421326">💬 WhatsApp</a>
@@ -414,8 +548,12 @@ footer .wish{font-size:1.15rem;color:var(--creme2)}
 
   <section class="bloc">
     <div class="titre-sec">
-      <span class="k">Gallery</span>
-      <h2>The apartment</h2>
+      <span class="k">
+        <span l="en">Gallery</span><span l="fr">Galerie</span>
+      </span>
+      <h2>
+        <span l="en">The apartment</span><span l="fr">L'appartement</span>
+      </h2>
       <div class="deco"><span>✦</span></div>
     </div>
     <div class="galerie" id="galerie"></div>
@@ -424,7 +562,10 @@ footer .wish{font-size:1.15rem;color:var(--creme2)}
 
 <footer>
   <div class="sig">Mickaël Guedj</div>
-  <div class="wish">Wishing you a wonderful stay on the French Riviera</div>
+  <div class="wish">
+    <span l="en">Wishing you a wonderful stay on the French Riviera</span>
+    <span l="fr">Je vous souhaite un agréable séjour sur la Côte d'Azur</span>
+  </div>
   <div style="margin-top:10px;color:var(--or)">🌊 ☀️</div>
 </footer>
 
@@ -437,6 +578,15 @@ footer .wish{font-size:1.15rem;color:var(--creme2)}
 </div>
 
 <script>
+/* --- LANGUE --- */
+function setLang(lang){
+  document.documentElement.lang = lang;
+  ['btn-en','ent-en'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.toggle('active',lang==='en');});
+  ['btn-fr','ent-fr'].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.toggle('active',lang==='fr');});
+  CAPS = lang === 'fr' ? CAPS_FR : CAPS_EN;
+  onScroll();
+}
+
 /* --- EXPIRATION --- */
 var EXPIRY = new Date('2026-08-11T11:00:00');
 var previewAdieu = new URLSearchParams(window.location.search).get('adieu') === '1';
@@ -516,7 +666,7 @@ var TOTAL=148, canvas=document.getElementById('visite-canvas'), imgs=[], loaded=
 function pad(n){return String(n).padStart(3,'0');}
 for(var i=1;i<=TOTAL;i++){var im=new Image();im.src='../assets/frames/f-'+pad(i)+'.jpg';im.onload=function(){loaded++;};imgs.push(im);}
 canvas.src='../assets/frames/f-001.jpg';
-var CAPS=[
+var CAPS_EN=[
   {at:.08,t:"Living room & kitchen",p:"A warm, sun-filled space"},
   {at:.37,t:"Terrace & park view",p:"Your private terrace overlooking the green park"},
   {at:.60,t:"The bedroom",p:"Soft and restful"},
@@ -524,6 +674,15 @@ var CAPS=[
   {at:.87,t:"The bathroom",p:"Modern walk-in shower"},
   {at:.98,t:"Every comfort for you",p:"Everything is ready for your family"}
 ];
+var CAPS_FR=[
+  {at:.08,t:"Salon & cuisine",p:"Un espace chaleureux et ensoleillé"},
+  {at:.37,t:"Terrasse & vue sur le parc",p:"Votre terrasse privée avec vue sur le parc"},
+  {at:.60,t:"La chambre",p:"Douce et reposante"},
+  {at:.73,t:"Salon · TV",p:"Retour dans le salon cosy"},
+  {at:.87,t:"La salle de bain",p:"Douche italienne moderne"},
+  {at:.98,t:"Tout le confort pour vous",p:"Tout est prêt pour votre famille"}
+];
+var CAPS=CAPS_EN;
 var vcap=document.getElementById('vcap'),vt=document.getElementById('vcap-t'),vp=document.getElementById('vcap-p');
 var visite=document.getElementById('visite'),ticking=false,lastIdx=-1,vh=window.innerHeight;
 function updVH(){vh=document.documentElement.clientHeight;}updVH();
